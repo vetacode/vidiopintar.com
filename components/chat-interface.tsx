@@ -3,9 +3,10 @@
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
-import { MessageSquare, FileText } from "lucide-react"
+import { MessageSquare, FileText, HelpCircle } from "lucide-react"
 import { NotesSection } from "./note-section"
 import { ChatMessages } from "./chat-message"
+import QuizSection from "./quiz-section"
 
 interface ChatInterfaceProps {
   videoId: string
@@ -31,10 +32,20 @@ export default function ChatInterface({ videoId }: ChatInterfaceProps) {
                 <span>Notes</span>
               </span>
             </TabsTrigger>
+            <TabsTrigger value="quiz" className="flex-1 rounded-sm data-[state=active]:bg-muted data-[state=active]:text-melody py-2">
+              <span className="flex items-center gap-2">
+                <HelpCircle className="h-4 w-4" />
+                <span>Quiz</span>
+              </span>
+            </TabsTrigger>
           </TabsList>
         </div>
         <TabsContent value="chat" className="h-full">
           <ChatMessages />
+        </TabsContent>
+
+        <TabsContent value="quiz" className="h-full">
+          <QuizSection videoId={videoId} />
         </TabsContent>
 
         <TabsContent value="notes" className="h-full">
