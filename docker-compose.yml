@@ -1,8 +1,6 @@
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/ahmadrosid/vidiopintar.com:main-b929f6a
     ports:
       - "3000:3000"
     environment:
