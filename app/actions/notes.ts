@@ -1,8 +1,6 @@
 "use server";
 import { NoteRepository } from "@/lib/db/repository";
-import { InferInsertModel } from "drizzle-orm";
-import { notes } from "@/lib/db/schema";
-type NewNote = InferInsertModel<typeof notes>;
+import type { NewNote } from "@/lib/db/schema";
 
 export async function getNotesForVideo(videoId: string) {
   return NoteRepository.getByVideoId(videoId);

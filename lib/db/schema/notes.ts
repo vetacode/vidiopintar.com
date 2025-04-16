@@ -1,5 +1,6 @@
 import { pgTable, uuid, varchar, text, integer, timestamp } from 'drizzle-orm/pg-core';
 import { videos } from './videos';
+import { InferInsertModel } from "drizzle-orm";
 
 export const notes = pgTable('notes', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -9,3 +10,5 @@ export const notes = pgTable('notes', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
+
+export type NewNote = InferInsertModel<typeof notes>;

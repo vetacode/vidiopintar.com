@@ -1,12 +1,11 @@
-import { db } from './db';
 import { VideoRepository, MessageRepository, NoteRepository } from './db/repository';
 import { fetchVideoDetails } from './youtube';
-import { NewMessage, NewNote } from './db/schema';
+import type { NewNote, NewMessage } from "@/lib/db/schema";
 
 export interface Message {
   id: string;
   content: string;
-  sender: "user" | "system";
+  role: "user" | "assistant";
   timestamp: number;
 }
 
@@ -61,7 +60,7 @@ export async function getChatHistory(videoId: string): Promise<Message[]> {
     return messages.map(message => ({
       id: message.id,
       content: message.content,
-      sender: message.sender as "user" | "system",
+      role: message.role as "user" | "assistant",
       timestamp: message.timestamp,
     }));
   } catch (error) {
@@ -85,7 +84,7 @@ export async function addChatMessage(videoId: string, message: Message): Promise
     const newMessage: NewMessage = {
       videoId,
       content: message.content,
-      sender: message.sender,
+      role: message.role,
       timestamp: message.timestamp,
     };
     

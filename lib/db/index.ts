@@ -17,7 +17,6 @@ if (!databaseUrl) {
   throw new Error('DATABASE_URL environment variable is not set');
 }
 
-// Initialize the connection pool for server components
 if (process.env.NODE_ENV === 'production') {
   pool = new Pool({
     connectionString: databaseUrl,
@@ -30,9 +29,7 @@ if (process.env.NODE_ENV === 'production') {
   if (!global.pg) {
     global.pg = new Pool({
       connectionString: databaseUrl,
-      ssl: {
-        rejectUnauthorized: false,
-      },
+      ssl: false, // Disable SSL for local development
     });
   }
   pool = global.pg;
@@ -41,8 +38,11 @@ if (process.env.NODE_ENV === 'production') {
 // Create a SQL client for server components
 export const db = drizzlePg(pool);
 
-// Create a SQL client for edge runtime
+// Create a SQL client for edge runtime (Neon only)
 export const dbEdge = () => {
+  if (!databaseUrl.includes('neon.tech')) {
+    throw new Error('dbEdge is only supported for Neon databases');
+  }
   const sql = neon(databaseUrl);
   return drizzle(sql);
 };

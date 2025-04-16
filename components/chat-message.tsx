@@ -5,12 +5,18 @@ import { Input } from "@/components/ui/input"
 import { Send, MessageSquare, User, Bot } from "lucide-react"
 import { useChat } from '@ai-sdk/react'
 
-export function ChatMessages() {
+interface ChatMessagesProps {
+  videoId: string;
+  initialMessages: any[];
+}
+
+export function ChatMessages({ videoId, initialMessages }: ChatMessagesProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   
   const { messages, input, handleInputChange, handleSubmit, status } = useChat({
     api: '/api/chat',
-    initialMessages: [],
+    initialMessages,
+    body: { videoId },
   })
 
   useEffect(() => {

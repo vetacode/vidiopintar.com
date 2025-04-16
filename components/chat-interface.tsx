@@ -9,10 +9,11 @@ import { ChatMessages } from "./chat-message"
 import QuizSection from "./quiz-section"
 
 interface ChatInterfaceProps {
-  videoId: string
+  videoId: string;
+  initialMessages: any[];
 }
 
-export default function ChatInterface({ videoId }: ChatInterfaceProps) {
+export default function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
   const [activeTab, setActiveTab] = useState<"chat" | "notes">("chat")
 
   return (
@@ -41,7 +42,7 @@ export default function ChatInterface({ videoId }: ChatInterfaceProps) {
           </TabsList>
         </div>
         <TabsContent value="chat" className="h-full">
-          <ChatMessages />
+          <ChatMessages videoId={videoId} initialMessages={initialMessages} />
         </TabsContent>
 
         <TabsContent value="quiz" className="h-full">

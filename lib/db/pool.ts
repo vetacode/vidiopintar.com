@@ -24,9 +24,7 @@ if (process.env.NODE_ENV === 'production') {
   if (!global.pg) {
     global.pg = new Pool({
       connectionString: databaseUrl,
-      ssl: {
-        rejectUnauthorized: false,
-      },
+      ssl: false, // Disable SSL for local development
     });
   }
   pool = global.pg;
