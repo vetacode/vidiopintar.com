@@ -1,29 +1,10 @@
-export function extractVideoId(url: string): string | null {
-  // Handle different YouTube URL formats
-  const regexes = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/watch\?.*&v=)([^&\n?#]+)/,
-    /youtube\.com\/shorts\/([^&\n?#]+)/,
-  ]
-
-  for (const regex of regexes) {
-    const match = url.match(regex)
-    if (match && match[1]) {
-      return match[1]
-    }
-  }
-
-  return null
-}
+import { VideoRepository, TranscriptRepository } from "@/lib/db/repository";
 
 export async function fetchVideoDetails(videoId: string) {
   try {
-    // Construct the video URL
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
-    
-    // Encode the URL for the API request
     const encodedUrl = encodeURIComponent(videoUrl)
     
-    // Make the API request to get the video details
     const response = await fetch(`https://api.ahmadrosid.com/youtube/video?videoUrl=${encodedUrl}`)
     
     if (!response.ok) {
@@ -32,6 +13,15 @@ export async function fetchVideoDetails(videoId: string) {
     
     const data = await response.json()
     
+    // Save to database (upsert)
+    await VideoRepository.upsert({
+      youtubeId: videoId,
+      title: data.title,
+      description: data.description,
+      channelTitle: data.channelTitle,
+      publishedAt: data.publishedAt ? new Date(data.publishedAt) : null,
+      thumbnailUrl: data.thumbnails?.default?.url || '',
+    });
     return {
       title: data.title,
       description: data.description,
@@ -57,13 +47,23 @@ export async function fetchVideoDetails(videoId: string) {
 
 export async function fetchVideoTranscript(videoId: string) {
   try {
-    // Construct the video URL
+    // 1. Try to get transcript segments from the repository first
+    const dbSegments = await TranscriptRepository.getByVideoId(videoId);
+    console.log({dbSegments, videoId});
+    if (dbSegments.length > 0) {
+      const segments = dbSegments
+        .map((item: any) => ({
+          start: item.start,
+          end: item.end,
+          text: item.text,
+          isChapterStart: item.isChapterStart,
+        }))
+        .sort((a, b) => a.start - b.start);
+      return { segments };
+    }
+
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
-    
-    // Encode the URL for the API request
     const encodedUrl = encodeURIComponent(videoUrl)
-    
-    // Make the API request to get the transcript
     const response = await fetch(`https://api.ahmadrosid.com/youtube/transcript?videoUrl=${encodedUrl}`)
     
     if (!response.ok) {
@@ -72,7 +72,6 @@ export async function fetchVideoTranscript(videoId: string) {
     
     const data = await response.json()
     
-    // Transform the API response to match our expected format
     const segments = data.content.map((item: any, index: number) => {
       // Convert start and end times from strings to numbers
       const start = parseInt(item.start, 10) / 1000 // Convert milliseconds to seconds if needed
@@ -93,13 +92,13 @@ export async function fetchVideoTranscript(videoId: string) {
       }
     })
     
+    // Save segments to the database using the repository
+    await TranscriptRepository.upsertSegments(videoId, segments);
     return {
       segments,
     }
   } catch (error) {
     console.error('Error fetching transcript:', error)
-    
-    // Fallback to empty segments array in case of error
     return {
       segments: [],
     }

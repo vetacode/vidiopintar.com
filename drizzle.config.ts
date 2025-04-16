@@ -7,7 +7,7 @@ if (!process.env.DATABASE_URL) {
 
 // Use the correct dialect for PostgreSQL
 export default defineConfig({
-  schema: './lib/db/schema.ts',
+  schema: './lib/db/schema/*.ts',
   out: './drizzle',
   dialect: 'postgresql',
   dbCredentials: {

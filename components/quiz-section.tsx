@@ -6,7 +6,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
 import { HelpCircle, CheckCircle, XCircle, RefreshCw } from "lucide-react"
-import { getQuizzesForVideo, saveQuiz } from "@/lib/storage"
+// import { getQuizzesForVideo, saveQuiz } from "@/lib/storage"
+// Use API endpoints instead.
 
 interface QuizQuestion {
   id: string
@@ -36,15 +37,21 @@ export default function QuizSection({ videoId }: QuizInterfaceProps) {
 
   // Load quizzes on component mount
   useEffect(() => {
-    const savedQuizzes = getQuizzesForVideo(videoId)
-    setQuizzes(savedQuizzes)
-
-    // Set the first quiz as current if available
-    if (savedQuizzes.length > 0) {
-      setCurrentQuiz(savedQuizzes[0])
-      setUserAnswers(new Array(savedQuizzes[0].questions.length).fill(-1))
+    async function loadQuizzes() {
+      const res = await fetch(`/api/quiz?videoId=${videoId}`);
+      const quizzes = await res.json();
+      setQuizzes(quizzes);
     }
-  }, [videoId])
+    loadQuizzes();
+  }, [videoId]);
+
+  // Set the first quiz as current if available, whenever quizzes change
+  useEffect(() => {
+    if (quizzes.length > 0) {
+      setCurrentQuiz(quizzes[0]);
+      setUserAnswers(new Array(quizzes[0].questions.length).fill(-1));
+    }
+  }, [quizzes]);
 
   const handleAnswerSelect = (questionIndex: number, optionIndex: number) => {
     if (quizSubmitted) return
@@ -126,7 +133,12 @@ export default function QuizSection({ videoId }: QuizInterfaceProps) {
       setUserAnswers(new Array(newQuiz.questions.length).fill(-1))
       setQuizSubmitted(false)
       setQuizScore({ correct: 0, total: 0 })
-      saveQuiz(videoId, newQuiz)
+      // Save the new quiz to the backend via API
+      fetch('/api/quiz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ videoId, quiz: newQuiz })
+      });
       setIsGeneratingQuiz(false)
     }, 2000)
   }
