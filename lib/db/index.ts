@@ -4,7 +4,6 @@ import { drizzle } from 'drizzle-orm/neon-http';
 import { drizzle as drizzlePg } from 'drizzle-orm/node-postgres';
 import 'dotenv/config';
 
-// Declare global types for the connection pool
 declare global {
   var pg: Pool | undefined;
 }
@@ -12,10 +11,7 @@ declare global {
 // For server components and API routes
 let pool: Pool;
 
-// Get the database URL from environment variables
 const databaseUrl = process.env.DATABASE_URL;
-
-console.log('process.env.DATABASE_URL', databaseUrl);
 
 if (!databaseUrl) {
   throw new Error('DATABASE_URL environment variable is not set');

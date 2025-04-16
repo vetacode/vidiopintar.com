@@ -47,9 +47,7 @@ export async function fetchVideoDetails(videoId: string) {
 
 export async function fetchVideoTranscript(videoId: string) {
   try {
-    // 1. Try to get transcript segments from the repository first
     const dbSegments = await TranscriptRepository.getByVideoId(videoId);
-    console.log({dbSegments, videoId});
     if (dbSegments.length > 0) {
       const segments = dbSegments
         .map((item: any) => ({
