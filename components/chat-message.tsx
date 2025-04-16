@@ -34,7 +34,7 @@ export function ChatMessages({ videoId, initialMessages }: ChatMessagesProps) {
 
   return (
     <div className="h-full flex flex-col">
-        <div className="space-y-4 flex-1 px-4 py-2">
+        <div className="space-y-4 flex-1 px-4 py-2  overflow-y-auto max-h-[70vh]">
             {messages.length === 0 ? (
             <div className="text-center text-muted-foreground py-8 px-4 h-full flex flex-col items-center justify-center">
                 <MessageSquare className="h-8 w-8 mx-auto mb-2 opacity-50" />
@@ -43,26 +43,16 @@ export function ChatMessages({ videoId, initialMessages }: ChatMessagesProps) {
             ) : (
             <>
                 {messages.map((message) => (
-                    <div key={message.id} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
-                        <div className={`max-w-[100%] rounded-2xl p-4 break-words ${message.role === "user" ? "bg-melody text-melody-foreground" : "bg-secondary"}`}>
-                        <div className="flex items-center mb-2 text-xs opacity-70 py-1">
-                            {message.role === "user" ? (
-                            <span className="flex items-center gap-1">
-                                You
-                            </span>
-                            ) : (
-                            <span className="flex items-center gap-1">
-                                Assistant
-                            </span>
-                            )}
-                        </div>
+                    <div key={message.id}>
+                      <div className={`rounded-2xl p-4 bg-secondary`}>
+                        <p className="text-sm pb-3 opacity-50">{message.role === "user" ? "You" : "Vidiopintar"}</p>
                         {message.parts.map((part, i) => {
                             if (part.type === 'text') {
-                                return <p key={i} className="whitespace-pre-wrap">{part.text}</p>
+                                return <p key={i} className="prose dark:prose-invert">{part.text}</p>
                             }
                             return null
                         })}
-                        </div>
+                      </div>
                     </div>
                 ))}
                 <div ref={messagesEndRef} />
@@ -70,22 +60,22 @@ export function ChatMessages({ videoId, initialMessages }: ChatMessagesProps) {
             )}
         </div>
 
-        <div className="p-4 border-t border-white/10 shrink-0">
+        <div className="p-4 border-t border-white/10">
             <form onSubmit={handleSubmit} className="flex gap-2">
-            <Input
-                placeholder="Type a message..."
-                value={input}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-                className="flex-1 bg-secondary/70 border-0 h-12 rounded-xl focus:ring-melody focus:ring-1"
-            />
-            <Button
-                type="submit"
-                disabled={!input.trim() || status === "streaming"}
-                className="h-12 w-12 rounded-xl bg-melody hover:bg-melody-dark text-melody-foreground shrink-0"
-            >
-                <Send className="h-5 w-5" />
-            </Button>
+              <Input
+                  placeholder="Type a message..."
+                  value={input}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                  className="flex-1 bg-secondary/70 border-0 h-12 rounded-xl focus:ring-melody focus:ring-1"
+              />
+              <Button
+                  type="submit"
+                  disabled={!input.trim() || status === "streaming"}
+                  className="h-12 w-12 rounded-xl bg-melody hover:bg-melody-dark text-melody-foreground shrink-0"
+              >
+                  <Send className="h-5 w-5" />
+              </Button>
             </form>
         </div>
     </div>

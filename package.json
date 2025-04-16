@@ -37,6 +37,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
     "@types/fuzzy-search": "^2.1.5",
     "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20",
