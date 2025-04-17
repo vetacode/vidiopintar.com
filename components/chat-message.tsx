@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Send, MessageSquare, User, Bot } from "lucide-react"
 import { useChat } from '@ai-sdk/react'
+import { MarkdownRenderer } from "@/components/ui/markdown-renderer"
 
 interface ChatMessagesProps {
   videoId: string;
@@ -48,7 +49,7 @@ export function ChatMessages({ videoId, initialMessages }: ChatMessagesProps) {
                         <p className="text-sm pb-3 opacity-50">{message.role === "user" ? "You" : "Vidiopintar"}</p>
                         {message.parts.map((part, i) => {
                             if (part.type === 'text') {
-                                return <p key={i} className="prose dark:prose-invert">{part.text}</p>
+                                return <MarkdownRenderer key={i}>{part.text}</MarkdownRenderer>
                             }
                             return null
                         })}
