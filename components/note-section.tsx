@@ -1,5 +1,7 @@
+"use client"
 import React from "react"
 import { useState, useRef, useEffect } from "react"
+import { saveNote, getNotesForVideo } from "@/lib/storage"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Save, FileText } from "lucide-react"
