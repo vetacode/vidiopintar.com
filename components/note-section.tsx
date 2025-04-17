@@ -1,12 +1,9 @@
 "use client"
 import React from "react"
 import { useState, useRef, useEffect } from "react"
-import { saveNote, getNotesForVideo } from "@/lib/storage"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Save, FileText } from "lucide-react"
-// import { saveNote, getNotesForVideo } from "@/lib/storage"
-// Use server actions or API endpoints instead.
 
 interface Note {
     id: string
@@ -26,7 +23,9 @@ export function NotesSection({ videoId }: NotesSectionProps) {
     useEffect(() => {
         const loadData = async () => {
             try {
-                const videoNotes = await getNotesForVideo(videoId);
+                const res = await fetch(`/api/notes?videoId=${videoId}`);
+                if (!res.ok) throw new Error('Failed to fetch notes');
+                const videoNotes = await res.json();
                 setNotes(videoNotes);
             } catch (error) {
                 console.error('Error loading data:', error);
@@ -53,7 +52,11 @@ export function NotesSection({ videoId }: NotesSectionProps) {
 
         const updatedNotes = [...notes, newNote]
         setNotes(updatedNotes)
-        await saveNote(videoId, newNote)
+        await fetch('/api/notes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ videoId, note: newNote }),
+        })
         setInputValue("")
     }
 
