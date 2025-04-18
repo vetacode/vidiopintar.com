@@ -35,12 +35,12 @@
 }
 
 html {
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
+  /* background-color: hsl(var(--background)); */
+  /* color: hsl(var(--foreground)); */
 }
 
 body {
-  @apply bg-melody-gradient min-h-screen text-foreground;
+  /* @apply bg-melody-gradient min-h-screen text-foreground; */
 }
 
 /* Custom scrollbar */
