@@ -1,7 +1,7 @@
 import { openai } from '@ai-sdk/openai';
 import { streamText } from 'ai';
 
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 import { fetchVideoTranscript } from '@/lib/youtube';
 import { MessageRepository } from '@/lib/db/repository';

@@ -45,18 +45,10 @@ export function saveQuiz(videoId: string, quiz: Quiz): void {
   quizzes[videoId].unshift(quiz) // Add new quiz at the beginning
 }
 
-// Chat functions
 export async function getChatHistory(videoId: string): Promise<Message[]> {
-  // For client-side rendering, use the cache
-  if (typeof window !== 'undefined') {
-    return chatHistoryCache[videoId] || [];
-  }
-  
   try {
-    // For server-side rendering, fetch from the database
     const messages = await MessageRepository.getByVideoId(videoId);
     
-    // Transform database messages to the expected format
     return messages.map(message => ({
       id: message.id,
       content: message.content,
