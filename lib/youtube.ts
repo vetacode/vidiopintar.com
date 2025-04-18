@@ -20,7 +20,14 @@ export async function fetchVideoDetails(videoId: string) {
       description: data.description,
       channelTitle: data.channelTitle,
       publishedAt: data.publishedAt ? new Date(data.publishedAt) : null,
-      thumbnailUrl: data.thumbnails?.default?.url || '',
+      // Prefer highest-resolution thumbnail available
+      thumbnailUrl:
+        data.thumbnails?.maxres?.url ||
+        data.thumbnails?.standard?.url ||
+        data.thumbnails?.high?.url ||
+        data.thumbnails?.medium?.url ||
+        data.thumbnails?.default?.url ||
+        '',
     });
     return {
       title: data.title,
@@ -108,4 +115,3 @@ function formatTime(seconds: number): string {
   const remainingSeconds = Math.floor(seconds % 60)
   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`
 }
-

@@ -1,6 +1,7 @@
 import { db } from './index';
 import { videos, messages, notes, quizzes, transcriptSegments } from './schema';
 import { InferSelectModel, InferInsertModel } from 'drizzle-orm';
+import { eq, desc } from 'drizzle-orm';
 
 // Infer types from Drizzle schema
 type Video = InferSelectModel<typeof videos>;
@@ -9,9 +10,6 @@ type Message = InferSelectModel<typeof messages>;
 type NewMessage = InferInsertModel<typeof messages>;
 type Note = InferSelectModel<typeof notes>;
 type NewNote = InferInsertModel<typeof notes>;
-type Quiz = InferSelectModel<typeof quizzes>;
-type NewQuiz = InferInsertModel<typeof quizzes>;
-import { eq } from 'drizzle-orm';
 
 export const VideoRepository = {
   // Get a video by YouTube ID
@@ -43,6 +41,12 @@ export const VideoRepository = {
       // Create new video
       return await this.create(video);
     }
+  },
+
+  // Fetch all videos
+  async getAll(): Promise<Video[]> {
+    // Order by creation timestamp descending
+    return await db.select().from(videos).orderBy(desc(videos.createdAt));
   }
 };
 
