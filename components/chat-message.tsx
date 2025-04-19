@@ -13,6 +13,8 @@ interface ChatMessagesProps {
 
 export function ChatMessages({ videoId, initialMessages }: ChatMessagesProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  console.log('initialMessages', initialMessages);
   
   const { messages, input, handleInputChange, handleSubmit, status } = useChat({
     api: '/api/chat',
