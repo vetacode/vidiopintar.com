@@ -53,7 +53,7 @@ export async function POST(req: Request) {
   }
 
   const result = streamText({
-    model: openai('gpt-4.1-mini'),
+    model: openai('gpt-4.1-2025-04-14'),
     messages: enrichedMessages,
     onFinish: (data) => {
       data.steps.forEach(async (item) => {
