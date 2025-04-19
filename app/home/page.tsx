@@ -16,13 +16,13 @@ export default async function Home() {
         <div className="mb-8 p-6">
           <div className="text-center mb-6">
             <h1 className="text-4xl font-bold tracking-tighter">Vidiopintar</h1>
-            <p className="tracking-tight">Belajar lebih pintar dengan Vidiopintar</p>
+            <p className="tracking-tight">What do you want to learn today?</p>
           </div>
           <VideoSubmitForm />
         </div>
         {videos.length > 0 && (
           <div className="max-w-4xl mx-auto w-full">
-            <h1 className="text-xl font-bold text-left mb-8 tracking-tighter">All Videos</h1>
+            <h1 className="text-xl font-bold text-left mb-8 tracking-tighter">Recent learning</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {videos.map((video) => (
                 <Link key={video.id} href={`/video/${video.youtubeId}`}>
