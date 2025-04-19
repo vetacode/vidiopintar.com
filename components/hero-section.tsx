@@ -52,7 +52,7 @@ export default function HeroSection() {
                                 preset="fade-in-blur"
                                 speedSegment={0.3}
                                 as="h1"
-                                className="text-balance text-4xl font-medium sm:text-5xl md:text-6xl">
+                                className="text-balance text-4xl font-semibold tracking-tighter sm:text-5xl md:text-6xl">
                                 Turn YouTube into Your Personal Learning Academy
                             </TextEffect>
                             <TextEffect
