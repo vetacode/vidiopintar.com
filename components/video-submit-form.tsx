@@ -15,14 +15,14 @@ export default function VideoSubmitForm() {
         <Input
           name="videoUrl"
           placeholder="Paste YouTube link here..."
-          className="dark:bg-secondary/80 border-melody h-12 pl-4 pr-4 rounded-xl focus:ring-melody focus:ring-2 transition-all duration-300"
+          className='h-13 rounded-xl'
           required
         />
       </div>
       <Button
         type="submit"
         aria-disabled={pending}
-        className="w-full h-12 bg-melody hover:bg-melody-dark text-melody-foreground rounded-xl font-medium transition-all duration-300 ease-in-out hover:shadow-lg hover:shadow-melody/20 relative"
+        className='w-full h-12 rounded-xl'
       >
         {pending ? (
           <>
