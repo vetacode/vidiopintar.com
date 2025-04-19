@@ -20,6 +20,12 @@ export async function extractVideoId(url: string): Promise<string | null> {
 }
 
 export async function handleVideoSubmit(formData: FormData) {
+  await new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, 3000);
+  });
+
   const videoUrl = formData.get("videoUrl") as string
   if (!videoUrl) return
 

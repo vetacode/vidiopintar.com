@@ -63,7 +63,7 @@ export default function WallOfLoveSection() {
             <div className="py-16 md:py-32">
                 <div className="mx-auto max-w-6xl px-6">
                     <div className="text-center">
-                        <h2 className="text-title text-3xl font-semibold">What Our Learners Are Saying</h2>
+                        <h2 className="text-title text-3xl font-semibold text-balance">What Our Learners Are Saying</h2>
                         <p className="text-body mt-6">Discover how Vidiopintar is transforming the way people learn from YouTube videos across various fields and interests.</p>
                     </div>
                     <div className="mt-8 grid gap-3 sm:grid-cols-2 md:mt-12 lg:grid-cols-3">

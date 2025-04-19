@@ -1,14 +1,10 @@
-"use client"
 
 import React from 'react'
-import { Mail, SendHorizonal } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { TextEffect } from '@/components/motion-primitives/text-effect'
 import { AnimatedGroup } from '@/components/motion-primitives/animated-group'
 import { HeroHeader } from '@/components/hero-header'
 import { LogoCloud } from '@/components/logo-cloud'
-import { handleVideoSubmit } from "@/app/actions"
-import { useFormStatus } from 'react-dom'
+import { FormStartLearning } from './hero-form'
 
 const transitionVariants = {
     item: {
@@ -31,7 +27,6 @@ const transitionVariants = {
 }
 
 export default function HeroSection() {
-    const { pending } = useFormStatus()
 
     return (
         <>
@@ -52,7 +47,7 @@ export default function HeroSection() {
                                 preset="fade-in-blur"
                                 speedSegment={0.3}
                                 as="h1"
-                                className="text-balance text-4xl font-semibold tracking-tighter sm:text-5xl md:text-6xl">
+                                className="text-balance text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
                                 Turn YouTube into Your Personal Learning Academy
                             </TextEffect>
                             <TextEffect
@@ -78,34 +73,7 @@ export default function HeroSection() {
                                     ...transitionVariants,
                                 }}
                                 className="mt-12">
-                                <form
-                                    action={handleVideoSubmit}
-                                    className="mx-auto max-w-md">
-                                    <div className="bg-background has-[input:focus]:ring-muted relative grid grid-cols-[1fr_auto] items-center rounded-[calc(var(--radius)+0.5rem)] border pr-2 shadow shadow-zinc-950/5 has-[input:focus]:ring-2">
-                                        <input
-                                            placeholder="Paste YouTube URL"
-                                            className="h-12 pl-4 w-full bg-transparent focus:outline-none"
-                                            type="url"
-                                            name='videoUrl'
-                                        />
-
-                                        <div className="md:pr-1.5 lg:pr-0">
-                                            <Button
-                                                aria-label="submit"
-                                                disabled={pending}
-                                                size="sm"
-                                                className="rounded-(--radius) hover:cursor-pointer">
-                                                <span className="hidden md:block">
-                                                    {pending ? 'Processing...' : 'Start learning'}
-                                                </span>
-                                                <SendHorizonal
-                                                    className="relative mx-auto size-5 md:hidden"
-                                                    strokeWidth={2}
-                                                />
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </form>
+                                <FormStartLearning />
                             </AnimatedGroup>
                         </div>
                     </div>
