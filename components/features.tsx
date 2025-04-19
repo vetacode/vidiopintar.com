@@ -15,46 +15,46 @@ export default function Features() {
                             <Zap className="size-4" />
                             <h3 className="text-sm font-medium">Faaast</h3>
                         </div>
-                        <p className="text-sm">It supports an entire helping developers and innovate.</p>
+                        <p className="text-sm">Convert hours of content into focused learning sessions that respect your time</p>
                     </div>
                     <div className="space-y-2">
                         <div className="flex items-center gap-2">
                             <Cpu className="size-4" />
-                            <h3 className="text-sm font-medium">Powerful</h3>
+                            <h3 className="text-sm font-medium">Smart</h3>
                         </div>
-                        <p className="text-sm">It supports an entire helping developers and businesses.</p>
+                        <p className="text-sm">The AI automatically identifies and organizes key concepts from any video.</p>
                     </div>
                     <div className="space-y-2">
                         <div className="flex items-center gap-2">
                             <Fingerprint className="size-4" />
 
-                            <h3 className="text-sm font-medium">Security</h3>
+                            <h3 className="text-sm font-medium">Personal</h3>
                         </div>
-                        <p className="text-sm">It supports an helping developers businesses.</p>
+                        <p className="text-sm">Store and access your customized learning materials in one secure location.</p>
                     </div>
                     <div className="space-y-2">
                         <div className="flex items-center gap-2">
                             <Pencil className="size-4" />
 
-                            <h3 className="text-sm font-medium">Customization</h3>
+                            <h3 className="text-sm font-medium">Interactive</h3>
                         </div>
-                        <p className="text-sm">It supports helping developers and businesses innovate.</p>
+                        <p className="text-sm">Transform passive watching into engaging activities that boost retention.</p>
                     </div>
                     <div className="space-y-2">
                         <div className="flex items-center gap-2">
                             <Settings2 className="size-4" />
 
-                            <h3 className="text-sm font-medium">Control</h3>
+                            <h3 className="text-sm font-medium">Progress</h3>
                         </div>
-                        <p className="text-sm">It supports helping developers and businesses innovate.</p>
+                        <p className="text-sm">Track your learning journey with detailed insights and achievement metrics.</p>
                     </div>
                     <div className="space-y-2">
                         <div className="flex items-center gap-2">
                             <Sparkles className="size-4" />
 
-                            <h3 className="text-sm font-medium">Built for AI</h3>
+                            <h3 className="text-sm font-medium">Effortless</h3>
                         </div>
-                        <p className="text-sm">It supports helping developers and businesses innovate.</p>
+                        <p className="text-sm">Simple, personalized learning that works for you.</p>
                     </div>
                 </div>
             </div>
