@@ -20,11 +20,8 @@ export async function extractVideoId(url: string): Promise<string | null> {
 }
 
 export async function handleVideoSubmit(formData: FormData) {
-  await new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve();
-    }, 3000);
-  });
+  // Show loading state for at least 500ms to prevent flickering
+  await new Promise((resolve) => setTimeout(resolve, 500));
 
   const videoUrl = formData.get("videoUrl") as string
   if (!videoUrl) return
