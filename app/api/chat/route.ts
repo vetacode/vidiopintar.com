@@ -80,7 +80,6 @@ export async function POST(req: Request) {
     messages: enrichedMessages,
     onFinish: (data) => {
       data.steps.forEach(async (item) => {
-        console.log('onFinish', item.response);
         try {
           await MessageRepository.create({
             videoId,
