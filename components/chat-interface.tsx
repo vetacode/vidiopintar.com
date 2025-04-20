@@ -77,7 +77,7 @@ function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
               <Textarea
                 ref={textareaRef}
                 placeholder={status === "streaming" ? "Waiting for response..." : "Ask Anything"}
-                className="min-h-[24px] max-h-[160px] w-full rounded-3xl border-0 bg-transparent text-gray-900 placeholder:text-gray-400 placeholder:text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-sm pl-1 pr-4 pt-0 pb-0 resize-none overflow-y-auto leading-tight"
+                className="min-h-[24px] max-h-[160px] w-full rounded-none border-0 bg-transparent text-gray-900 placeholder:text-gray-400 placeholder:text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-sm pl-1 pr-4 pt-0 pb-0 resize-none overflow-y-auto leading-tight"
                 value={input}
                 onChange={handleInputChange}
                 onKeyDown={e => {
