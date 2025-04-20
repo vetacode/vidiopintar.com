@@ -9,7 +9,7 @@ export default function VideoSubmitForm() {
         <Textarea
           name="videoUrl"
           placeholder="Paste YouTube link here..."
-          className="min-h-[24px] max-h-[160px] w-full border-0 bg-transparent text-gray-900 placeholder:text-gray-400 placeholder:text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-sm pl-2 pr-4 pt-0 pb-0 resize-none overflow-y-auto leading-tight"
+          className="min-h-[24px] max-h-[160px] w-full border-0 bg-transparent text-foreground placeholder:text-gray-400 placeholder:text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-sm pl-1.5 pr-4 pt-0 pb-0 resize-none overflow-y-auto leading-tight"
           required
         />
         <div className="flex justify-end">

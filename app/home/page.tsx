@@ -45,7 +45,7 @@ export default async function Home() {
         </div>
         <div className="max-w-4xl mx-auto w-full mb-8">
           <h2 className="text-xl font-semibold text-left mb-6 tracking-tighter">Choose topics</h2>
-          <div className="grid gap-4 grid-cols-3">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-3">
             {cardData.map((item, idx) => (
               <CategoryCard key={idx} image={item.image} label={item.label} />
             ))}

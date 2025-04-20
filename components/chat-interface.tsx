@@ -45,7 +45,7 @@ function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
   }, [messages]);
 
   return (
-    <div ref={mainContainerRef} className="bg-gray-50 flex flex-col overflow-hidden border-l h-screen">
+    <div ref={mainContainerRef} className="bg-gray-50 dark:bg-black flex flex-col overflow-hidden border-l h-screen">
       <div className="flex-grow pb-32 overflow-y-auto scrollbar-none">
         <div className="p-4 border-b bg-white dark:bg-black sticky top-0 z-50">
           <h2 className="font-semibold tracking-tight dark:text-foreground">Untitled</h2>
