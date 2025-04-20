@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -28,7 +28,13 @@ function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
   } = useChat({
     api: '/api/chat',
     initialMessages,
-    body: { videoId }
+    body: { videoId },
+    onFinish: (message, options) => {
+      console.log(message, options);
+      if (options.finishReason === "stop") {
+        textareaRef.current?.focus();
+      }
+    }
   });
 
   // Scroll to bottom on new messages
@@ -70,7 +76,7 @@ function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
           )}
         </div>
       </div>
-      <div className="sticky bottom-1 left-0 right-0 p-4 bg-gray-50">
+      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-50 border-l">
         <form onSubmit={handleSubmit} className="max-w-none mx-auto">
           <div className="relative w-full rounded-2xl border border-gray-200 bg-white p-4 pl-3 cursor-text">
             <div className="pb-9">

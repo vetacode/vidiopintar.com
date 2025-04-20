@@ -1,13 +1,9 @@
-"use client"
-
-import { useFormStatus } from 'react-dom'
 import { handleVideoSubmit } from "@/app/actions"
 import { Button } from '@/components/ui/button'
 import { SendHorizonal, Loader } from 'lucide-react'
+import { SubmitButton } from "./submit-button"
 
 export function FormStartLearning() {
-    const { pending } = useFormStatus();
-    console.log('pending', pending);
     return (
         <form
             action={handleVideoSubmit}
@@ -21,20 +17,7 @@ export function FormStartLearning() {
                 />
 
                 <div className="md:pr-1.5 lg:pr-0">
-                    <Button
-                        aria-label="submit"
-                        disabled={pending}
-                        size="sm"
-                        className="rounded-(--radius) hover:cursor-pointer">
-                        {pending && <Loader className='animate-spin' />}
-                        <span className="hidden md:block">
-                            {pending ? 'Processing...' : 'Start learning'}
-                        </span>
-                        <SendHorizonal
-                            className="relative mx-auto size-5 md:hidden"
-                            strokeWidth={2}
-                        />
-                    </Button>
+                    <SubmitButton label="Start learning" />
                 </div>
             </div>
         </form>
