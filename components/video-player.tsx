@@ -28,7 +28,7 @@ export default function VideoPlayer({ videoId }: VideoPlayerProps) {
   }, [videoId])
 
   return (
-    <div className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl border border-white/5 ambient-glow">
+    <div className="relative w-full aspect-video bg-black overflow-hidden">
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-card">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-spotify"></div>

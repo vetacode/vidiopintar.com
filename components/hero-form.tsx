@@ -1,8 +1,9 @@
 "use client"
+
 import { useFormStatus } from 'react-dom'
 import { handleVideoSubmit } from "@/app/actions"
 import { Button } from '@/components/ui/button'
-import { SendHorizonal } from 'lucide-react'
+import { SendHorizonal, Loader } from 'lucide-react'
 
 export function FormStartLearning() {
     const { pending } = useFormStatus();
@@ -25,6 +26,7 @@ export function FormStartLearning() {
                         disabled={pending}
                         size="sm"
                         className="rounded-(--radius) hover:cursor-pointer">
+                        {pending && <Loader className='animate-spin' />}
                         <span className="hidden md:block">
                             {pending ? 'Processing...' : 'Start learning'}
                         </span>

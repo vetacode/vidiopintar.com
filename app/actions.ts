@@ -29,6 +29,6 @@ export async function handleVideoSubmit(formData: FormData) {
   const videoId = await extractVideoId(videoUrl)
   if (!videoId) return
 
-  redirect(`/video/${videoId}`)
+  redirect(`/video/${videoId}`);
 }
 

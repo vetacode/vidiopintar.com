@@ -1,10 +1,10 @@
 import type React from "react"
 import { useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Send, MessageSquare, User, Bot } from "lucide-react"
 import { useChat } from '@ai-sdk/react'
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer"
+import { Textarea } from "./ui/textarea"
 
 interface ChatMessagesProps {
   videoId: string;
@@ -14,8 +14,6 @@ interface ChatMessagesProps {
 export function ChatMessages({ videoId, initialMessages }: ChatMessagesProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  console.log('initialMessages', initialMessages);
-  
   const { messages, input, handleInputChange, handleSubmit, status } = useChat({
     api: '/api/chat',
     initialMessages,
@@ -65,12 +63,12 @@ export function ChatMessages({ videoId, initialMessages }: ChatMessagesProps) {
 
         <div className="p-4 border-t border-white/10">
             <form onSubmit={handleSubmit} className="flex gap-2">
-              <Input
+              <Textarea
                   placeholder="Type a message..."
                   value={input}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
-                  className="flex-1 bg-secondary/70 border-0 h-12 rounded-xl focus:ring-melody focus:ring-1"
+                  className="min-h-12 resize-none"
               />
               <Button
                   type="submit"

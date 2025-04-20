@@ -44,7 +44,7 @@ export default function TranscriptView({ transcript }: TranscriptViewProps) {
           placeholder="Search transcript..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="pl-10 pr-10 bg-secondary/50 border-0 h-10 rounded-xl focus:ring-melody focus:ring-1"
+          className="pl-10"
         />
         {searchQuery && (
           <Button
