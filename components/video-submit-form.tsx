@@ -1,8 +1,3 @@
-import { useFormStatus } from "react-dom";
-import { Button } from "@/components/ui/button"
-import { LoadingSpinner } from "@/components/ui/loading-spinner"
-
-import { Input } from "@/components/ui/input"
 import { handleVideoSubmit } from "@/app/actions"
 import { Textarea } from './ui/textarea'
 import { SubmitButton } from "./submit-button";
