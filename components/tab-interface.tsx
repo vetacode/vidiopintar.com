@@ -5,7 +5,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
 import { MessageSquare, FileText, HelpCircle } from "lucide-react"
 import { NotesSection } from "./note-section"
-import { ChatMessages } from "./chat-message"
 import QuizSection from "./quiz-section"
 import ChatInterface from "./chat-interface"
 
