@@ -47,10 +47,10 @@ function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
   return (
     <div ref={mainContainerRef} className="bg-gray-50 flex flex-col overflow-hidden border-l h-screen">
       <div className="flex-grow pb-32 overflow-y-auto scrollbar-none">
-        <div className="p-4 border-b bg-white sticky top-0 z-50">
-          <h2 className="font-semibold tracking-tight">Untitled</h2>
+        <div className="p-4 border-b bg-white dark:bg-black sticky top-0 z-50">
+          <h2 className="font-semibold tracking-tight dark:text-foreground">Untitled</h2>
         </div>
-        <div className="w-full space-y-4">
+        <div className="w-full">
           {messages.length === 0 ? (
             <div className="text-center text-muted-foreground py-8 px-4 h-full flex flex-col items-center justify-center">
               <p>No messages yet. Start a conversation about this video!</p>
@@ -58,10 +58,10 @@ function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
           ) : (
             <>
               {messages.map((message: any) => (
-                <div key={message.id} className={cn("p-4", message.role === "user" ? "bg-white" : "bg-white/10")}>
-                  <p className={cn("text-sm pb-3 opacity-50", message.role === "user" ? "text-black" : "text-gray-950")}>
+                <div key={message.id} className={cn("p-4", message.role === "user" ? "bg-white dark:bg-black" : "bg-white/10 dark:bg-black/90")}>
+                  <p className={cn("text-sm pb-3 opacity-50", message.role === "user" ? "text-foreground" : "text-muted-foreground")}>
                     {message.role === "user" ? "You" : "Vidiopintar"}
-                    </p>
+                  </p>
                   {message.parts && message.parts.map((part: any, i: number) => {
                     if (part.type === 'text') {
                         return <MarkdownRenderer key={i}>{part.text}</MarkdownRenderer>
@@ -76,14 +76,14 @@ function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
           )}
         </div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-50 border-l">
+      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-50 dark:bg-black border-l">
         <form onSubmit={handleSubmit} className="max-w-none mx-auto">
-          <div className="relative w-full rounded-2xl border border-gray-200 bg-white p-4 pl-3 cursor-text">
+          <div className="relative w-full rounded-2xl border border-gray-200 dark:border-white/20 bg-white dark:bg-black p-4 pl-3 cursor-text">
             <div className="pb-9">
               <Textarea
                 ref={textareaRef}
                 placeholder={status === "streaming" ? "Waiting for response..." : "Ask Anything"}
-                className="min-h-[24px] max-h-[160px] w-full rounded-none border-0 bg-transparent text-gray-900 placeholder:text-gray-400 placeholder:text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-sm pl-1 pr-4 pt-0 pb-0 resize-none overflow-y-auto leading-tight"
+                className="min-h-[24px] max-h-[160px] w-full rounded-none border-0 bg-transparent text-foreground placeholder:text-gray-400 placeholder:text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-sm pl-1 pr-4 pt-0 pb-0 resize-none overflow-y-auto leading-tight"
                 value={input}
                 onChange={handleInputChange}
                 onKeyDown={e => {
@@ -101,7 +101,7 @@ function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
                 size="icon"
                 className={cn(
                   "rounded-full h-8 w-8 border-0 flex-shrink-0 transition-all duration-200",
-                  input.trim() ? "bg-black scale-110" : "bg-gray-200"
+                  input.trim() ? "bg-black dark:bg-white/20 scale-110" : "bg-gray-200 dark:bg-white/20"
                 )}
                 disabled={!input.trim() || status === "streaming"}
               >

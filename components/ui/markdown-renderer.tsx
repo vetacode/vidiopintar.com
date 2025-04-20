@@ -39,7 +39,7 @@ const CodeBlock = ({
       : childrenTakeAllStringContents(children)
 
   const preClass = cn(
-    "rounded-md border bg-background/50 text-black px-6 py-8 font-mono text-sm whitespace-pre-wrap rounded-2xl",
+    "rounded-md border bg-background/50 text-foreground px-6 py-8 font-mono text-sm whitespace-pre-wrap rounded-2xl",
     className
   )
 
