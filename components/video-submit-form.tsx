@@ -18,7 +18,7 @@ export default function VideoSubmitForm() {
           required
         />
         <div className="flex justify-end">
-          <SubmitButton />
+          <SubmitButton label="Go" />
         </div>
       </div>
     </form>
