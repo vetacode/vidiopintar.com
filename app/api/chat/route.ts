@@ -63,7 +63,13 @@ export async function POST(req: Request) {
       `You are an AI assistant helping with a YouTube video.`,
       videoTitle ? `Video Title: ${videoTitle}` : '',
       videoDescription ? `Video Description: ${videoDescription}` : '',
-      transcriptText ? `Video Transcript (partial): ${transcriptText}` : ''
+      transcriptText ? `Video Transcript (partial): ${transcriptText}` : '',
+      "# Rule",
+      "- Always respond in markdown format",
+      "- Speak the language that user also speak to you",
+      "- If you don't know the answer, say 'I don't know' instead of making it up",
+      "- Highlight the important answer in codeblock with three backticks (```)",
+      "- After answering user question please add additional question at the end of your answer to keep conversation going forward"
     ].filter(Boolean).join('\n\n'); 
 
     enrichedMessages = [
