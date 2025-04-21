@@ -71,7 +71,11 @@ function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
                 </div>
               ))}
               <div ref={messagesEndRef} />
-              {status === "streaming" || status === "submitted" && <TypingIndicator />}
+              {status === "streaming" || status === "submitted" && (
+                <div className="py-4">
+                  <TypingIndicator />
+                </div>
+              )}
             </>
           )}
         </div>
