@@ -29,6 +29,5 @@ export function TypingIndicator({ label }: { label: string }) {
             </svg>
             <div className="text-sm font-medium text-slate-400">{label}</div>
         </div>
-
-    )
+    );
 }
