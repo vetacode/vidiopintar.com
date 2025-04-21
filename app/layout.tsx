@@ -4,6 +4,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { JetBrains_Mono } from 'next/font/google';
 import { ThemeProvider } from "@/components/theme-provider"
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -24,6 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
+      <Head>
+        <script defer data-domain="vidiopintar.com" src="https://vince.ngooding.com/js/script.js"></script>
+      </Head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light">
           {children}

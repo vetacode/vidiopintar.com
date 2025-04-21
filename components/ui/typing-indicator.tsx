@@ -1,6 +1,6 @@
 "use client"
 
-export function TypingIndicator() {
+export function TypingIndicator({ label }: { label: string }) {
     return (
         <div className="not-prose flex gap-1 items-center px-4">
             <svg
@@ -27,7 +27,7 @@ export function TypingIndicator() {
                     </clipPath>
                 </defs>
             </svg>
-            <div className="text-sm font-medium text-slate-400">typing...</div>
+            <div className="text-sm font-medium text-slate-400">{label}</div>
         </div>
 
     )
