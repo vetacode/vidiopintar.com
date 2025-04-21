@@ -6,16 +6,20 @@ import { VideoList } from "@/components/video-list";
 
 const cardData = [
   {
-    image: "http://res.cloudinary.com/dr15yjl8w/image/upload/v1745156417/public/dfnhwobdonz53w04owoj.jpg",
+    image: "https://images.unsplash.com/photo-1533225307893-db39ecce099a?q=80&w=1280&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     label: "Productivity"
   },
   {
-    image: "http://res.cloudinary.com/dr15yjl8w/image/upload/v1745157020/public/vdyztettdwchz5xcgavy.jpg",
+    image: "https://images.unsplash.com/photo-1700773429986-1c28ed71b1d8?q=80&w=1280&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     label: "Math"
   },
   {
-    image: "http://res.cloudinary.com/dr15yjl8w/image/upload/v1745157216/public/ri3ksakrrglvgof0aybx.jpg",
+    image: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=1280&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     label: "Software Engineering"
+  },
+  {
+    image: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?q=80&w=1280&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    label: "Marketing"
   }
 ];
 
@@ -23,7 +27,7 @@ function CategoryCard({ image, label }: { image: string; label: string }) {
   return (
     <Card className="rounded-2xl overflow-hidden relative cursor-pointer group hover:shadow-lg transition-shadow dark:border-white/10">
       <img src={image} className="w-full h-18 object-cover group-hover:scale-105 transition-all" />
-      <div className="absolute inset-0 bg-black/25">
+      <div className="absolute inset-0 bg-black/35">
         <div className="p-4 flex justify-center items-center h-full">
           <p className="text-2xl font-semibold tracking-tighter text-white">{label}</p>
         </div>
@@ -46,7 +50,7 @@ export default async function Home() {
         </div>
         <div className="max-w-4xl mx-auto w-full mb-8">
           <h2 className="text-xl font-semibold text-left mb-6 tracking-tighter">Choose topics</h2>
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-3 lg:grid-cols-3">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             {cardData.map((item, idx) => (
               <CategoryCard key={idx} image={item.image} label={item.label} />
             ))}

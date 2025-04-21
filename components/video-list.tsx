@@ -20,7 +20,7 @@ export function VideoList({ videos }: { videos: Video[] }) {
                                 <img
                                     src={video.thumbnailUrl!}
                                     alt={video.title}
-                                    className="object-cover w-full h-48"
+                                    className="object-cover w-full h-40"
                                 />
                             </CardContent>
                             <CardHeader className="p-4">
