@@ -4,7 +4,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { JetBrains_Mono } from 'next/font/google';
 import { ThemeProvider } from "@/components/theme-provider"
-import Head from "next/head";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -13,6 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-mono',
   display: 'swap',
 });
+
 export const metadata: Metadata = {
   title: "Vidiopintar - Turn YouTube into Your Personal Learning Academy",
   description: "Learn from YouTube videos with ai chat, note-taking, and quizz",
@@ -25,12 +26,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
+      <Script
+        src="https://vince.ngooding.com/js/script.js"
+        data-domain="vidiopintar.com"
+        strategy="afterInteractive"
+      />
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light">
           {children}
         </ThemeProvider>
       </body>
-      <script defer data-domain="vidiopintar.com" src="https://vince.ngooding.com/js/script.js"></script>
     </html>
   )
 }
