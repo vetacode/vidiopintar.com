@@ -13,8 +13,8 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 });
 export const metadata: Metadata = {
-  title: "Vidiopintar - Fun Video Learning Platform",
-  description: "Learn from YouTube videos with transcripts, chat, and note-taking",
+  title: "Vidiopintar - Turn YouTube into Your Personal Learning Academy",
+  description: "Learn from YouTube videos with ai chat, note-taking, and quizz",
 }
 
 export default function RootLayout({
