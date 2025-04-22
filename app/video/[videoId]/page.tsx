@@ -1,18 +1,24 @@
-import { fetchVideoDetails, fetchVideoTranscript } from "@/lib/youtube"
+import { fetchVideoDetails, fetchVideoTranscript, generateQuickStartQuestions } from "@/lib/youtube"
 import VideoPlayer from "@/components/video-player"
 import TabInterface from "@/components/tab-interface"
 import { getChatHistory } from "@/lib/storage"
 import TranscriptView from "@/components/transcript-view"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Home, PlayCircle, Clock, ChevronRight, LayoutDashboard } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import ChatInterface from "@/components/chat-interface"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
-  const { videoId } = params
-  const videoDetails = await fetchVideoDetails(videoId)
-  const transcript = await fetchVideoTranscript(videoId)
-  const messages = await getChatHistory(videoId)
+  const { videoId } = params;
+  const videoDetails = await fetchVideoDetails(videoId);
+  const transcript = await fetchVideoTranscript(videoId);
+  const messages = await getChatHistory(videoId);
+
+  let quickStartQuestions: string[] = [];
+  if (messages.length === 0) {
+    console.log('Fetch suggestions!');
+    quickStartQuestions = await generateQuickStartQuestions(transcript)
+  }
 
   return (
     <main className="flex flex-col min-h-screen bg-melody-gradient relative">
@@ -66,7 +72,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
           </div>
 
           <div className="lg:col-span-3 flex flex-col h-full md:h-auto relative">
-            <ChatInterface videoId={videoId} initialMessages={messages} />
+            <ChatInterface videoId={videoId} initialMessages={messages} quickStartQuestions={quickStartQuestions} />
           </div>
         </div>
       </div>

@@ -1,4 +1,7 @@
 import { VideoRepository, TranscriptRepository } from "@/lib/db/repository";
+import { openai } from '@ai-sdk/openai';
+import { generateObject } from 'ai';
+import { z } from 'zod';
 
 export async function fetchVideoDetails(videoId: string) {
   try {
@@ -127,4 +130,33 @@ function formatTime(seconds: number): string {
   const minutes = Math.floor(seconds / 60)
   const remainingSeconds = Math.floor(seconds % 60)
   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`
+}
+
+export async function generateQuickStartQuestions(transcript: { segments: { start: number; end: number; text: string; isChapterStart: boolean }[] }) {
+  let transcriptText = transcript.segments.map((seg: any) => seg.text).join('\n');
+
+  let prompt = `Please analyze this video transcript.
+
+## Transcript
+
+${transcriptText}
+
+## Instructions
+
+After analyzing the video transcript, create 4 thought-provoking questions that:
+1. Are concise (under 60 characters each)
+2. Prompt personal reflection or critical thinking
+3. Help connect the content to real-world applications
+4. Encourage deeper exploration of the subject
+
+Frame these questions as if you're a curious learner who just watched the video and wants to maximize your understanding.
+  `;
+  const { object } = await generateObject({
+    model: openai('gpt-4.1-2025-04-14'),
+    prompt: prompt,
+    schema: z.object({
+      questions: z.array(z.string()),
+    }),
+  });
+  return object?.questions || [];
 }

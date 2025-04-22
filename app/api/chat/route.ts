@@ -18,8 +18,8 @@ export async function POST(req: Request) {
       const transcriptResult = await fetchVideoTranscript(videoId);
       if (transcriptResult?.segments?.length > 0) {
         transcriptText = transcriptResult.segments.map((seg: any) => seg.text).join(' ');
-        if (transcriptText.length > 2000) {
-          transcriptText = transcriptText.slice(0, 2000) + '...';
+        if (transcriptText.length > 20000) {
+          transcriptText = transcriptText.slice(0, 20000) + '...';
         }
       }
 

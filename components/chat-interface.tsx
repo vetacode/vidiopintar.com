@@ -11,10 +11,11 @@ import { TypingIndicator } from "./ui/typing-indicator";
 
 interface ChatInterfaceProps {
   videoId: string;
+  quickStartQuestions: string[];
   initialMessages: any[];
 }
 
-function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
+function ChatInterface({ videoId, initialMessages, quickStartQuestions }: ChatInterfaceProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const mainContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -22,9 +23,10 @@ function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
   const {
     messages,
     input,
+    setInput,
     handleInputChange,
     handleSubmit,
-    status
+    status,
   } = useChat({
     api: '/api/chat',
     initialMessages,
@@ -52,8 +54,22 @@ function ChatInterface({ videoId, initialMessages }: ChatInterfaceProps) {
         </div>
         <div className="w-full">
           {messages.length === 0 ? (
-            <div className="text-center text-muted-foreground py-8 px-4 h-full flex flex-col items-center justify-center">
-              <p>No messages yet. Start a conversation about this video!</p>
+              <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 p-4">
+                {quickStartQuestions.map((question, index) => (
+                  <form
+                    key={index}
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setInput(question);
+                      handleSubmit(e);
+                    }}>
+                      <button key={index} 
+                        type="submit" 
+                        className="text-sm p-2 opacity-50 rounded bg-accent-foreground/10 border border-border/25 text-foreground cursor-pointer hover:border-accent-foreground/75">
+                        {question}
+                      </button>
+                  </form>
+                ))}
             </div>
           ) : (
             <>
