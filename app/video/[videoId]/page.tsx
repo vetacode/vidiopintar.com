@@ -1,6 +1,5 @@
 import { fetchVideoDetails, fetchVideoTranscript, generateQuickStartQuestions } from "@/lib/youtube"
 import VideoPlayer from "@/components/video-player"
-import TabInterface from "@/components/tab-interface"
 import { getChatHistory } from "@/lib/storage"
 import TranscriptView from "@/components/transcript-view"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
