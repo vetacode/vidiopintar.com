@@ -2,18 +2,30 @@ import { VideoRepository, TranscriptRepository } from "@/lib/db/repository";
 
 export async function fetchVideoDetails(videoId: string) {
   try {
-    const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
-    const encodedUrl = encodeURIComponent(videoUrl)
+    const existingVideo = await VideoRepository.getByYoutubeId(videoId);
     
-    const response = await fetch(`https://api.ahmadrosid.com/youtube/video?videoUrl=${encodedUrl}`)
+    if (existingVideo) {
+      return {
+        title: existingVideo.title,
+        description: existingVideo.description || "",
+        channelTitle: existingVideo.channelTitle || "",
+        publishedAt: existingVideo.publishedAt?.toISOString(),
+        thumbnails: { high: { url: existingVideo.thumbnailUrl || "" } },
+        tags: [],
+      };
+    }
+
+    const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+    const encodedUrl = encodeURIComponent(videoUrl);
+    
+    const response = await fetch(`https://api.ahmadrosid.com/youtube/video?videoUrl=${encodedUrl}`);
     
     if (!response.ok) {
-      throw new Error(`Failed to fetch video details: ${response.status} ${response.statusText}`)
+      throw new Error(`Failed to fetch video details: ${response.status} ${response.statusText}`);
     }
     
-    const data = await response.json()
-    
-    // Save to database (upsert)
+    const data = await response.json();
+
     await VideoRepository.upsert({
       youtubeId: videoId,
       title: data.title,
@@ -29,6 +41,7 @@ export async function fetchVideoDetails(videoId: string) {
         data.thumbnails?.default?.url ||
         '',
     });
+    
     return {
       title: data.title,
       description: data.description,
@@ -36,9 +49,9 @@ export async function fetchVideoDetails(videoId: string) {
       publishedAt: data.publishedAt,
       thumbnails: data.thumbnails,
       tags: data.tags,
-    }
+    };
   } catch (error) {
-    console.error('Error fetching video details:', error)
+    console.error('Error fetching video details:', error);
     
     // Fallback to basic info in case of error
     return {
@@ -48,7 +61,7 @@ export async function fetchVideoDetails(videoId: string) {
       publishedAt: new Date().toISOString(),
       thumbnails: {},
       tags: [],
-    }
+    };
   }
 }
 
