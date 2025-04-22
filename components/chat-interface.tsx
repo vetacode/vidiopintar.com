@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
+import { flushSync } from "react-dom"
 import { useChat } from "@ai-sdk/react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,7 @@ function ChatInterface({ videoId, initialMessages, quickStartQuestions }: ChatIn
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const mainContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const submitRef = useRef<HTMLButtonElement>(null);
 
   const {
     messages,
@@ -52,20 +54,19 @@ function ChatInterface({ videoId, initialMessages, quickStartQuestions }: ChatIn
         <div className="p-4 border-b bg-white dark:bg-black sticky top-0 z-50">
           <h2 className="font-semibold tracking-tight dark:text-foreground">Untitled</h2>
         </div>
-        <div className="w-full">
+        <div className={cn("w-full", messages.length === 0 ? "h-full" : "")}>
           {messages.length === 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 p-4">
+              <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 p-4 h-full place-content-center">
                 {quickStartQuestions.map((question, index) => (
                   <form
                     key={index}
                     onSubmit={(e) => {
-                      e.preventDefault();
-                      setInput(question);
-                      handleSubmit(e);
+                      handleSubmit(e as any);
                     }}>
-                      <button key={index} 
-                        type="submit" 
-                        className="text-sm p-2 opacity-50 rounded bg-accent-foreground/10 border border-border/25 text-foreground cursor-pointer hover:border-accent-foreground/75">
+                      <button
+                        type="submit"
+                        onClick={() => flushSync(() => setInput(question))}
+                        className="text-sm text-left p-2 opacity-50 rounded bg-accent-foreground/10 border border-border/25 text-foreground cursor-pointer hover:border-accent-foreground/75">
                         {question}
                       </button>
                   </form>
@@ -124,6 +125,7 @@ function ChatInterface({ videoId, initialMessages, quickStartQuestions }: ChatIn
                   input.trim() ? "bg-black dark:bg-white/20 scale-110" : "bg-gray-200 dark:bg-white/20"
                 )}
                 disabled={!input.trim() || status === "streaming"}
+                ref={submitRef}
               >
                 <ArrowUp className={cn("h-4 w-4 transition-colors", input.trim() ? "text-white" : "text-gray-500")} />
                 <span className="sr-only">Submit</span>

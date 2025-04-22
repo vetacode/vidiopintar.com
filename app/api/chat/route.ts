@@ -17,10 +17,7 @@ export async function POST(req: Request) {
     try {
       const transcriptResult = await fetchVideoTranscript(videoId);
       if (transcriptResult?.segments?.length > 0) {
-        transcriptText = transcriptResult.segments.map((seg: any) => seg.text).join(' ');
-        if (transcriptText.length > 20000) {
-          transcriptText = transcriptText.slice(0, 20000) + '...';
-        }
+        transcriptText = transcriptResult.segments.map((seg: any) => seg.text).join('\n');
       }
 
       let dbVideo = await VideoRepository.getByYoutubeId(videoId);
@@ -58,18 +55,30 @@ export async function POST(req: Request) {
   }
 
   let enrichedMessages = messages;
-  if (transcriptText || videoTitle) { 
+  if (transcriptText || videoTitle) {
+    const suggestionPrompt = `
+# Generate suggestion
+
+After answering the user's question about a video, continue the conversation by offering 2-3 numbered follow-up questions that:
+
+1. Deepen understanding of the video content
+2. Feel natural, as if coming from a fellow viewer
+3. Match both the language style of the video transcript and the user's tone
+
+Your goal is to create an educational dialogue that helps the user explore the video content further.
+`;
     const systemContent = [
       `You are an AI assistant helping with a YouTube video.`,
       videoTitle ? `Video Title: ${videoTitle}` : '',
       videoDescription ? `Video Description: ${videoDescription}` : '',
       transcriptText ? `Video Transcript (partial): ${transcriptText}` : '',
-      "# Rule",
-      "- Always respond in markdown format",
-      "- Speak the language that user also speak to you",
-      "- If you don't know the answer, say 'I don't know' instead of making it up",
-      "- Highlight the important answer in codeblock with three backticks (```)",
-      "- After answering user question please add additional question at the end of your answer to keep conversation going forward, the goal is to help user to learn more from this video, give them choise in a list with number."
+     `# Communication Guidelines
+- Use markdown formatting throughout responses
+- Match the language used by the user
+- Acknowledge knowledge limitations with "I don't know" rather than fabricating information
+- Emphasize key information within triple backtick codeblocks (\`\`\`)
+`,
+      suggestionPrompt
     ].filter(Boolean).join('\n\n'); 
 
     enrichedMessages = [

@@ -16,7 +16,6 @@ export default async function VideoPage({ params }: { params: { videoId: string 
 
   let quickStartQuestions: string[] = [];
   if (messages.length === 0) {
-    console.log('Fetch suggestions!');
     quickStartQuestions = await generateQuickStartQuestions(transcript)
   }
 

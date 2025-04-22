@@ -148,8 +148,11 @@ After analyzing the video transcript, create 4 thought-provoking questions that:
 2. Prompt personal reflection or critical thinking
 3. Help connect the content to real-world applications
 4. Encourage deeper exploration of the subject
+5. Match the transcript's language style and tone
+6. Never use words like "I" or "you" in the questions
+7. Prompt a user to start learning like asking what is this video is about etc.
 
-Frame these questions as if you're a curious learner who just watched the video and wants to maximize your understanding.
+Frame these questions as if you're a curious learner who haven't watched the video and wants to get started learning.
   `;
   const { object } = await generateObject({
     model: openai('gpt-4.1-2025-04-14'),
