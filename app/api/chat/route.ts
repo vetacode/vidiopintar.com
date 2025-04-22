@@ -64,6 +64,7 @@ After answering the user's question about a video, continue the conversation by 
 1. Deepen understanding of the video content
 2. Feel natural, as if coming from a fellow viewer
 3. Match both the language style of the video transcript and the user's tone
+4. Never use words like "I" or "you" in the questions
 
 Your goal is to create an educational dialogue that helps the user explore the video content further.
 `;
@@ -76,7 +77,6 @@ Your goal is to create an educational dialogue that helps the user explore the v
 - Use markdown formatting throughout responses
 - Match the language used by the user
 - Acknowledge knowledge limitations with "I don't know" rather than fabricating information
-- Emphasize key information within triple backtick codeblocks (\`\`\`)
 `,
       suggestionPrompt
     ].filter(Boolean).join('\n\n'); 
