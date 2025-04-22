@@ -47,6 +47,19 @@ export const VideoRepository = {
   async getAll(): Promise<Video[]> {
     // Order by creation timestamp descending
     return await db.select().from(videos).orderBy(desc(videos.createdAt));
+  },
+
+  async delete(id: number): Promise<void> {
+    // check if video is exists if not throw error
+    const video = await db
+      .select()
+      .from(videos)
+      .where(eq(videos.id, id))
+      .limit(1);
+    if (video.length === 0) {
+      throw new Error("Video not found");
+    }
+    await db.delete(videos).where(eq(videos.id, id));
   }
 };
 

@@ -1,14 +1,18 @@
 "use client"
-import { useFormStatus } from "react-dom";
+import { useFormStatus, useFormState } from "react-dom";
+import { forwardRef } from "react";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { cn } from "@/lib/utils";
 
-export function SubmitButton({ label } : { label: string }) {
+export const SubmitButton = forwardRef<HTMLButtonElement, { label: string, className?: string }>(( { label, className }, ref ) => {
     const { pending } = useFormStatus();
+    console.log({ pending });
     return (
-        <Button type="submit"
-            className='rounded-xl cursor-pointer' disabled={pending} aria-disabled={pending}>
+        <Button ref={ref} type="submit" className={cn('rounded-xl cursor-pointer', className)} disabled={pending} aria-disabled={pending}>
             {pending ? <LoadingSpinner text="Loading..." /> : label}
         </Button>
     );
-}
+});
+
+SubmitButton.displayName = "SubmitButton";

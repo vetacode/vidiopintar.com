@@ -15,6 +15,13 @@
       "when": 1744740013991,
       "tag": "0001_omniscient_blockbuster",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1745305436769,
+      "tag": "0002_hot_the_initiative",
+      "breakpoints": true
     }
   ]
 }

@@ -4,7 +4,7 @@ import { InferInsertModel } from "drizzle-orm";
 
 export const messages = pgTable('messages', {
   id: uuid('id').defaultRandom().primaryKey(),
-  videoId: varchar('video_id', { length: 20 }).notNull().references(() => videos.youtubeId),
+  videoId: varchar('video_id', { length: 20 }).notNull().references(() => videos.youtubeId, { onDelete: 'cascade' }),
   content: text('content').notNull(),
   role: varchar('role', { length: 10 }).notNull(), // 'user' or 'assistant'
   timestamp: integer('timestamp').notNull(),
