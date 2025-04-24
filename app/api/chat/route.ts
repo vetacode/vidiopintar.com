@@ -59,14 +59,15 @@ export async function POST(req: Request) {
     const suggestionPrompt = `
 # Generate suggestion
 
-After answering the user's question about a video, continue the conversation by offering 2-3 numbered follow-up questions that:
+Act as Export prompt engineer.
+
+After answering the user's question about a video, continue the conversation by offering 2-3 suggested prompts:
 
 1. Deepen understanding of the video content
 2. Feel natural, as if coming from a fellow viewer
 3. Match both the language style of the video transcript and the user's tone
 4. Never use words like "I" or "you" in the questions
-
-Your goal is to create an educational dialogue that helps the user explore the video content further.
+5. Format suggestion like this: "Here's a quick question to explore the video content:\n1. Question 1\n2. Question 2\n3. Question 3"
 `;
     const systemContent = [
       `You are an AI assistant helping with a YouTube video.`,
