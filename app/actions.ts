@@ -34,6 +34,7 @@ export async function handleVideoSubmit(formData: FormData) {
   const videoId = await extractVideoId(videoUrl)
   if (!videoId) return
 
+  revalidatePath('/home', 'page');
   redirect(`/video/${videoId}`);
 }
 
