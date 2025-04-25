@@ -2,6 +2,7 @@ import { VideoRepository, TranscriptRepository } from "@/lib/db/repository";
 import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
 import { z } from 'zod';
+import { generateSummary } from "@/lib/ai/summary";
 
 export async function fetchVideoDetails(videoId: string) {
   try {
@@ -13,6 +14,7 @@ export async function fetchVideoDetails(videoId: string) {
         description: existingVideo.description || "",
         channelTitle: existingVideo.channelTitle || "",
         publishedAt: existingVideo.publishedAt?.toISOString(),
+        summary: existingVideo.summary || "",
         thumbnails: { high: { url: existingVideo.thumbnailUrl || "" } },
         tags: [],
       };
@@ -52,6 +54,7 @@ export async function fetchVideoDetails(videoId: string) {
       publishedAt: data.publishedAt,
       thumbnails: data.thumbnails,
       tags: data.tags,
+      summary: data.summary,
     };
   } catch (error) {
     console.error('Error fetching video details:', error);
@@ -115,6 +118,25 @@ export async function fetchVideoTranscript(videoId: string) {
     
     // Save segments to the database using the repository
     await TranscriptRepository.upsertSegments(videoId, segments);
+
+    // Generate and update summary for the video
+    const video = await VideoRepository.getByYoutubeId(videoId);
+    // Only generate summary if none exists
+    if (video && !video.summary) {
+      const transcriptText = segments.map((seg: {text: string}) => seg.text);
+      const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;
+      console.log("Start generating summary!");
+      const summary = await generateSummary(textToSummarize);
+      await VideoRepository.upsert({
+        youtubeId: videoId,
+        title: video.title,
+        description: video.description,
+        summary,
+        channelTitle: video.channelTitle,
+        publishedAt: video.publishedAt,
+        thumbnailUrl: video.thumbnailUrl,
+      });
+    }
     return {
       segments,
     }
@@ -132,14 +154,12 @@ function formatTime(seconds: number): string {
   return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`
 }
 
-export async function generateQuickStartQuestions(transcript: { segments: { start: number; end: number; text: string; isChapterStart: boolean }[] }) {
-  let transcriptText = transcript.segments.map((seg: any) => seg.text).join('\n');
-
+export async function generateQuickStartQuestions(summary: string) {
   let prompt = `Please analyze this video transcript.
 
 ## Transcript
 
-${transcriptText}
+${summary}
 
 ## Instructions
 

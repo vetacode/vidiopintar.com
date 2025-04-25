@@ -22,6 +22,13 @@
       "when": 1745305436769,
       "tag": "0002_hot_the_initiative",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1745571133831,
+      "tag": "0003_lean_mariko_yashida",
+      "breakpoints": true
     }
   ]
 }

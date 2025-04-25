@@ -5,6 +5,7 @@ export const videos = pgTable('videos', {
   youtubeId: varchar('youtube_id', { length: 20 }).notNull().unique(),
   title: text('title').notNull(),
   description: text('description'),
+  summary: text('summary'),
   channelTitle: varchar('channel_title', { length: 100 }),
   publishedAt: timestamp('published_at'),
   thumbnailUrl: text('thumbnail_url'),

@@ -1,6 +1,7 @@
 "use server"
 
 import { VideoRepository } from "@/lib/db/repository";
+import { fetchVideoDetails, fetchVideoTranscript } from "@/lib/youtube"
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
@@ -33,6 +34,9 @@ export async function handleVideoSubmit(formData: FormData) {
 
   const videoId = await extractVideoId(videoUrl)
   if (!videoId) return
+
+  await fetchVideoDetails(videoId);
+  await fetchVideoTranscript(videoId);
 
   revalidatePath('/home', 'page');
   redirect(`/video/${videoId}`);

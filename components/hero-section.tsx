@@ -57,7 +57,7 @@ export default function HeroSection() {
                                 delay={0.5}
                                 as="p"
                                 className="mx-auto mt-12 max-w-2xl text-pretty text-lg">
-                                Save hours of note-taking and research. Let AI transform any YouTube video into a structured learning experience that fits your busy schedule.
+                                Turn your casual YouTube watching into structured learning experiences. Vidiopintar helps you retain more, understand deeper, and actually apply what you learn - in any topic.
                             </TextEffect>
 
                             <AnimatedGroup

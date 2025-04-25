@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import ChatInterface from "@/components/chat-interface"
+import MarkdownRenderer from "@/components/ui/markdown-renderer"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
   const { videoId } = params;
@@ -15,7 +16,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
 
   let quickStartQuestions: string[] = [];
   if (messages.length === 0) {
-    quickStartQuestions = await generateQuickStartQuestions(transcript)
+    quickStartQuestions = await generateQuickStartQuestions(videoDetails.summary)
   }
 
   return (
@@ -39,8 +40,15 @@ export default async function VideoPage({ params }: { params: { videoId: string 
             <VideoPlayer videoId={videoId} />
 
             <div className="p-3">
-              <Tabs defaultValue="transcript" className="w-full">
+              <Tabs defaultValue="summary" className="w-full">
                 <TabsList>
+                  <TabsTrigger
+                    value="summary"
+                  >
+                    <span className="flex items-center gap-2">
+                      Summary
+                    </span>
+                  </TabsTrigger>
                   <TabsTrigger
                     value="transcript"
                   >
@@ -48,22 +56,14 @@ export default async function VideoPage({ params }: { params: { videoId: string 
                       Transcript
                     </span>
                   </TabsTrigger>
-                  <TabsTrigger
-                    value="outline"
-                  >
-                    <span className="flex items-center gap-2">
-                      Video Outline
-                    </span>
-                  </TabsTrigger>
                 </TabsList>
+                <TabsContent value="summary" className="h-full overflow-y-auto p-0 m-0">
+                  <div className="p-4">
+                    <MarkdownRenderer>{videoDetails.summary}</MarkdownRenderer>
+                  </div>
+                </TabsContent>
                 <TabsContent value="transcript" className="h-full overflow-y-auto p-0 m-0">
                   <TranscriptView transcript={transcript} />
-                </TabsContent>
-                <TabsContent value="outline" className="h-full overflow-y-auto p-0 m-0">
-                  <div className="p-4">
-                    <h3 className="font-medium mb-4 text-melody">Outline</h3>
-                    <p className="text-muted-foreground">Coming Soon</p>
-                  </div>
                 </TabsContent>
               </Tabs>
             </div>

@@ -33,14 +33,14 @@ export async function POST(req: Request) {
         let dbVideo = await VideoRepository.getByYoutubeId(videoId);
 
         if (dbVideo) {
-        videoTitle = dbVideo.title || '';
-        videoDescription = dbVideo.description || '';
-        } else {
-        const detailsResult = await fetchVideoDetails(videoId);
-        if (detailsResult) {
-            videoTitle = detailsResult.title;
-            videoDescription = detailsResult.description;
-        }
+            videoTitle = dbVideo.title || '';
+            videoDescription = dbVideo.description || '';
+          } else {
+            const detailsResult = await fetchVideoDetails(videoId);
+            if (detailsResult) {
+                videoTitle = detailsResult.title;
+                videoDescription = detailsResult.description;
+            }
         }
 
     } catch (err) {
