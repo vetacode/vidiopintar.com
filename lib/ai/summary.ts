@@ -1,8 +1,6 @@
 import { google } from '@ai-sdk/google';
 import { generateText } from 'ai';
 
-import { JigsawStack } from 'jigsawstack';
-
 export async function generateSummary(text: string): Promise<string> {
   const systemPrompt = `
 Please provide a detailed, well-structured summary of this YouTube video transcript.
