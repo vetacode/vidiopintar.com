@@ -42,13 +42,5 @@ Format your output with this markdown structure:
             }
         ]
     })
-  // const jigsaw = JigsawStack({
-  //   apiKey: process.env.JIGSAWSTACK_API_KEY
-  // });
-  // const response = await jigsaw.summary({
-  //   "text": text,
-  //   "type": "text",
-  // })
-  // return response.summary;
   return summary;
 }
