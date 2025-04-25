@@ -48,7 +48,7 @@ export default function HeroSection() {
                                 speedSegment={0.3}
                                 as="h1"
                                 className="text-balance text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-                                Turn YouTube into Your Personal Learning Academy
+                                Stop Watching YouTube Videos. Start Mastering Them with AI
                             </TextEffect>
                             <TextEffect
                                 per="line"
@@ -57,7 +57,7 @@ export default function HeroSection() {
                                 delay={0.5}
                                 as="p"
                                 className="mx-auto mt-12 max-w-2xl text-pretty text-lg">
-                                Vidiopintar turns any YouTube video into an interactive, AI-powered learning experience.
+                                Save hours of note-taking and research. Let AI transform any YouTube video into a structured learning experience that fits your busy schedule.
                             </TextEffect>
 
                             <AnimatedGroup
