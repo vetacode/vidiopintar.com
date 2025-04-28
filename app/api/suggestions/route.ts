@@ -6,7 +6,8 @@ export const maxDuration = 60;
 import { fetchVideoTranscript, fetchVideoDetails } from '@/lib/youtube';
 import { MessageRepository, VideoRepository } from '@/lib/db/repository';
 
-const prompt = `Based on the conversation context, suggest 3-5 brief (<60 chars), diverse follow-up responses that:
+const prompt = `Act as expert prompt engineer.
+Based on the conversation context, suggest 3-5 brief (<60 chars), diverse follow-up responses that:
 1. Match the user's communication style
 2. Offer different actionable directions (e.g., rewriting, brainstorming, clarifying)
 3. Help user answer any questions from last message

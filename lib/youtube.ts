@@ -155,25 +155,13 @@ function formatTime(seconds: number): string {
 }
 
 export async function generateQuickStartQuestions(summary: string) {
-  let prompt = `Please analyze this video transcript.
+  let prompt = `Analyze the following video transcript and, as an expert prompt engineer, generate four brief, open-ended questions designed to spark conversation and help users understand the video's main ideas, key takeaways, and recommendations.
 
 ## Transcript
 
 ${summary}
+`;
 
-## Instructions
-
-After analyzing the video transcript, create 4 thought-provoking questions that:
-1. Are concise (under 60 characters each)
-2. Prompt personal reflection or critical thinking
-3. Help connect the content to real-world applications
-4. Encourage deeper exploration of the subject
-5. Match the transcript's language style and tone
-6. Never use words like "I" or "you" in the questions
-7. Prompt a user to start learning like asking what is this video is about etc.
-
-Frame these questions as if you're a curious learner who haven't watched the video and wants to get started learning.
-  `;
   const { object } = await generateObject({
     model: openai('gpt-4.1-2025-04-14'),
     prompt: prompt,
