@@ -45,7 +45,6 @@ const deleteSchema = z.object({
 });
 
 export async function handleDeleteVideo(prevState: any, formData: FormData): Promise<{ success: boolean, errors: string[] | undefined }> {
-  console.log(prevState);
   const validatedFields = deleteSchema.safeParse({
     id: formData.get("id"),
   });

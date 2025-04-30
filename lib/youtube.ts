@@ -115,17 +115,15 @@ export async function fetchVideoTranscript(videoId: string) {
         isChapterStart,
       }
     })
-    
-    // Save segments to the database using the repository
+
     await TranscriptRepository.upsertSegments(videoId, segments);
 
     // Generate and update summary for the video
-    const video = await VideoRepository.getByYoutubeId(videoId);
     // Only generate summary if none exists
+    const video = await VideoRepository.getByYoutubeId(videoId);
     if (video && !video.summary) {
       const transcriptText = segments.map((seg: {text: string}) => seg.text);
       const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;
-      console.log("Start generating summary!");
       const summary = await generateSummary(textToSummarize);
       await VideoRepository.upsert({
         youtubeId: videoId,
