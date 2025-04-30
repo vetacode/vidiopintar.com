@@ -5,6 +5,8 @@ import Testimonials from "@/components/testimonials";
 import Footer from "@/components/footer";
 import CallToAction from "@/components/call-to-action";
 
+export const maxDuration = 300;
+
 export default function Page() {
   return (
     <>
