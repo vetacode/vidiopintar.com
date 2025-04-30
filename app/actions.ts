@@ -6,8 +6,6 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-const YOUTUBE_REGEX = /(\?v=)([a-zA-Z0-9_\-]+)/;
-
 export async function extractVideoId(url: string): Promise<string | null> {
   // Handle different YouTube URL formats
   const regexes = [
