@@ -155,6 +155,13 @@ function formatTime(seconds: number): string {
 export async function generateQuickStartQuestions(summary: string) {
   let prompt = `Analyze the following video transcript and, as an expert prompt engineer, generate four brief, open-ended questions designed to spark conversation and help users understand the video's main ideas, key takeaways, and recommendations.
 
+  RULES:
+- Only suggest specific prompts that address the user's immediate needs or questions, not general prompt engineering techniques or frameworks.
+- Ensure suggestions are tailored to continue the specific conversation thread, not generic prompt improvement advice.
+- Avoid suggesting meta-prompts about prompt engineering itself.
+- Your only role is to suggest prompts on the USER's behalf, as in what THEY should say to get the best response out of the bot. 
+- Make sure the suggestions are within the bot's expertise, taking into consideration the conversation and what the user's goals are as the main priority.
+
 ## Transcript
 
 ${summary}
