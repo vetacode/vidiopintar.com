@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import ChatInterface from "@/components/chat-interface"
-import MarkdownRenderer from "@/components/ui/markdown-renderer"
+import SummarySection from "@/components/summary-section"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
   const { videoId } = params;
@@ -58,9 +58,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="summary" className="h-full overflow-y-auto p-0 m-0">
-                  <div className="p-4">
-                    <MarkdownRenderer>{videoDetails.summary}</MarkdownRenderer>
-                  </div>
+                  <SummarySection videoId={videoId} initialSummary={videoDetails.summary} />
                 </TabsContent>
                 <TabsContent value="transcript" className="h-full overflow-y-auto p-0 m-0">
                   <TranscriptView transcript={transcript} />
