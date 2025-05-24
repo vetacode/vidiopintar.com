@@ -5,6 +5,7 @@ import { Inter } from "next/font/google"
 import { JetBrains_Mono } from 'next/font/google';
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
+import AuthInitializer from "@/components/auth/AuthInitializer";
 import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] })
@@ -34,8 +35,10 @@ export default function RootLayout({
       />
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light">
-          {children}
-          <Toaster />
+          <AuthInitializer>
+            {children}
+            <Toaster />
+          </AuthInitializer>
         </ThemeProvider>
       </body>
     </html>
