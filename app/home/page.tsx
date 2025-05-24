@@ -52,13 +52,17 @@ function CategoryCard({ image, label }: { image: string; label: string }) {
   );
 }
 
+import { HeroHeader } from "@/components/hero-header";
+
 export default async function Home() {
   const videos = await VideoRepository.getAll();
   return (
-    <main className="relative min-h-screen p-6 overflow-hidden">
-      <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="mb-8 p-6">
-          <div className="text-center mb-6">
+    <>
+      <HeroHeader variant="home" />
+      <main className="relative min-h-screen p-6 overflow-hidden">
+        <div className="relative z-10 max-w-7xl mx-auto">
+        <div className="my-8 p-6">
+          <div className="text-center mb-6 mt-8">
             <h1 className="text-4xl font-bold tracking-tighter">Vidiopintar</h1>
             <p className="tracking-tight">What do you want to learn today?</p>
           </div>
@@ -75,6 +79,7 @@ export default async function Home() {
         <VideoList videos={videos} />
       </div>
     </main>
+    </>
   );
 }
 

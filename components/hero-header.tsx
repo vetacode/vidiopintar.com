@@ -1,11 +1,11 @@
 'use client'
 import Link from 'next/link'
-import { Logo } from './logo'
 import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
+import { useRouter } from 'next/navigation'
 
 const menuItems = [
     { name: 'Features', href: '#link' },
@@ -14,9 +14,16 @@ const menuItems = [
     { name: 'About', href: '#link' },
 ]
 
-export const HeroHeader = () => {
+type HeroHeaderVariant = "landing" | "home";
+
+interface HeroHeaderProps {
+  variant?: HeroHeaderVariant;
+}
+
+export const HeroHeader = ({ variant = "landing" }: HeroHeaderProps) => {
     const [menuState, setMenuState] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
+    const router = useRouter();
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -30,7 +37,7 @@ export const HeroHeader = () => {
             <nav
                 data-state={menuState && 'active'}
                 className="fixed z-20 w-full px-2">
-                <div className={cn('mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12', isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5')}>
+                <div className={cn('mx-auto mt-2 max-w-4xl transition-all duration-300 px-5', isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5')}>
                     <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                         <div className="flex w-full justify-between lg:w-auto">
                             <Link
@@ -52,7 +59,7 @@ export const HeroHeader = () => {
 
                         <div className="absolute inset-0 m-auto hidden size-fit lg:block">
                             <ul className="flex gap-8 text-sm">
-                                {menuItems.map((item, index) => (
+                                {variant === "landing" && menuItems.map((item, index) => (
                                     <li key={index}>
                                         <Link
                                             href={item.href}
@@ -81,19 +88,36 @@ export const HeroHeader = () => {
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 {(() => {
                                     const user = useAuthStore.getState().user;
+                                    const logout = useAuthStore.getState().logout;
                                     if (user) {
-                                        // Authenticated: show Home button
-                                        return (
-                                            <Link href="/home">
-                                                <Button
-                                                    asChild
-                                                    size="sm"
-                                                    className="lg:inline-flex"
-                                                >
+                                        if (variant === "landing") {
+                                            // Show Home button on landing page
+                                            return (
+                                                <Link href="/home">
+                                                    <Button
+                                                        asChild
+                                                        size="sm"
+                                                        className="lg:inline-flex"
+                                                    >
                                                         <span>Home</span>
+                                                    </Button>
+                                                </Link>
+                                            );
+                                        } else if (variant === "home") {
+                                            // Show Logout button on home page
+                                            return (
+                                                <Button
+                                                    size="sm"
+                                                    className="lg:inline-flex cursor-pointer"
+                                                    onClick={async () => {
+                                                        await logout();
+                                                        router.push('/home');
+                                                    }}
+                                                >
+                                                    Logout
                                                 </Button>
-                                            </Link>
-                                        );
+                                            );
+                                        }
                                     } else {
                                         // Not authenticated: show Login and Signup
                                         return <>
@@ -121,8 +145,8 @@ export const HeroHeader = () => {
                                                 size="sm"
                                                 className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}
                                             >
-                                                <Link href="/home">
-                                                    <span>Get Started</span>
+                                                <Link href="/login">
+                                                    <span>Login</span>
                                                 </Link>
                                             </Button>
                                         </>;

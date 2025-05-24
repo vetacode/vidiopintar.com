@@ -7,6 +7,7 @@ interface AuthState {
   isLoading: boolean
   setUser: (user: User | null) => void
   setLoading: (loading: boolean) => void
+  logout: () => Promise<void>
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -14,6 +15,11 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoading: true, // Initially true until the first auth check completes
   setUser: (user) => set({ user, isLoading: false }),
   setLoading: (loading) => set({ isLoading: loading }),
+  logout: async () => {
+    const supabase = createSupabaseBrowserClient();
+    await supabase.auth.signOut();
+    set({ user: null });
+  },
 }))
 
 // Function to initialize auth state, can be called in a root layout or provider
