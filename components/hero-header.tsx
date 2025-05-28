@@ -4,7 +4,6 @@ import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
-import { useAuthStore } from '@/store/authStore'
 import { useRouter } from 'next/navigation'
 
 const menuItems = [
@@ -84,74 +83,6 @@ export const HeroHeader = ({ variant = "landing" }: HeroHeaderProps) => {
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
-                            <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                {(() => {
-                                    const user = useAuthStore.getState().user;
-                                    const logout = useAuthStore.getState().logout;
-                                    if (user) {
-                                        if (variant === "landing") {
-                                            // Show Home button on landing page
-                                            return (
-                                                <Link href="/home">
-                                                    <Button
-                                                        asChild
-                                                        size="sm"
-                                                        className="lg:inline-flex"
-                                                    >
-                                                        <span>Home</span>
-                                                    </Button>
-                                                </Link>
-                                            );
-                                        } else if (variant === "home") {
-                                            // Show Logout button on home page
-                                            return (
-                                                <Button
-                                                    size="sm"
-                                                    className="lg:inline-flex cursor-pointer"
-                                                    onClick={async () => {
-                                                        await logout();
-                                                        router.push('/home');
-                                                    }}
-                                                >
-                                                    Logout
-                                                </Button>
-                                            );
-                                        }
-                                    } else {
-                                        // Not authenticated: show Login and Signup
-                                        return <>
-                                            <Button
-                                                asChild
-                                                variant="outline"
-                                                size="sm"
-                                                className={cn(isScrolled && 'lg:hidden')}
-                                            >
-                                                <Link href="/login">
-                                                    <span>Login</span>
-                                                </Link>
-                                            </Button>
-                                            <Button
-                                                asChild
-                                                size="sm"
-                                                className={cn(isScrolled && 'lg:hidden')}
-                                            >
-                                                <Link href="/signup">
-                                                    <span>Sign Up</span>
-                                                </Link>
-                                            </Button>
-                                            <Button
-                                                asChild
-                                                size="sm"
-                                                className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}
-                                            >
-                                                <Link href="/login">
-                                                    <span>Login</span>
-                                                </Link>
-                                            </Button>
-                                        </>;
-                                    }
-                                })()}
                             </div>
                         </div>
                     </div>
