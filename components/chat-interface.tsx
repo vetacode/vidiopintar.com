@@ -80,8 +80,8 @@ function ChatInterface({ videoId, initialMessages, quickStartQuestions }: ChatIn
           ) : (
             <>
               {messages.map((message: any) => (
-                <div key={message.id} className={cn("p-4", message.role === "user" ? "bg-white dark:bg-black" : "bg-white/10 dark:bg-black/90")}>
-                  <p className={cn("text-sm pb-3 opacity-50", message.role === "user" ? "text-foreground" : "text-muted-foreground")}>
+                <div key={message.id} className={cn("p-4", message.role === "user" ? "bg-white dark:bg-black" : "bg-white/15 dark:bg-black/90")}>
+                  <p className={cn("text-sm pb-3 text-muted-foreground tracking-tight font-medium")}>
                     {message.role === "user" ? "You" : "Vidiopintar"}
                   </p>
                   {message.parts && message.parts.map((part: any, i: number) => {
