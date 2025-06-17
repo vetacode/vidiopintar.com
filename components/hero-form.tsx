@@ -1,6 +1,4 @@
 import { handleVideoSubmit } from "@/app/actions"
-import { Button } from '@/components/ui/button'
-import { SendHorizonal, Loader } from 'lucide-react'
 import { SubmitButton } from "./submit-button"
 
 export function FormStartLearning() {
