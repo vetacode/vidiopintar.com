@@ -171,7 +171,7 @@ Focus on questions that:
 - Encourage critical thinking
 - Help identify connections between ideas
 
-Present only the 4 questions without additional explanation or preamble.
+Present only the 4 questions without additional explanation or preamble - don't include the number.
 
 Here is the transcript:
 
