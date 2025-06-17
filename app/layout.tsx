@@ -33,7 +33,7 @@ export default function RootLayout({
         strategy="afterInteractive"
       />
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="light">
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem storageKey="vidiopintar-theme">
           {children}
           <Toaster />
         </ThemeProvider>

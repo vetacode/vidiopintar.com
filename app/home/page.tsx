@@ -1,6 +1,5 @@
 import { VideoRepository } from "@/lib/db/repository";
 import VideoSubmitForm from "@/components/video-submit-form";
-import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { VideoList } from "@/components/video-list";
 
@@ -53,6 +52,7 @@ function CategoryCard({ image, label }: { image: string; label: string }) {
 }
 
 import { HeroHeader } from "@/components/hero-header";
+import FooterSection from "@/components/footer";
 
 export default async function Home() {
   const videos = await VideoRepository.getAll();
@@ -79,6 +79,7 @@ export default async function Home() {
         <VideoList videos={videos} />
       </div>
     </main>
+    <FooterSection />
     </>
   );
 }
