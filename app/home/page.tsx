@@ -55,7 +55,7 @@ function CategoryCard({ image, label }: { image: string; label: string }) {
 import { HeroHeader } from "@/components/hero-header";
 
 export default async function Home() {
-  // const videos = await VideoRepository.getAll();
+  const videos = await VideoRepository.getAll();
   return (
     <>
       <HeroHeader variant="home" />
@@ -76,7 +76,7 @@ export default async function Home() {
             ))}
           </div>
         </div>
-        {/* <VideoList videos={videos} /> */}
+        <VideoList videos={videos} />
       </div>
     </main>
     </>
