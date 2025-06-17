@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Search, X } from "lucide-react"
+import { formatTime } from "@/lib/utils";
 import FuzzySearch from 'fuzzy-search'
 
 interface TranscriptSegment {
@@ -80,10 +81,4 @@ export default function TranscriptView({ transcript }: TranscriptViewProps) {
       </ScrollArea>
     </div>
   )
-}
-
-function formatTime(seconds: number): string {
-  const minutes = Math.floor(seconds / 60)
-  const remainingSeconds = Math.floor(seconds % 60)
-  return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`
 }

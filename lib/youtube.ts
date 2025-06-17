@@ -3,6 +3,7 @@ import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
 import { z } from 'zod';
 import { generateSummary } from "@/lib/ai/summary";
+import { formatTime } from "@/lib/utils";
 
 export async function fetchVideoDetails(videoId: string) {
   try {
@@ -144,12 +145,6 @@ export async function fetchVideoTranscript(videoId: string) {
       segments: [],
     }
   }
-}
-
-function formatTime(seconds: number): string {
-  const minutes = Math.floor(seconds / 60)
-  const remainingSeconds = Math.floor(seconds % 60)
-  return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`
 }
 
 export async function generateQuickStartQuestions(summary: string) {
