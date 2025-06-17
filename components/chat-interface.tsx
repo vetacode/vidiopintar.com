@@ -52,7 +52,7 @@ function ChatInterface({ videoId, initialMessages, quickStartQuestions }: ChatIn
     <div ref={mainContainerRef} className="bg-gray-50 dark:bg-black flex flex-col overflow-hidden border-l h-screen">
       <div className="flex-grow pb-32 overflow-y-auto scrollbar-none">
         <div className="p-4 border-b bg-white dark:bg-black sticky top-0 z-50">
-          <h2 className="font-semibold tracking-tight dark:text-foreground">Untitled</h2>
+          <h2 className="font-semibold tracking-tight dark:text-foreground">Chat</h2>
         </div>
         <div className={cn("w-full", messages.length === 0 ? "h-full" : "")}>
           {messages.length === 0 ? (
