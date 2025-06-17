@@ -10,7 +10,7 @@ export const maxDuration = 60;
 export default function Page() {
   return (
     <>
-      <HeroHeader variant="landing" />
+      <HeroHeader />
       <HeroSection />
       <Features />
       <Testimonials />

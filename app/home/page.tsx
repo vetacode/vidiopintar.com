@@ -58,7 +58,7 @@ export default async function Home() {
   const videos = await VideoRepository.getAll();
   return (
     <>
-      <HeroHeader variant="home" />
+      <HeroHeader />
       <main className="relative min-h-screen p-6 overflow-hidden">
         <div className="relative z-10 max-w-7xl mx-auto">
         <div className="my-8 p-6">
