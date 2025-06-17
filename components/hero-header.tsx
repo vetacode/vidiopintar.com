@@ -4,25 +4,17 @@ import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { cn } from '@/lib/utils'
-import { useRouter } from 'next/navigation'
 
 const menuItems = [
     { name: 'Features', href: '#link' },
-    { name: 'Testimonials', href: '#link' },
+    { name: 'Solution', href: '#link' },
     { name: 'Pricing', href: '#link' },
     { name: 'About', href: '#link' },
 ]
 
-type HeroHeaderVariant = "landing" | "home";
-
-interface HeroHeaderProps {
-  variant?: HeroHeaderVariant;
-}
-
-export const HeroHeader = ({ variant = "landing" }: HeroHeaderProps) => {
+export const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false)
     const [isScrolled, setIsScrolled] = React.useState(false)
-    const router = useRouter();
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -36,14 +28,13 @@ export const HeroHeader = ({ variant = "landing" }: HeroHeaderProps) => {
             <nav
                 data-state={menuState && 'active'}
                 className="fixed z-20 w-full px-2">
-                <div className={cn('mx-auto mt-2 max-w-4xl transition-all duration-300 px-5', isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5')}>
+                <div className={cn('mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12', isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5')}>
                     <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                         <div className="flex w-full justify-between lg:w-auto">
                             <Link
                                 href="/"
                                 aria-label="home"
                                 className="flex items-center space-x-2 tracking-tight">
-                                {/* <Logo /> */}
                                 Vidiopintar
                             </Link>
 
@@ -58,7 +49,7 @@ export const HeroHeader = ({ variant = "landing" }: HeroHeaderProps) => {
 
                         <div className="absolute inset-0 m-auto hidden size-fit lg:block">
                             <ul className="flex gap-8 text-sm">
-                                {variant === "landing" && menuItems.map((item, index) => (
+                                {menuItems.map((item, index) => (
                                     <li key={index}>
                                         <Link
                                             href={item.href}
@@ -83,6 +74,33 @@ export const HeroHeader = ({ variant = "landing" }: HeroHeaderProps) => {
                                         </li>
                                     ))}
                                 </ul>
+                            </div>
+                            <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+                                <Button
+                                    asChild
+                                    variant="outline"
+                                    size="sm"
+                                    className={cn(isScrolled && 'lg:hidden')}>
+                                    <Link href="/login">
+                                        <span>Login</span>
+                                    </Link>
+                                </Button>
+                                <Button
+                                    asChild
+                                    size="sm"
+                                    className={cn(isScrolled && 'lg:hidden')}>
+                                    <Link href="/register">
+                                        <span>Sign Up</span>
+                                    </Link>
+                                </Button>
+                                <Button
+                                    asChild
+                                    size="sm"
+                                    className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
+                                    <Link href="/login">
+                                        <span>Get Started</span>
+                                    </Link>
+                                </Button>
                             </div>
                         </div>
                     </div>
