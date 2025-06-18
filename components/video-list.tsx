@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { videos } from '@/lib/db/schema'
 import { type InferSelectModel } from 'drizzle-orm'
-import { useDeleteVideoDialogStore } from '@/store/dialog-store';
+import { useDeleteVideoDialogStore } from '@/lib/store/dialog-store';
 import { DeleteVideoDialog } from './delete-video-dialog';
 
 type Video = InferSelectModel<typeof videos>;

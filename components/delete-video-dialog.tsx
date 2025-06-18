@@ -10,7 +10,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { useDeleteVideoDialogStore } from '@/store/dialog-store'
+import { useDeleteVideoDialogStore } from '@/lib/store/dialog-store'
 import { handleDeleteVideo } from "@/app/actions"
 import React from 'react'
 import { SubmitButton } from "./submit-button"
