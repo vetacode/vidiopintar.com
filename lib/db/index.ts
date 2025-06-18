@@ -2,7 +2,7 @@ import { Pool } from 'pg';
 import { neon, neonConfig } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { drizzle as drizzlePg } from 'drizzle-orm/node-postgres';
-import 'dotenv/config';
+import { env } from '../env/server';
 
 declare global {
   var pg: Pool | undefined;
@@ -11,13 +11,13 @@ declare global {
 // For server components and API routes
 let pool: Pool;
 
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = env.DATABASE_URL;
 
 if (!databaseUrl) {
   throw new Error('DATABASE_URL environment variable is not set');
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (env.NODE_ENV === 'production') {
   pool = new Pool({
     connectionString: databaseUrl,
     ssl: {
