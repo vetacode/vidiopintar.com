@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import 'dotenv/config';
+import { env } from '../env/server';
 
 // Declare global types for the connection pool
 declare global {
@@ -7,13 +7,11 @@ declare global {
 }
 
 let pool: Pool;
-const databaseUrl = process.env.DATABASE_URL;
+const databaseUrl = env.DATABASE_URL;
 
-if (!databaseUrl) {
-  throw new Error('DATABASE_URL environment variable is not set');
-}
+console.log('env.DATABASE_URL', env.DATABASE_URL)
 
-if (process.env.NODE_ENV === 'production') {
+if (env.NODE_ENV === 'production') {
   pool = new Pool({
     connectionString: databaseUrl,
     ssl: {
