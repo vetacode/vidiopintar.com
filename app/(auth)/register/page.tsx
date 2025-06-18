@@ -1,10 +1,19 @@
-import { LogoIcon } from '@/components/logo'
+"use client";
+
+import { authClient } from "@/lib/auth-client";
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 
 export default function LoginPage() {
+    const signUpWithGoogle = async () => {
+        const result = await authClient.signIn.social({
+            provider: "google",
+            callbackURL: "/home",
+        });
+        console.log(result);
+    };
     return (
         <section className="flex min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent">
             <form
@@ -23,9 +32,10 @@ export default function LoginPage() {
 
                     <div className="mt-6">
                         <Button
+                            onClick={signUpWithGoogle}
                             type="button"
                             variant="outline"
-                            className="w-full">
+                            className="w-full cursor-pointer">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="0.98em"

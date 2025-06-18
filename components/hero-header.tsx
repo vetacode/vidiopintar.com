@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import React from 'react'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const menuItems = [
     { name: 'Features', href: '#link' },
@@ -19,7 +21,13 @@ export const HeroHeader = () => {
     const [isScrolled, setIsScrolled] = React.useState(false)
     const pathname = usePathname()
     const isHome = pathname === '/'
+    const router = useRouter();
 
+    const handleLogout = async () => {
+      await authClient.signOut();
+      router.push("/");
+    };
+  
     React.useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50)
@@ -115,10 +123,7 @@ export const HeroHeader = () => {
                                     </>
                                 ) : (
                                     <Button
-                                        onClick={() => {
-                                            // Handle logout - redirecting to home page
-                                            window.location.href = '/';
-                                        }}
+                                        onClick={handleLogout}
                                         variant="outline"
                                         size="sm"
                                         className="flex items-center gap-2">
