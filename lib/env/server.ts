@@ -12,6 +12,7 @@ export const env = createEnv({
     DB_NAME: z.string().min(1),
     GOOGLE_CLIENT_ID: z.string().min(1),
     GOOGLE_CLIENT_SECRET: z.string().min(1),
+    BETTER_AUTH_URL: z.string().min(1),
   },
   createFinalSchema: env => {
     return z.object(env).transform(val => {
