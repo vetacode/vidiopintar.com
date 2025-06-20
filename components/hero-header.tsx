@@ -24,7 +24,6 @@ export const HeroHeader = () => {
     const router = useRouter();
     const { data: session } = authClient.useSession();
 
-
     const handleLogout = async () => {
         await authClient.signOut();
         router.push("/");
