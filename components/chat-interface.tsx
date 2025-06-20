@@ -31,11 +31,6 @@ export function ChatInterface({ videoId, initialMessages, quickStartQuestions }:
     api: '/api/chat',
     initialMessages,
     body: { videoId },
-    onFinish: (message, options) => {
-      if (options.finishReason === "stop") {
-        // textareaRef.current?.focus();
-      }
-    }
   });
 
   return (
@@ -44,33 +39,32 @@ export function ChatInterface({ videoId, initialMessages, quickStartQuestions }:
         <h2 className="font-semibold tracking-tight dark:text-foreground">Chat</h2>
       </div>
       <ChatContainerRoot className="flex-1">
-        <ChatContainerContent className="space-y-4 p-4">
-          {messages.length === 0 ? (
-            <div className="flex flex-col gap-4 p-4 h-full">
-              <div>
-                <p className="text-left py-2 text-foreground/75 font-semibold tracking-tight">
-                  Start your video chat with these quick questions!
-                </p>
-              </div>
-              <div className="flex flex-col gap-2">
-                {quickStartQuestions.map((question, index) => (
-                  <form
-                    key={index}
-                    onSubmit={(e) => {
-                      handleSubmit(e as any);
-                    }}>
-                      <button
-                        type="submit"
-                        onClick={() => flushSync(() => setInput(question))}
-                        className="text-sm text-left p-2 rounded bg-secondary border border-border/25 text-foreground/85 cursor-pointer hover:border-accent-foreground/75">
-                        {question}
-                      </button>
-                  </form>
-                ))}
-              </div>
+        {messages.length === 0 ? (
+          <div className="flex flex-col gap-4 p-4 h-full justify-center">
+            <div>
+              <p className="text-left py-2 text-foreground/75 font-semibold tracking-tight">
+                Start your video chat with these quick questions!
+              </p>
             </div>
-          ) : (
-          <>
+            <div className="flex flex-col gap-2">
+              {quickStartQuestions.map((question, index) => (
+                <form
+                  key={index}
+                  onSubmit={(e) => {
+                    handleSubmit(e as any);
+                  }}>
+                  <button
+                    type="submit"
+                    onClick={() => flushSync(() => setInput(question))}
+                    className="text-sm text-left p-2 rounded bg-secondary border border-border/25 text-foreground/85 cursor-pointer hover:border-accent-foreground/75">
+                    {question}
+                  </button>
+                </form>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <ChatContainerContent className="space-y-4 p-4">
             {messages.map((message) => {
               const isAssistant = message.role === "assistant"
               return (
@@ -96,8 +90,8 @@ export function ChatInterface({ videoId, initialMessages, quickStartQuestions }:
                 </Message>
               )
             })}
-          </>)}
-        </ChatContainerContent>
+          </ChatContainerContent>
+        )}
       </ChatContainerRoot>
       <div className="p-4">
         <PromptInput
