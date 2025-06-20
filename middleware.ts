@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
     const sessionCookie = getSessionCookie(request);
     const { pathname, origin } = request.nextUrl;
 
-    if (!sessionCookie) {
+    if (!sessionCookie && !(pathname === "/login" || pathname === "/register")) {
         return NextResponse.redirect(new URL("/", request.url));
     }
 
