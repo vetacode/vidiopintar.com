@@ -76,7 +76,7 @@ export function ChatInterface({ videoId, initialMessages, quickStartQuestions }:
                 >
                   {isAssistant ? (
                     <div className="max-w-full flex-1 sm:max-w-full">
-                      <div className="prose prose-sm p-2">
+                      <div className="prose prose-sm p-2 max-w-none">
                         <Markdown>{message.content}</Markdown>
                       </div>
                     </div>
@@ -99,7 +99,7 @@ export function ChatInterface({ videoId, initialMessages, quickStartQuestions }:
           onValueChange={(value) => setInput(value)}
           isLoading={status === "streaming"}
           onSubmit={handleSubmit}
-          className="w-full max-w-(--breakpoint-md)"
+          className="w-full"
         >
           <PromptInputTextarea placeholder="Ask me anything..." />
           <PromptInputActions className="justify-end pt-2">
