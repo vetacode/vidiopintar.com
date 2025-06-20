@@ -2,17 +2,8 @@ import { getSessionCookie } from "better-auth/cookies";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
-    const response = NextResponse.next();
-    // Handle OPTIONS preflight request
-    if (request.method === 'OPTIONS') {
-      return new Response(null, {
-        status: 204,
-        headers: response.headers,
-      });
-    }
-  
     const sessionCookie = getSessionCookie(request);
-    const { pathname, origin } = request.nextUrl;
+    const { pathname } = request.nextUrl;
 
     const isAuthUrl = pathname === "/login" || pathname === "/register";
 
@@ -24,7 +15,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/", request.url));
     }
 
-    return response;
+    return NextResponse.next();
 }
 
 export const config = {
