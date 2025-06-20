@@ -11,6 +11,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/home", request.url));
     }
 
+    // Redirect unauthenticated users to home page if they're trying to access protected routes except auth url
     if (!sessionCookie && !isAuthUrl) {
         return NextResponse.redirect(new URL("/", request.url));
     }
