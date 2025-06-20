@@ -22,12 +22,14 @@ export const HeroHeader = () => {
     const pathname = usePathname()
     const isHome = pathname === '/'
     const router = useRouter();
+    const { data: session } = authClient.useSession();
+
 
     const handleLogout = async () => {
-      await authClient.signOut();
-      router.push("/");
+        await authClient.signOut();
+        router.push("/");
     };
-  
+
     React.useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50)
@@ -62,24 +64,7 @@ export const HeroHeader = () => {
 
                         {isHome && (
                             <div className="absolute inset-0 m-auto hidden size-fit lg:block">
-                            <ul className="flex gap-8 text-sm">
-                                {menuItems.map((item, index) => (
-                                    <li key={index}>
-                                        <Link
-                                            href={item.href}
-                                            className="text-muted-foreground hover:text-accent-foreground block duration-150">
-                                            <span>{item.name}</span>
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                                                    </div>
-                        )}
-
-                        <div className="bg-background in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
-                            {isHome && (
-                                <div className="lg:hidden">
-                                <ul className="space-y-6 text-base">
+                                <ul className="flex gap-8 text-sm">
                                     {menuItems.map((item, index) => (
                                         <li key={index}>
                                             <Link
@@ -91,35 +76,65 @@ export const HeroHeader = () => {
                                     ))}
                                 </ul>
                             </div>
+                        )}
+
+                        <div className="bg-background in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
+                            {isHome && (
+                                <div className="lg:hidden">
+                                    <ul className="space-y-6 text-base">
+                                        {menuItems.map((item, index) => (
+                                            <li key={index}>
+                                                <Link
+                                                    href={item.href}
+                                                    className="text-muted-foreground hover:text-accent-foreground block duration-150">
+                                                    <span>{item.name}</span>
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             )}
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 {isHome ? (
                                     <>
-                                        <Button
-                                            asChild
-                                            variant="outline"
-                                            size="sm"
-                                            className={cn(isScrolled && 'lg:hidden')}>
-                                            <Link href="/login">
-                                                <span>Login</span>
-                                            </Link>
-                                        </Button>
-                                        <Button
-                                            asChild
-                                            size="sm"
-                                            className={cn(isScrolled && 'lg:hidden')}>
-                                            <Link href="/register">
-                                                <span>Sign Up</span>
-                                            </Link>
-                                        </Button>
-                                        <Button
-                                            asChild
-                                            size="sm"
-                                            className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
-                                            <Link href="/home">
-                                                <span>Get Started</span>
-                                            </Link>
-                                        </Button>
+                                        {session ? (
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="flex items-center gap-2">
+                                                <Link href="/home">
+                                                    <span>Home</span>
+                                                </Link>
+                                            </Button>
+                                        ) : (
+                                            <>
+                                                <Button
+                                                    asChild
+                                                    variant="outline"
+                                                    size="sm"
+                                                    className={cn(isScrolled && 'lg:hidden')}>
+                                                    <Link href="/login">
+                                                        <span>Login</span>
+                                                    </Link>
+                                                </Button>
+                                                <Button
+                                                    asChild
+                                                    size="sm"
+                                                    className={cn(isScrolled && 'lg:hidden')}>
+                                                    <Link href="/register">
+                                                        <span>Sign Up</span>
+                                                    </Link>
+                                                </Button>
+                                                <Button
+                                                    asChild
+                                                    size="sm"
+                                                    className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
+                                                    <Link href="/home">
+                                                        <span>Get Started</span>
+                                                    </Link>
+                                                </Button>
+                                            </>
+                                        )}
                                     </>
                                 ) : (
                                     <Button
