@@ -1,20 +1,27 @@
+"use client";
+
 import { handleVideoSubmit } from "@/app/actions"
-import { Textarea } from './ui/textarea'
 import { SubmitButton } from "./submit-button";
+import { PromptInput, PromptInputTextarea, PromptInputActions, PromptInputAction } from "@/components/ui/prompt-input"
+import { useState } from "react";
 
 export default function VideoSubmitForm() {
+  const [input, setInput] = useState("")
   return (
     <form action={handleVideoSubmit} className="space-y-4 max-w-md mx-auto mb-8">
-      <div className="relative border rounded-3xl p-3 pt-4">
-        <Textarea
+      <PromptInput
+        value={input}
+        onValueChange={(value) => setInput(value)}>
+        <PromptInputTextarea
           name="videoUrl"
           placeholder="Paste YouTube link here..."
-          className="min-h-[24px] max-h-[160px] w-full border-0 bg-transparent text-foreground placeholder:text-gray-400 placeholder:text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-sm pl-1.5 pr-4 pt-0 pb-0 resize-none overflow-y-auto leading-tight"
           required
         />
-        <div className="flex justify-end">
+        <PromptInputActions className="justify-end pt-2">
           <SubmitButton label="Go" />
-        </div>
+        </PromptInputActions>
+      </PromptInput>
+      <div className="flex justify-end">
       </div>
     </form>
   )
