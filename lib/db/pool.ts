@@ -9,8 +9,6 @@ declare global {
 let pool: Pool;
 const databaseUrl = env.DATABASE_URL;
 
-console.log('env.DATABASE_URL', env.DATABASE_URL)
-
 if (env.NODE_ENV === 'production') {
   pool = new Pool({
     connectionString: databaseUrl,

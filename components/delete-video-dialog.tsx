@@ -25,7 +25,6 @@ export function DeleteVideoDialog() {
         if (state.success) {
             closeDialog();
         }
-        console.log(state.errors);
       }, [state]);
     
     return (

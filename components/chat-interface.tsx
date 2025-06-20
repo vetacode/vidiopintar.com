@@ -34,7 +34,6 @@ function ChatInterface({ videoId, initialMessages, quickStartQuestions }: ChatIn
     initialMessages,
     body: { videoId },
     onFinish: (message, options) => {
-      console.log(message, options);
       if (options.finishReason === "stop") {
         textareaRef.current?.focus();
       }
