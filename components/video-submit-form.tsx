@@ -15,6 +15,7 @@ export default function VideoSubmitForm() {
         <PromptInputTextarea
           name="videoUrl"
           placeholder="Paste YouTube link here..."
+          className="bg-transparent!"
           required
         />
         <PromptInputActions className="justify-end pt-2">
