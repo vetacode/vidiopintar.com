@@ -102,9 +102,9 @@ export const HeroHeader = () => {
                                                 variant="outline"
                                                 size="sm"
                                                 className="flex items-center gap-2">
-                                                <Link href="/home">
+                                                <a href="/home">
                                                     <span>Home</span>
-                                                </Link>
+                                                </a>
                                             </Button>
                                         ) : (
                                             <>
@@ -113,25 +113,25 @@ export const HeroHeader = () => {
                                                     variant="outline"
                                                     size="sm"
                                                     className={cn(isScrolled && 'lg:hidden')}>
-                                                    <Link href="/login">
+                                                    <a href="/login">
                                                         <span>Login</span>
-                                                    </Link>
+                                                    </a>
                                                 </Button>
                                                 <Button
                                                     asChild
                                                     size="sm"
                                                     className={cn(isScrolled && 'lg:hidden')}>
-                                                    <Link href="/register">
+                                                    <a href="/register">
                                                         <span>Sign Up</span>
-                                                    </Link>
+                                                    </a>
                                                 </Button>
                                                 <Button
                                                     asChild
                                                     size="sm"
                                                     className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
-                                                    <Link href="/home">
+                                                    <a href="/home">
                                                         <span>Get Started</span>
-                                                    </Link>
+                                                    </a>
                                                 </Button>
                                             </>
                                         )}
