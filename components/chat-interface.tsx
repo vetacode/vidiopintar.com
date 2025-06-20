@@ -9,6 +9,7 @@ import { ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import MarkdownRenderer from "./ui/markdown-renderer";
 import { TypingIndicator } from "./ui/typing-indicator";
+import { MessageItem } from "./message-item";
 
 interface ChatInterfaceProps {
   videoId: string;
@@ -48,12 +49,12 @@ function ChatInterface({ videoId, initialMessages, quickStartQuestions }: ChatIn
   }, [messages]);
 
   return (
-    <div ref={mainContainerRef} className="bg-gray-50 dark:bg-black flex flex-col overflow-hidden border-l h-screen">
+    <div ref={mainContainerRef} className="bg-white dark:bg-black flex flex-col overflow-hidden border-l h-screen">
       <div className="flex-grow pb-32 overflow-y-auto scrollbar-none">
         <div className="p-4 border-b bg-white dark:bg-black sticky top-0 z-50">
           <h2 className="font-semibold tracking-tight dark:text-foreground">Chat</h2>
         </div>
-        <div className={cn("w-full", messages.length === 0 ? "h-full" : "")}>
+        <div className={cn("w-full p-2", messages.length === 0 ? "h-full" : "")}>
           {messages.length === 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 p-4 h-full place-content-center">
                 <div>
@@ -78,19 +79,7 @@ function ChatInterface({ videoId, initialMessages, quickStartQuestions }: ChatIn
             </div>
           ) : (
             <>
-              {messages.map((message: any) => (
-                <div key={message.id} className={cn("p-4", message.role === "user" ? "bg-white dark:bg-black" : "bg-white/15 dark:bg-black/90")}>
-                  <p className={cn("text-sm pb-3 text-muted-foreground tracking-tight font-medium")}>
-                    {message.role === "user" ? "You" : "Vidiopintar"}
-                  </p>
-                  {message.parts && message.parts.map((part: any, i: number) => {
-                    if (part.type === 'text') {
-                        return <MarkdownRenderer key={i}>{part.text}</MarkdownRenderer>
-                    }
-                    return null
-                  })}
-                </div>
-              ))}
+              {messages.map((message: any) => <MessageItem key={message.id} message={message} />)}
               <div ref={messagesEndRef} />
               {status === "streaming" || status === "submitted" && (
                 <div className="py-4">
