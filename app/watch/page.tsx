@@ -27,7 +27,7 @@ export default function WatchPage({ searchParams }: { searchParams: { v?: string
 
   return (
     <div className="container mx-auto py-12 text-center flex flex-col items-center justify-center min-h-screen">
-      <Suspense fallback={<LoadingSpinner text="Processing video..." />}>
+      <Suspense fallback={<LoadingSpinner text="Please wait processing video..." />}>
         <ProcessAndRedirect videoUrl={`https://www.youtube.com/watch?v=${searchParams.v}`} />
       </Suspense>
     </div>
