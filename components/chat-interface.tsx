@@ -53,7 +53,7 @@ export function ChatInterface({ videoId, initialMessages, quickStartQuestions }:
       <ChatContainerRoot className="flex-1">
         <ChatContainerContent className="space-y-4 p-4">
           {messages.length === 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4 p-4 h-full place-content-center">
+            <div className="flex flex-col gap-4 p-4 h-full">
               <div>
                 <p className="text-left py-2 text-foreground/75 font-semibold tracking-tight">
                   Start your video chat with these quick questions!

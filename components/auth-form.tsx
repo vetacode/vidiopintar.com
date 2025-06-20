@@ -11,11 +11,14 @@ export function AuthForm() {
     const signInWithGoogle = async () => {
         try {
             setLoading(true);
+            // Set localStorage before redirect
+            localStorage.setItem('isAuthenticated', JSON.stringify({ authenticated: true }));
             await authClient.signIn.social({
                 provider: "google",
                 callbackURL: "/home",
             });
         } catch (error) {
+            localStorage.setItem('isAuthenticated', JSON.stringify({ authenticated: false }));
             console.log(error);
             toast.error("Failed to sign in with Google");
         } finally {

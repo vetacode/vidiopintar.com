@@ -22,12 +22,35 @@ export const HeroHeader = () => {
     const pathname = usePathname()
     const isHome = pathname === '/'
     const router = useRouter();
-    const { data: session } = authClient.useSession();
+    const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+    React.useEffect(() => {
+        // Check localStorage for authentication status
+        const auth = localStorage.getItem('isAuthenticated');
+        try {
+            const parsed = auth ? JSON.parse(auth) : null;
+            setIsAuthenticated(parsed?.authenticated === true);
+        } catch {
+            setIsAuthenticated(false);
+        }
+
+        // Listen for changes in localStorage from other tabs/windows
+        const handleStorage = (event: StorageEvent) => {
+            if (event.key === 'isAuthenticated') {
+                setIsAuthenticated(event.newValue === 'true');
+            }
+        };
+        window.addEventListener('storage', handleStorage);
+        return () => window.removeEventListener('storage', handleStorage);
+    }, []);
 
     const handleLogout = async () => {
         await authClient.signOut();
+        localStorage.setItem('isAuthenticated', JSON.stringify({ authenticated: false }));
+        setIsAuthenticated(false);
         router.push("/");
     };
+
 
     React.useEffect(() => {
         const handleScroll = () => {
@@ -96,7 +119,7 @@ export const HeroHeader = () => {
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 {isHome ? (
                                     <>
-                                        {session ? (
+                                        {isAuthenticated ? (
                                             <Button
                                                 variant="outline"
                                                 size="sm"

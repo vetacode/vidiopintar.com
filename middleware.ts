@@ -4,8 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(request: NextRequest) {
     const sessionCookie = getSessionCookie(request);
 
-    console.log({ sessionCookie })
-
     if (!sessionCookie) {
         if (request.nextUrl.pathname === "/login" || request.nextUrl.pathname === "/register") {
             return NextResponse.next();
