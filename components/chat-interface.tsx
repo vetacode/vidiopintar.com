@@ -1,24 +1,18 @@
 "use client"
 
-import {
-  ChatContainerContent,
-  ChatContainerRoot,
-} from "@/components/ui/chat-container"
-import { Markdown } from "@/components/ui/markdown"
-import {
-  Message,
-  MessageContent,
-} from "@/components/ui/message"
 import { useChat } from "@ai-sdk/react";
+import { ArrowUp, Square } from "lucide-react"
+import { flushSync } from "react-dom"
+import { Button } from "@/components/ui/button"
+import { Markdown } from "@/components/ui/markdown"
+import { Message, MessageContent } from "@/components/ui/message"
+import { ChatContainerContent, ChatContainerRoot } from "@/components/ui/chat-container"
 import {
   PromptInput,
   PromptInputAction,
   PromptInputActions,
   PromptInputTextarea,
 } from "@/components/ui/prompt-input"
-import { Button } from "@/components/ui/button"
-import { ArrowUp, Square } from "lucide-react"
-import { flushSync } from "react-dom"
 
 interface ChatInterfaceProps {
   videoId: string;
@@ -31,7 +25,6 @@ export function ChatInterface({ videoId, initialMessages, quickStartQuestions }:
     messages,
     input,
     setInput,
-    handleInputChange,
     handleSubmit,
     status,
   } = useChat({
