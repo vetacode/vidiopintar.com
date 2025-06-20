@@ -3,11 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
-
-    response.headers.set('Access-Control-Allow-Origin', 'https://vidiopintar.com');
-    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  
     // Handle OPTIONS preflight request
     if (request.method === 'OPTIONS') {
       return new Response(null, {
@@ -19,14 +14,14 @@ export async function middleware(request: NextRequest) {
     const sessionCookie = getSessionCookie(request);
     const { pathname, origin } = request.nextUrl;
 
-    if (!sessionCookie && !(pathname === "/login" || pathname === "/register")) {
-        return NextResponse.redirect(new URL("/", request.url));
+    const isAuthUrl = pathname === "/login" || pathname === "/register";
+
+    if (isAuthUrl && sessionCookie) {
+        return NextResponse.redirect(new URL("/home", request.url));
     }
 
-    if (pathname === "/login" || pathname === "/register" && sessionCookie) {
-        const url = new URL(origin);
-        url.pathname = "/home";
-        return NextResponse.redirect(url);
+    if (!sessionCookie && !isAuthUrl) {
+        return NextResponse.redirect(new URL("/", request.url));
     }
 
     return response;
