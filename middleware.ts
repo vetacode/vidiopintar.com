@@ -33,5 +33,6 @@ export const config = {
         "/video/:videoId",
         "/login",
         "/register",
+        "/api/:path*",
     ],
 };
