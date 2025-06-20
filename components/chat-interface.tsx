@@ -19,16 +19,14 @@ import {
 import { Button } from "@/components/ui/button"
 import { ArrowUp, Square } from "lucide-react"
 import { flushSync } from "react-dom"
-import { PromptSuggestion } from "@/components/ui/prompt-suggestion"
 
-interface ChatBasicProps {
+interface ChatInterfaceProps {
   videoId: string;
   quickStartQuestions: string[];
   initialMessages: any[];
 }
 
-export function ChatBasic({ videoId, initialMessages, quickStartQuestions }: ChatBasicProps) {
-
+export function ChatInterface({ videoId, initialMessages, quickStartQuestions }: ChatInterfaceProps) {
   const {
     messages,
     input,

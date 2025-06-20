@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import SummarySection from "@/components/summary-section"
-import { ChatBasic } from "@/components/chat-basic"
+import { ChatInterface } from "@/components/chat-interface"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
   const { videoId } = params;
@@ -65,7 +65,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
           </div>
 
           <div className="lg:col-span-3 flex flex-col h-full md:h-auto relative">
-            <ChatBasic videoId={videoId} initialMessages={messages} quickStartQuestions={quickStartQuestions} />
+            <ChatInterface videoId={videoId} initialMessages={messages} quickStartQuestions={quickStartQuestions} />
           </div>
         </div>
       </div>
