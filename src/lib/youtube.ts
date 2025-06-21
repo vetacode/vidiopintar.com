@@ -38,6 +38,7 @@ export async function fetchVideoDetails(videoId: string) {
         thumbnails: { high: { url: existingVideo.thumbnailUrl || "" } },
         tags: [],
         userVideo,
+        video: existingVideo,
       };
     }
 
@@ -143,8 +144,9 @@ export async function fetchVideoTranscript(videoId: string) {
     // Generate and update summary for the video
     // Only generate summary if none exists
     const video = await VideoRepository.getByYoutubeId(videoId);
+    let userVideo = null;
     if (video) {
-      await saveVideoUser(videoId, video, segments);
+      let userVideo = await saveVideoUser(videoId, video, segments);
       await VideoRepository.upsert({
         youtubeId: videoId,
         title: video.title,
@@ -156,6 +158,7 @@ export async function fetchVideoTranscript(videoId: string) {
     }
     return {
       segments,
+      userVideo
     }
   } catch (error) {
     console.error('Error fetching transcript:', error)

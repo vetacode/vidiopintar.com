@@ -1,4 +1,4 @@
-import { fetchVideoDetails, fetchVideoTranscript, generateQuickStartQuestions } from "@/lib/youtube"
+import { fetchVideoDetails, fetchVideoTranscript, generateQuickStartQuestions, saveVideoUser } from "@/lib/youtube"
 import VideoPlayer from "@/components/video-player"
 import { getChatHistory } from "@/lib/storage"
 import TranscriptView from "@/components/transcript-view"
@@ -13,14 +13,15 @@ export default async function VideoPage({ params }: { params: { videoId: string 
   let videoDetails = await fetchVideoDetails(videoId);
   let transcript = await fetchVideoTranscript(videoId);
   let messages: any[] = []
+  let quickStartQuestions: string[] = [];
+
   if (videoDetails.userVideo) {
     messages = await getChatHistory(videoId, videoDetails.userVideo.id);
   } else {
-    throw new Error("Unathorized access!");
+    videoDetails.userVideo = transcript.userVideo;
   }
 
-  let quickStartQuestions: string[] = [];
-  if (messages.length === 0 && videoDetails.userVideo.summary) {
+  if (messages.length === 0 && videoDetails.userVideo?.summary) {
     quickStartQuestions = await generateQuickStartQuestions(videoDetails.userVideo.summary)
   }
 
@@ -69,7 +70,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
           </div>
 
           <div className="lg:col-span-3 flex flex-col h-full md:h-auto relative">
-            <ChatInterface videoId={videoId} userVideoId={videoDetails.userVideo.id} initialMessages={messages} quickStartQuestions={quickStartQuestions} />
+            <ChatInterface videoId={videoId} userVideoId={videoDetails.userVideo!.id} initialMessages={messages} quickStartQuestions={quickStartQuestions} />
           </div>
         </div>
       </div>
