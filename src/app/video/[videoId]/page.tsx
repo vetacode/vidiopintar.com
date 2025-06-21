@@ -10,12 +10,12 @@ import { ChatInterface } from "@/components/chat-interface"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
   const { videoId } = params;
-  const videoDetails = await fetchVideoDetails(videoId);
-  const transcript = await fetchVideoTranscript(videoId);
+  let videoDetails = await fetchVideoDetails(videoId);
+  let transcript = await fetchVideoTranscript(videoId);
   let messages: any[] = []
   if (videoDetails.userVideo) {
     messages = await getChatHistory(videoId, videoDetails.userVideo.id);
-  }else {
+  } else {
     throw new Error("Unathorized access!");
   }
 

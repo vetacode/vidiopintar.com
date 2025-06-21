@@ -1,4 +1,4 @@
-import { VideoRepository, TranscriptRepository } from "@/lib/db/repository";
+import { VideoRepository, TranscriptRepository, Video } from "@/lib/db/repository";
 import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
 import { z } from 'zod';
@@ -8,7 +8,7 @@ import { formatTime } from "@/lib/utils";
 import { UserVideoRepository } from "@/lib/db/repository";
 import { getCurrentUser } from "./auth";
 
-export async function saveVideoUser(videoId: string, video: any, segments: any[]) {
+export async function saveVideoUser(videoId: string, video: Video, segments: any[]) {
   const user = await getCurrentUser();
   const transcriptText = segments.map((seg: {text: string}) => seg.text);
   const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;

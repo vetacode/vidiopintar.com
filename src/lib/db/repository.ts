@@ -8,10 +8,10 @@ export type UserVideo = InferSelectModel<typeof userVideos>;
 export type NewUserVideo = InferInsertModel<typeof userVideos>;
 
 // Infer types from Drizzle schema
-type Video = InferSelectModel<typeof videos>;
-type NewVideo = InferInsertModel<typeof videos>;
-type Message = InferSelectModel<typeof messages>;
-type NewMessage = InferInsertModel<typeof messages>;
+export type Video = InferSelectModel<typeof videos>;
+export type NewVideo = InferInsertModel<typeof videos>;
+export type Message = InferSelectModel<typeof messages>;
+export type NewMessage = InferInsertModel<typeof messages>;
 
 export const VideoRepository = {
   // Get all user_videos for a user, joined with video details

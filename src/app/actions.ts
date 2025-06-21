@@ -9,23 +9,17 @@ import { getCurrentUser } from "@/lib/auth";
 import { UserVideoRepository } from "@/lib/db/repository";
 import { extractVideoId } from "@/lib/utils";
 
-export async function handleVideoSubmit(formData: FormData) {
-  const videoUrl = formData.get("videoUrl") as string;
-  if (!videoUrl) return;
-
-  const videoId = extractVideoId(videoUrl);
-  if (!videoId) return;
-
+export async function processVideo(youtubeVideoId: string) {
   // Fetch video details and transcript
-  const videoDetails = await fetchVideoDetails(videoId);
-  await fetchVideoTranscript(videoId);
+  const videoDetails = await fetchVideoDetails(youtubeVideoId);
+  await fetchVideoTranscript(youtubeVideoId);
 
   // Get current user (throws if not authenticated)
   const user = await getCurrentUser();
 
   // Upsert the global video entry
   await VideoRepository.upsert({
-    youtubeId: videoId,
+    youtubeId: youtubeVideoId,
     title: videoDetails.title,
     description: videoDetails.description,
     channelTitle: videoDetails.channelTitle,
@@ -40,11 +34,11 @@ export async function handleVideoSubmit(formData: FormData) {
   });
 
   // Create or upsert user_videos entry
-  let userVideo = await UserVideoRepository.getByUserAndYoutubeId(user.id, videoId);
+  let userVideo = await UserVideoRepository.getByUserAndYoutubeId(user.id, youtubeVideoId);
   if (!userVideo) {
     await UserVideoRepository.create({
       userId: user.id,
-      youtubeId: videoId,
+      youtubeId: youtubeVideoId,
       summary: null,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -52,7 +46,17 @@ export async function handleVideoSubmit(formData: FormData) {
   }
 
   revalidatePath('/home', 'page');
-  redirect(`/video/${videoId}`);
+  redirect(`/video/${youtubeVideoId}`);
+}
+
+export async function handleVideoSubmit(formData: FormData) {
+  const videoUrl = formData.get("videoUrl") as string;
+  if (!videoUrl) return;
+
+  const youtubeVideoId = extractVideoId(videoUrl);
+  if (!youtubeVideoId) return;
+
+  await processVideo(youtubeVideoId);
 }
 
 

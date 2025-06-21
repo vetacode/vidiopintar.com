@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { fetchVideoDetails, fetchVideoTranscript } from '@/lib/youtube';
 import { extractVideoId } from '@/lib/utils';
+import { processVideo } from '@/app/actions';
 
 async function ProcessAndRedirect({ videoUrl }: { videoUrl: string }) {
   const videoId = extractVideoId(videoUrl);
@@ -10,10 +10,7 @@ async function ProcessAndRedirect({ videoUrl }: { videoUrl: string }) {
     return <div>Invalid video URL provided.</div>;
   }
 
-  await Promise.all([
-    fetchVideoDetails(videoId),
-    fetchVideoTranscript(videoId)
-  ]);
+  await processVideo(videoId);
 
   redirect(`/video/${videoId}`);
 
