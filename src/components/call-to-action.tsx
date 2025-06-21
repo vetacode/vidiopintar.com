@@ -7,7 +7,7 @@ export default function CallToAction() {
             <div className="mx-auto max-w-5xl px-6">
                 <div className="text-center">
                     <h2 className="text-balance text-4xl font-semibold lg:text-5xl">Start Learning</h2>
-                    <p className="mt-4">Master Any Topic, One Video at a Time.</p>
+                    <p className="mt-4">Learn Any Topic, One Video at a Time.</p>
 
                     <form action="" className="mx-auto mt-10 max-w-md lg:mt-12">
                         <div className="bg-background has-[input:focus]:ring-muted relative grid grid-cols-[1fr_auto] items-center rounded-[calc(var(--radius)+0.75rem)] border pr-3 shadow shadow-zinc-950/5 has-[input:focus]:ring-2">
