@@ -1,19 +1,23 @@
 import { google } from '@ai-sdk/google';
 import { generateText } from 'ai';
-import { encoding_for_model } from 'tiktoken';
+import { Tiktoken } from '@dqbd/tiktoken/lite';
+import cl100k_base from '@dqbd/tiktoken/encoders/cl100k_base.json';
 
 export async function generateSummary(text: string): Promise<string> {
   // Limit the input to about 5000 tokens using tiktoken
   const MAX_TOKENS = 5000;
   // Gemini is not directly supported, use cl100k_base encoding (same as GPT-3.5/4, close approximation)
-  const enc = encoding_for_model('gpt-3.5-turbo');
+  const enc = new Tiktoken(
+    cl100k_base.bpe_ranks,
+    cl100k_base.special_tokens,
+    cl100k_base.pat_str
+  );
   const tokens = enc.encode(text);
   let truncatedText = text;
   if (tokens.length > MAX_TOKENS) {
     // Decode only the first MAX_TOKENS tokens back to string
-    // enc.decode returns Uint8Array, convert to string
     truncatedText = new TextDecoder().decode(enc.decode(tokens.slice(0, MAX_TOKENS)));
-
+    console.log('Truncated text:', truncatedText);
   }
   enc.free();
 
