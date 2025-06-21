@@ -79,8 +79,8 @@ export async function POST(req: Request) {
   }
 
   const result = streamText({
-    // model: openai('gpt-4.1-2025-04-14'),
-    model: google('gemini-2.0-flash-001'),
+    model: openai('gpt-4o-mini-2024-07-18'),
+    // model: google('gemini-2.0-flash-001'),
     messages: enrichedMessages,
     onFinish: (data) => {
       data.steps.forEach(async (item) => {
