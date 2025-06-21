@@ -10,7 +10,7 @@ export interface Message {
 
 const chatHistoryCache: Record<string, Message[]> = {};
 
-export async function getChatHistory(userVideoId: number): Promise<Message[]> {
+export async function getChatHistory(videoId: string, userVideoId: number): Promise<Message[]> {
   try {
     const messages = await MessageRepository.getByUserVideoId(userVideoId);
     

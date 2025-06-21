@@ -14,7 +14,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
   const transcript = await fetchVideoTranscript(videoId);
   let messages: any[] = []
   if (videoDetails.userVideo) {
-    messages = await getChatHistory(videoDetails.userVideo.id);
+    messages = await getChatHistory(videoId, videoDetails.userVideo.id);
   }else {
     throw new Error("Unathorized access!");
   }
@@ -27,7 +27,6 @@ export default async function VideoPage({ params }: { params: { videoId: string 
   return (
     <main className="flex flex-col min-h-screen bg-melody-gradient relative">
       <div className="relative z-10">
-
         <div className="grid grid-cols-1 lg:grid-cols-7 h-screen">
           <div className="lg:col-span-4 h-full overflow-y-auto scrollbar-none relative">
             <div className="sticky top-0 z-50 bg-white dark:bg-black border-b">
