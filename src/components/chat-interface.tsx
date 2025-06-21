@@ -102,7 +102,7 @@ export function ChatInterface({ videoId, userVideoId, initialMessages, quickStar
           onSubmit={handleSubmit}
           className="w-full"
         >
-          <PromptInputTextarea placeholder="Ask me anything..." />
+          <PromptInputTextarea placeholder="Ask anything..." />
           <PromptInputActions className="justify-end pt-2">
             <PromptInputAction
               tooltip={status === "streaming" ? "Stop generation" : "Send message"}

@@ -120,41 +120,41 @@ export const HeroHeader = () => {
                                 {isHome ? (
                                     <>
                                         {isAuthenticated ? (
-                                            <Button
-                                                variant="outline"
-                                                size="sm"
-                                                className="flex items-center gap-2">
-                                                <a href="/home">
-                                                    <span>Home</span>
-                                                </a>
-                                            </Button>
-                                        ) : (
-                                            <>
+                                            <a href="/home">
                                                 <Button
-                                                    asChild
                                                     variant="outline"
                                                     size="sm"
-                                                    className={cn(isScrolled && 'lg:hidden')}>
-                                                    <a href="/login">
+                                                    className="flex items-center gap-2 cursor-pointer">
+                                                    <span>Home</span>
+                                                </Button>
+                                            </a>
+                                        ) : (
+                                            <>
+                                                <a href="/login">
+                                                    <Button
+                                                        asChild
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className={cn(isScrolled && 'lg:hidden')}>
                                                         <span>Login</span>
-                                                    </a>
-                                                </Button>
-                                                <Button
-                                                    asChild
-                                                    size="sm"
-                                                    className={cn(isScrolled && 'lg:hidden')}>
-                                                    <a href="/register">
+                                                    </Button>
+                                                </a>
+                                                <a href="/register">
+                                                    <Button
+                                                        asChild
+                                                        size="sm"
+                                                        className={cn(isScrolled && 'lg:hidden')}>
                                                         <span>Sign Up</span>
-                                                    </a>
-                                                </Button>
-                                                <Button
-                                                    asChild
-                                                    size="sm"
-                                                    className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
-                                                    <a href="/home">
+                                                    </Button>
+                                                </a>
+                                                <a href="/home">
+                                                    <Button
+                                                        asChild
+                                                        size="sm"
+                                                        className={cn(isScrolled ? 'lg:inline-flex' : 'hidden')}>
                                                         <span>Get Started</span>
-                                                    </a>
-                                                </Button>
+                                                    </Button>
+                                                </a>
                                             </>
                                         )}
                                     </>
