@@ -1,4 +1,4 @@
-import { MessageRepository } from './db/repository';
+import { MessageRepository } from '@/lib/db/repository';
 import type { NewMessage } from "@/lib/db/schema";
 
 export interface Message {

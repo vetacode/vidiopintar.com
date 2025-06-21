@@ -1,6 +1,6 @@
 import { pgTable, uuid, varchar, text, integer, timestamp } from 'drizzle-orm/pg-core';
 import { InferInsertModel } from "drizzle-orm";
-import { userVideos } from './videos';
+import { userVideos } from '@/lib/db/schema/videos';
 
 export const messages = pgTable('messages', {
   id: uuid('id').defaultRandom().primaryKey(),

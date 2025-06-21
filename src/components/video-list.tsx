@@ -4,7 +4,7 @@ import { Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { useDeleteVideoDialogStore } from '@/lib/store/dialog-store';
-import { DeleteVideoDialog } from './delete-video-dialog';
+import { DeleteVideoDialog } from '@/components/delete-video-dialog';
 
 type Video = {
     userVideoId: number;

@@ -1,5 +1,5 @@
-import { db } from './index';
-import { videos, messages, notes, quizzes, transcriptSegments, userVideos } from './schema';
+import { db } from '@/lib/db/index';
+import { videos, messages, transcriptSegments, userVideos } from './schema';
 import { InferSelectModel, InferInsertModel } from 'drizzle-orm';
 import { eq, desc, and } from 'drizzle-orm';
 
@@ -12,8 +12,6 @@ type Video = InferSelectModel<typeof videos>;
 type NewVideo = InferInsertModel<typeof videos>;
 type Message = InferSelectModel<typeof messages>;
 type NewMessage = InferInsertModel<typeof messages>;
-type Note = InferSelectModel<typeof notes>;
-type NewNote = InferInsertModel<typeof notes>;
 
 export const VideoRepository = {
   // Get all user_videos for a user, joined with video details
@@ -94,41 +92,6 @@ export const MessageRepository = {
 
   async create(message: NewMessage): Promise<Message> {
     const result = await db.insert(messages).values(message).returning();
-    return result[0];
-  }
-};
-
-
-export const QuizRepository = {
-  // Get all quizzes for a video
-  async getByVideoId(videoId: string) {
-    // Replace with your actual schema/table and query logic
-    // Assuming 'quizzes' table exists and has a 'videoId' field
-    return await db.select().from(quizzes).where(eq(quizzes.videoId, videoId));
-  },
-
-  // Create a new quiz
-  async create(quiz: any) {
-    // Replace with your actual schema/table and insert logic
-    const result = await db.insert(quizzes).values(quiz).returning();
-    return result[0];
-  }
-};
-
-
-export const NoteRepository = {
-  // Get all notes for a video
-  async getByVideoId(videoId: string): Promise<Note[]> {
-    return await db
-      .select()
-      .from(notes)
-      .where(eq(notes.videoId, videoId))
-      .orderBy(notes.timestamp);
-  },
-
-  // Create a new note
-  async create(note: NewNote): Promise<Note> {
-    const result = await db.insert(notes).values(note).returning();
     return result[0];
   }
 };

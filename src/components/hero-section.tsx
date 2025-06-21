@@ -4,7 +4,7 @@ import { TextEffect } from '@/components/motion-primitives/text-effect'
 import { AnimatedGroup } from '@/components/motion-primitives/animated-group'
 import { HeroHeader } from '@/components/hero-header'
 import { LogoCloud } from '@/components/logo-cloud'
-import { FormStartLearning } from './hero-form'
+import { FormStartLearning } from '@/components/hero-form'
 
 const transitionVariants = {
     item: {
