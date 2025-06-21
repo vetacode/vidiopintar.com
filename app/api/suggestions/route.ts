@@ -16,7 +16,7 @@ Based on the conversation context, suggest 3-5 brief (<60 chars), diverse follow
 Present options that the user could realistically say next to move the conversation (think like you are the user) forward productively.`;
 
 export async function POST(req: Request) {
-    const { messages, videoId } = await req.json();
+    const { messages, videoId, userVideoId } = await req.json();
 
     let transcriptText = '';
     let videoTitle = '';
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
     if (lastUserMsg) {
       try {
         await MessageRepository.create({
-          videoId,
+          userVideoId: userVideoId,
           content: lastUserMsg.content,
           role: 'user',
           timestamp: Math.floor(Date.now() / 1000),

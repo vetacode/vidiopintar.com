@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import { extractVideoId } from '@/app/actions';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { fetchVideoDetails, fetchVideoTranscript } from '@/lib/youtube';
+import { extractVideoId } from '@/lib/utils';
 
 async function ProcessAndRedirect({ videoUrl }: { videoUrl: string }) {
   const videoId = await extractVideoId(videoUrl);

@@ -1,6 +1,5 @@
-import { VideoRepository, MessageRepository, NoteRepository } from './db/repository';
-import { fetchVideoDetails } from './youtube';
-import type { NewNote, NewMessage } from "@/lib/db/schema";
+import { MessageRepository } from './db/repository';
+import type { NewMessage } from "@/lib/db/schema";
 
 export interface Message {
   id: string;
@@ -9,41 +8,7 @@ export interface Message {
   timestamp: number;
 }
 
-export interface Note {
-  id: string;
-  content: string;
-  timestamp: number;
-}
-
-interface QuizQuestion {
-  id: string
-  question: string
-  options: string[]
-  correctAnswer: number
-}
-
-interface Quiz {
-  id: string
-  title: string
-  questions: QuizQuestion[]
-  timestamp: number
-}
-
-// Cache for client-side rendering
 const chatHistoryCache: Record<string, Message[]> = {};
-const notesCache: Record<string, Note[]> = {};
-const quizzes: Record<string, Quiz[]> = {}
-
-export function getQuizzesForVideo(videoId: string): Quiz[] {
-  return quizzes[videoId] || []
-}
-
-export function saveQuiz(videoId: string, quiz: Quiz): void {
-  if (!quizzes[videoId]) {
-    quizzes[videoId] = []
-  }
-  quizzes[videoId].unshift(quiz) // Add new quiz at the beginning
-}
 
 export async function getChatHistory(userVideoId: number): Promise<Message[]> {
   try {
