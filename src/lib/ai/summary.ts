@@ -4,6 +4,7 @@ import { Tiktoken } from '@dqbd/tiktoken/lite';
 import cl100k_base from '@dqbd/tiktoken/encoders/cl100k_base.json';
 
 export async function generateSummary(text: string): Promise<string> {
+    console.log("Start summarizing!");
   // Limit the input to about 5000 tokens using tiktoken
   const MAX_TOKENS = 5000;
   // Gemini is not directly supported, use cl100k_base encoding (same as GPT-3.5/4, close approximation)
