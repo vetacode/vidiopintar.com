@@ -1,7 +1,7 @@
 "use client"
 
 import { useChat } from "@ai-sdk/react";
-import { ArrowUp, Square } from "lucide-react"
+import { ArrowUp, Square, Share2, Trash2 } from "lucide-react"
 import { flushSync } from "react-dom"
 import { Button } from "@/components/ui/button"
 import { Markdown } from "@/components/ui/markdown"
@@ -37,8 +37,16 @@ export default function ChatInterface({ videoId, userVideoId, initialMessages, q
 
   return (
     <div className="flex h-screen w-full flex-col overflow-hidden border-l">
-      <div className="p-4 border-b bg-white dark:bg-black sticky top-0 z-50">
+      <div className="px-4 py-2.5 border-b bg-white dark:bg-black sticky top-0 z-50 flex justify-between items-center">
         <h2 className="font-semibold tracking-tight dark:text-foreground">Chat</h2>
+        <div className="flex gap-2">
+          <Button variant="ghost" size="icon">
+            <Share2 className="size-4" />
+            </Button>
+          <Button variant="ghost" size="icon">
+            <Trash2 className="size-4" />
+            </Button>
+        </div>
       </div>
       <ChatContainerRoot className="flex-1">
         {messages.length === 0 && quickStartQuestions.length > 0 ? (
