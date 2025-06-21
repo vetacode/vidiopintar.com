@@ -83,7 +83,7 @@ export function ChatInterface({ videoId, userVideoId, initialMessages, quickStar
                     </div>
                   ) : (
                     <div className="max-w-[85%] flex-1 sm:max-w-[75%]">
-                      <MessageContent className="bg-secondary text-secondary-foreground">
+                      <MessageContent className="bg-secondary text-secondary-foreground p-3" markdown={true}>
                         {message.content}
                       </MessageContent>
                     </div>
