@@ -1,7 +1,22 @@
 import { google } from '@ai-sdk/google';
 import { generateText } from 'ai';
+import { encoding_for_model } from 'tiktoken';
 
 export async function generateSummary(text: string): Promise<string> {
+  // Limit the input to about 5000 tokens using tiktoken
+  const MAX_TOKENS = 5000;
+  // Gemini is not directly supported, use cl100k_base encoding (same as GPT-3.5/4, close approximation)
+  const enc = encoding_for_model('gpt-3.5-turbo');
+  const tokens = enc.encode(text);
+  let truncatedText = text;
+  if (tokens.length > MAX_TOKENS) {
+    // Decode only the first MAX_TOKENS tokens back to string
+    // enc.decode returns Uint8Array, convert to string
+    truncatedText = new TextDecoder().decode(enc.decode(tokens.slice(0, MAX_TOKENS)));
+
+  }
+  enc.free();
+
   const systemPrompt = `
 Please provide a detailed, well-structured summary of this YouTube video transcript.
 
@@ -38,7 +53,7 @@ Format your output with this markdown structure:
             },
             {
                 role: 'user',
-                content: `INPUT:\n${text}`
+                content: `INPUT:\n${truncatedText}`
             }
         ]
     })
