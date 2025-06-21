@@ -129,7 +129,7 @@ export async function fetchVideoTranscript(videoId: string) {
                             !item.text.includes('segment') && 
                             item.text !== 'N/A' &&
                             (index === 0 || index % 10 === 0) // Just a heuristic
-      
+
       return {
         start,
         end,

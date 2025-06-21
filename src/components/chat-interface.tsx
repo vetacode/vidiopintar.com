@@ -40,7 +40,7 @@ export function ChatInterface({ videoId, userVideoId, initialMessages, quickStar
         <h2 className="font-semibold tracking-tight dark:text-foreground">Chat</h2>
       </div>
       <ChatContainerRoot className="flex-1">
-        {messages.length === 0 ? (
+        {messages.length === 0 && quickStartQuestions.length > 0 ? (
           <div className="flex flex-col gap-4 p-4 h-full justify-center">
             <div>
               <p className="text-left py-2 text-foreground/75 font-semibold tracking-tight">
