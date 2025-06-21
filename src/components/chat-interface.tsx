@@ -1,7 +1,7 @@
 "use client"
 
 import { useChat } from "@ai-sdk/react";
-import { ArrowUp, Square, Share2, Trash2 } from "lucide-react"
+import { ArrowUp, Square, Share2, Trash2, Link } from "lucide-react"
 import { flushSync } from "react-dom"
 import { Button } from "@/components/ui/button"
 import { Markdown } from "@/components/ui/markdown"
@@ -14,6 +14,10 @@ import {
   PromptInputTextarea,
 } from "@/components/ui/prompt-input"
 import { CopyButton } from "./ui/copy-button";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { useState } from "react";
+import { getShareUrl } from "@/lib/actions/share-video";
+import { toast } from "sonner";
 
 interface ChatInterfaceProps {
   videoId: string;
@@ -34,18 +38,58 @@ export default function ChatInterface({ videoId, userVideoId, initialMessages, q
     initialMessages,
     body: { videoId, userVideoId },
   });
+  
+  const [shareUrl, setShareUrl] = useState<string>('');
+  const [isGeneratingUrl, setIsGeneratingUrl] = useState(false);
+  
+  const handleShareClick = async () => {
+    try {
+      setIsGeneratingUrl(true);
+      const url = await getShareUrl(videoId);
+      setShareUrl(url);
+      setIsGeneratingUrl(false);
+    } catch (error) {
+      console.error("Error generating share URL:", error);
+      toast.error("Failed to generate share URL");
+      setIsGeneratingUrl(false);
+    }
+  };
 
   return (
     <div className="flex h-screen w-full flex-col overflow-hidden border-l">
       <div className="px-4 py-2.5 border-b bg-white dark:bg-black sticky top-0 z-50 flex justify-between items-center">
         <h2 className="font-semibold tracking-tight dark:text-foreground">Chat</h2>
         <div className="flex gap-2">
-          <Button variant="ghost" size="icon">
-            <Share2 className="size-4" />
-            </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                onClick={handleShareClick}
+                disabled={isGeneratingUrl}
+              >
+                <Share2 className="size-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="space-y-2">
+                <h4 className="font-medium">Share this chat</h4>
+                <p className="text-sm text-muted-foreground">Anyone with this link can view this chat</p>
+                <div className="flex items-center space-x-2 pt-2">
+                  <div className="grid flex-1 items-center gap-2">
+                    <div className="flex items-center border rounded-md px-3 py-2 bg-muted">
+                      <Link className="h-4 w-4 mr-2 flex-shrink-0 text-muted-foreground" />
+                      <span className="text-sm truncate">{shareUrl}</span>
+                    </div>
+                  </div>
+                  <CopyButton content={shareUrl} copyMessage="Link copied!" />
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
           <Button variant="ghost" size="icon">
             <Trash2 className="size-4" />
-            </Button>
+          </Button>
         </div>
       </div>
       <ChatContainerRoot className="flex-1">
