@@ -107,6 +107,11 @@ export async function fetchVideoTranscript(videoId: string) {
           isChapterStart: item.isChapterStart,
         }))
         .sort((a, b) => a.start - b.start);
+      let userVideo = await UserVideoRepository.getByUserAndYoutubeId(user.id, videoId);
+      if (!userVideo) {
+        const video = await VideoRepository.getByYoutubeId(videoId);
+        userVideo = await saveVideoUser(videoId, video!, segments);
+      }
       return { segments };
     }
 
