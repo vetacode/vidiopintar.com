@@ -1,4 +1,5 @@
 import { openai } from '@ai-sdk/openai';
+import { google } from '@ai-sdk/google';
 import { streamText } from 'ai';
 
 export const maxDuration = 60;
@@ -78,7 +79,8 @@ export async function POST(req: Request) {
   }
 
   const result = streamText({
-    model: openai('gpt-4.1-2025-04-14'),
+    // model: openai('gpt-4.1-2025-04-14'),
+    model: google('gemini-2.0-flash-001'),
     messages: enrichedMessages,
     onFinish: (data) => {
       data.steps.forEach(async (item) => {
