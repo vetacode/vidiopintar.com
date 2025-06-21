@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { RefreshCw } from 'lucide-react';
 import MarkdownRenderer from '@/components/ui/markdown-renderer';
 import { toast } from 'sonner';
+import { CopyButton } from "./ui/copy-button";
 
 interface SummarySectionProps {
   videoId: string;
@@ -57,8 +58,11 @@ export default function SummarySection({ videoId, initialSummary }: SummarySecti
           </Button>
         </div>
       ) : (
-        <div>
-            <MarkdownRenderer>{summary}</MarkdownRenderer>
+        <div className='relative'>
+          <MarkdownRenderer>{summary}</MarkdownRenderer>
+          <div className="absolute top-0 right-2">
+            <CopyButton content={summary} copyMessage="Summary copied to clipboard!" label="Copy" />
+          </div>
         </div>
       )}
     </div>

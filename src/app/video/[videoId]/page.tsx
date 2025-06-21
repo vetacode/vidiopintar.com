@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
 import SummarySection from "@/components/summary-section"
-import { ChatInterface } from "@/components/chat-interface"
+import ChatInterface from "@/components/chat-interface"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
   const { videoId } = params;

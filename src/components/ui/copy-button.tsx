@@ -9,9 +9,10 @@ import { Button } from "@/components/ui/button"
 type CopyButtonProps = {
   content: string
   copyMessage?: string
+  label?: string
 }
 
-export function CopyButton({ content, copyMessage }: CopyButtonProps) {
+export function CopyButton({ content, copyMessage, label }: CopyButtonProps) {
   const { isCopied, handleCopy } = useCopyToClipboard({
     text: content,
     copyMessage,
@@ -21,11 +22,11 @@ export function CopyButton({ content, copyMessage }: CopyButtonProps) {
     <Button
       variant="ghost"
       size="icon"
-      className="relative h-6 w-6 cursor-pointer"
-      aria-label="Copy to clipboard"
+      className="relative h-fit w-fit cursor-pointer items-center p-2"
+      aria-label={label || "Copy to clipboard"}
       onClick={handleCopy}
     >
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-start p-1">
         <Check
           className={cn(
             "h-4 w-4 transition-transform ease-in-out",
@@ -39,6 +40,7 @@ export function CopyButton({ content, copyMessage }: CopyButtonProps) {
           isCopied ? "scale-0" : "scale-100"
         )}
       />
+      {label && <span className="text-xs">{label}</span>}
     </Button>
   )
 }

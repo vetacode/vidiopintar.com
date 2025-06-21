@@ -13,6 +13,7 @@ import {
   PromptInputActions,
   PromptInputTextarea,
 } from "@/components/ui/prompt-input"
+import { CopyButton } from "./ui/copy-button";
 
 interface ChatInterfaceProps {
   videoId: string;
@@ -21,7 +22,7 @@ interface ChatInterfaceProps {
   initialMessages: any[];
 }
 
-export function ChatInterface({ videoId, userVideoId, initialMessages, quickStartQuestions }: ChatInterfaceProps) {
+export default function ChatInterface({ videoId, userVideoId, initialMessages, quickStartQuestions }: ChatInterfaceProps) {
   const {
     messages,
     input,
@@ -77,8 +78,11 @@ export function ChatInterface({ videoId, userVideoId, initialMessages, quickStar
                 >
                   {isAssistant ? (
                     <div className="max-w-full flex-1 sm:max-w-full">
-                      <div className="prose prose-sm p-2 max-w-none">
+                      <div className="relative prose prose-sm px-4 py-6 max-w-none">
                         <Markdown>{message.content}</Markdown>
+                        <div className="absolute bottom-0 left-2">
+                          <CopyButton content={message.content} copyMessage="Copied to clipboard" label="Copy" />
+                        </div>
                       </div>
                     </div>
                   ) : (
