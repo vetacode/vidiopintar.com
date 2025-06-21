@@ -118,10 +118,6 @@ export async function fetchVideoTranscript(videoId: string) {
         const video = await VideoRepository.getByYoutubeId(videoId);
         userVideo = await saveVideoUser(videoId, video!, segments);
       }
-
-      // if (!userVideo.summary) {
-
-      // }
       return { segments, userVideo };
     }
 
