@@ -1,26 +1,16 @@
 import { google } from '@ai-sdk/google';
 import { generateText } from 'ai';
-import { Tiktoken } from '@dqbd/tiktoken/lite';
-import cl100k_base from '@dqbd/tiktoken/encoders/cl100k_base.json';
 
 export async function generateSummary(text: string): Promise<string> {
-    console.log("Start summarizing!");
-  // Limit the input to about 5000 tokens using tiktoken
-  const MAX_TOKENS = 5000;
-  // Gemini is not directly supported, use cl100k_base encoding (same as GPT-3.5/4, close approximation)
-  const enc = new Tiktoken(
-    cl100k_base.bpe_ranks,
-    cl100k_base.special_tokens,
-    cl100k_base.pat_str
-  );
-  const tokens = enc.encode(text);
+  console.log("Start summarizing!");
+  // Limit the input to the first 4000 words
+  const MAX_WORDS = 4000;
   let truncatedText = text;
-  if (tokens.length > MAX_TOKENS) {
-    // Decode only the first MAX_TOKENS tokens back to string
-    truncatedText = new TextDecoder().decode(enc.decode(tokens.slice(0, MAX_TOKENS)));
+  const words = text.split(/\s+/);
+  if (words.length > MAX_WORDS) {
+    truncatedText = words.slice(0, MAX_WORDS).join(' ');
     console.log('Truncated text:', truncatedText);
   }
-  enc.free();
 
   const systemPrompt = `
 Please provide a detailed, well-structured summary of this YouTube video transcript.
