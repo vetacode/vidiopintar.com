@@ -14,7 +14,7 @@ export async function saveVideoUser(videoId: string, video: Video, segments: any
   const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;
   const summary = await generateSummary(textToSummarize);
 
-  await UserVideoRepository.create({
+  return await UserVideoRepository.create({
     userId: user.id,
     youtubeId: videoId,
     summary: summary,
@@ -96,6 +96,7 @@ export async function fetchVideoDetails(videoId: string) {
 
 export async function fetchVideoTranscript(videoId: string) {
   try {
+    const user = await getCurrentUser();
     const dbSegments = await TranscriptRepository.getByVideoId(videoId);
     if (dbSegments.length > 0) {
       const segments = dbSegments
@@ -144,9 +145,11 @@ export async function fetchVideoTranscript(videoId: string) {
     // Generate and update summary for the video
     // Only generate summary if none exists
     const video = await VideoRepository.getByYoutubeId(videoId);
-    let userVideo = null;
+    let userVideo = await UserVideoRepository.getByUserAndYoutubeId(user.id, videoId);
     if (video) {
-      let userVideo = await saveVideoUser(videoId, video, segments);
+      if (!userVideo) {
+        userVideo = await saveVideoUser(videoId, video, segments);
+      }
       await VideoRepository.upsert({
         youtubeId: videoId,
         title: video.title,
