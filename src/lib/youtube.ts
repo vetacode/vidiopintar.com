@@ -8,6 +8,21 @@ import { formatTime } from "@/lib/utils";
 import { UserVideoRepository } from "@/lib/db/repository";
 import { getCurrentUser } from "./auth";
 
+export async function saveVideoUser(videoId: string, video: any, segments: any[]) {
+  const user = await getCurrentUser();
+  const transcriptText = segments.map((seg: {text: string}) => seg.text);
+  const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;
+  const summary = await generateSummary(textToSummarize);
+
+  await UserVideoRepository.create({
+    userId: user.id,
+    youtubeId: videoId,
+    summary: summary,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+}
+
 export async function fetchVideoDetails(videoId: string) {
   try {
     const user = await getCurrentUser();
@@ -129,9 +144,7 @@ export async function fetchVideoTranscript(videoId: string) {
     // Only generate summary if none exists
     const video = await VideoRepository.getByYoutubeId(videoId);
     if (video) {
-      const transcriptText = segments.map((seg: {text: string}) => seg.text);
-      const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;
-      const summary = await generateSummary(textToSummarize);
+      await saveVideoUser(videoId, video, segments);
       await VideoRepository.upsert({
         youtubeId: videoId,
         title: video.title,

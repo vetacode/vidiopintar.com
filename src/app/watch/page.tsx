@@ -5,7 +5,7 @@ import { fetchVideoDetails, fetchVideoTranscript } from '@/lib/youtube';
 import { extractVideoId } from '@/lib/utils';
 
 async function ProcessAndRedirect({ videoUrl }: { videoUrl: string }) {
-  const videoId = await extractVideoId(videoUrl);
+  const videoId = extractVideoId(videoUrl);
   if (!videoId) {
     return <div>Invalid video URL provided.</div>;
   }
@@ -14,9 +14,9 @@ async function ProcessAndRedirect({ videoUrl }: { videoUrl: string }) {
     fetchVideoDetails(videoId),
     fetchVideoTranscript(videoId)
   ]);
-  
+
   redirect(`/video/${videoId}`);
-  
+
   return null;
 }
 
