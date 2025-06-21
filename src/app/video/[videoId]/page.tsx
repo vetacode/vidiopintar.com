@@ -15,10 +15,10 @@ export default async function VideoPage({ params }: { params: { videoId: string 
   let messages: any[] = []
   let quickStartQuestions: string[] = [];
 
-  if (videoDetails.userVideo) {
-    messages = await getChatHistory(videoId, videoDetails.userVideo.id);
-  } else {
+  if (!videoDetails.userVideo) {
     videoDetails.userVideo = transcript.userVideo;
+  } else {
+    messages = await getChatHistory(videoId, videoDetails.userVideo.id);
   }
 
   if (messages.length === 0 && videoDetails.userVideo?.summary) {
