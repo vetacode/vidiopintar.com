@@ -70,7 +70,13 @@ export default async function VideoPage({ params }: { params: { videoId: string 
           </div>
 
           <div className="lg:col-span-3 flex flex-col h-full md:h-auto relative">
-            <ChatInterface videoId={videoId} userVideoId={videoDetails.userVideo!.id} initialMessages={messages} quickStartQuestions={quickStartQuestions} />
+            {videoDetails.userVideo ? (
+              <ChatInterface videoId={videoId} userVideoId={videoDetails.userVideo.id} initialMessages={messages} quickStartQuestions={quickStartQuestions} />
+            ) : (
+              <div className="p-4 text-center">
+                <p className="text-muted-foreground">Unable to load chat interface. Video details are incomplete.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
