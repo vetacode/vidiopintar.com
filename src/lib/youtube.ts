@@ -10,9 +10,7 @@ import { getCurrentUser } from "./auth";
 
 export async function saveVideoUser(videoId: string, video: Video, segments: any[]) {
   const user = await getCurrentUser();
-  const transcriptText = segments.map((seg: {text: string}) => seg.text);
-  const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;
-  const summary = await generateSummary(textToSummarize);
+  const summary = await generateUserVideoSummary(video, segments);
 
   return await UserVideoRepository.create({
     userId: user.id,
@@ -21,6 +19,14 @@ export async function saveVideoUser(videoId: string, video: Video, segments: any
     createdAt: new Date(),
     updatedAt: new Date(),
   });
+}
+
+export async function generateUserVideoSummary(video: Video, segments: any[]) {
+  const transcriptText = segments.map((seg: {text: string}) => seg.text);
+  const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;
+  const summary = await generateSummary(textToSummarize);
+
+  return summary;
 }
 
 export async function fetchVideoDetails(videoId: string) {
@@ -112,7 +118,11 @@ export async function fetchVideoTranscript(videoId: string) {
         const video = await VideoRepository.getByYoutubeId(videoId);
         userVideo = await saveVideoUser(videoId, video!, segments);
       }
-      return { segments };
+
+      // if (!userVideo.summary) {
+
+      // }
+      return { segments, userVideo };
     }
 
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
