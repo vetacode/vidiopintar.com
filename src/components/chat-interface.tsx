@@ -78,9 +78,9 @@ export default function ChatInterface({ videoId, userVideoId, initialMessages, q
                 >
                   {isAssistant ? (
                     <div className="max-w-full flex-1 sm:max-w-full">
-                      <div className="relative prose prose-sm px-4 py-6 max-w-none">
+                      <div className="relative prose prose-sm px-2 py-6 max-w-none">
                         <Markdown>{message.content}</Markdown>
-                        <div className="absolute bottom-0 left-2">
+                        <div className="absolute bottom-0 right-2">
                           <CopyButton content={message.content} copyMessage="Copied to clipboard" label="Copy" />
                         </div>
                       </div>
