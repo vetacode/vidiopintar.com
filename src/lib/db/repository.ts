@@ -1,11 +1,15 @@
 import { db } from '@/lib/db/index';
-import { videos, messages, transcriptSegments, userVideos } from './schema';
+import { videos, messages, transcriptSegments, userVideos, sharedVideos } from './schema';
 import { InferSelectModel, InferInsertModel } from 'drizzle-orm';
 import { eq, desc, and } from 'drizzle-orm';
 
 // Types for user_videos
 export type UserVideo = InferSelectModel<typeof userVideos>;
 export type NewUserVideo = InferInsertModel<typeof userVideos>;
+
+// Types for shared_videos
+export type SharedVideo = InferSelectModel<typeof sharedVideos>;
+export type NewSharedVideo = InferInsertModel<typeof sharedVideos>;
 
 // Infer types from Drizzle schema
 export type Video = InferSelectModel<typeof videos>;
@@ -159,5 +163,68 @@ export const TranscriptRepository = {
         }))
       );
     }
+  }
+};
+
+export const SharedVideoRepository = {
+  // Create a new shared video
+  async create(sharedVideo: NewSharedVideo): Promise<SharedVideo> {
+    const result = await db.insert(sharedVideos).values(sharedVideo).returning();
+    return result[0];
+  },
+
+  // Get a shared video by slug
+  async getBySlug(slug: string): Promise<SharedVideo | undefined> {
+    const result = await db.select().from(sharedVideos).where(eq(sharedVideos.slug, slug));
+    return result[0];
+  },
+
+  // Get all shared videos by owner ID
+  async getByOwnerId(ownerId: string): Promise<SharedVideo[]> {
+    return await db
+      .select()
+      .from(sharedVideos)
+      .where(eq(sharedVideos.ownerId, ownerId))
+      .orderBy(desc(sharedVideos.createdAt));
+  },
+
+  // Get shared video with video details
+  async getBySlugWithDetails(slug: string) {
+    const result = await db
+      .select({
+        id: sharedVideos.id,
+        youtubeId: sharedVideos.youtubeId,
+        slug: sharedVideos.slug,
+        ownerId: sharedVideos.ownerId,
+        title: videos.title,
+        description: videos.description,
+        channelTitle: videos.channelTitle,
+        publishedAt: videos.publishedAt,
+        thumbnailUrl: videos.thumbnailUrl,
+        createdAt: sharedVideos.createdAt,
+      })
+      .from(sharedVideos)
+      .innerJoin(videos, eq(sharedVideos.youtubeId, videos.youtubeId))
+      .where(eq(sharedVideos.slug, slug));
+    
+    return result[0];
+  },
+
+  // Delete a shared video
+  async delete(id: number): Promise<void> {
+    await db.delete(sharedVideos).where(eq(sharedVideos.id, id));
+  },
+
+  // Check if a YouTube video is already shared by a specific owner
+  async isSharedByOwner(youtubeId: string, ownerId: string): Promise<boolean> {
+    const result = await db
+      .select()
+      .from(sharedVideos)
+      .where(and(
+        eq(sharedVideos.youtubeId, youtubeId),
+        eq(sharedVideos.ownerId, ownerId)
+      ));
+    
+    return result.length > 0;
   }
 };

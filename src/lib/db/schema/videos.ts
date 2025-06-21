@@ -23,6 +23,15 @@ export const userVideos = pgTable('user_videos', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
+export const sharedVideos = pgTable('shared_videos', {
+  id: serial('id').primaryKey(),
+  youtubeId: varchar('youtube_id', { length: 20 }).notNull().references(() => videos.youtubeId, { onDelete: 'cascade' }),
+  slug: varchar('slug', { length: 100 }).notNull().unique(),
+  ownerId: text('owner_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
 export const transcriptSegments = pgTable('transcript_segments', {
   id: serial('id').primaryKey(),
   videoId: varchar('video_id', { length: 32 }).notNull(),
