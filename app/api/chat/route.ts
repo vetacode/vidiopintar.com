@@ -7,7 +7,7 @@ import { fetchVideoTranscript, fetchVideoDetails } from '@/lib/youtube';
 import { MessageRepository, VideoRepository } from '@/lib/db/repository';
 
 export async function POST(req: Request) {
-  const { messages, videoId } = await req.json();
+  const { messages, videoId, userVideoId } = await req.json();
 
   let transcriptText = '';
   let videoTitle = '';
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     if (lastUserMsg) {
       try {
         await MessageRepository.create({
-          videoId,
+          userVideoId,
           content: lastUserMsg.content,
           role: 'user',
           timestamp: Math.floor(Date.now() / 1000),
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
       data.steps.forEach(async (item) => {
         try {
           await MessageRepository.create({
-            videoId,
+            userVideoId,
             content: item.text,
             role: 'assistant',
             timestamp: Math.floor(Date.now() / 1000),

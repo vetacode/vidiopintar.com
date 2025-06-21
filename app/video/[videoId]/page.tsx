@@ -12,11 +12,16 @@ export default async function VideoPage({ params }: { params: { videoId: string 
   const { videoId } = params;
   const videoDetails = await fetchVideoDetails(videoId);
   const transcript = await fetchVideoTranscript(videoId);
-  const messages = await getChatHistory(videoId);
+  let messages: any[] = []
+  if (videoDetails.userVideo) {
+    messages = await getChatHistory(videoDetails.userVideo.id);
+  }else {
+    throw new Error("Unathorized access!");
+  }
 
   let quickStartQuestions: string[] = [];
-  if (messages.length === 0) {
-    quickStartQuestions = await generateQuickStartQuestions(videoDetails.summary)
+  if (messages.length === 0 && videoDetails.userVideo.summary) {
+    quickStartQuestions = await generateQuickStartQuestions(videoDetails.userVideo.summary)
   }
 
   return (
@@ -55,7 +60,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="summary" className="h-full overflow-y-auto p-0 m-0">
-                  <SummarySection videoId={videoId} initialSummary={videoDetails.summary} />
+                  <SummarySection videoId={videoId} initialSummary={videoDetails.userVideo?.summary ?? ""} />
                 </TabsContent>
                 <TabsContent value="transcript" className="h-full overflow-y-auto p-0 m-0">
                   <TranscriptView transcript={transcript} />
@@ -65,7 +70,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
           </div>
 
           <div className="lg:col-span-3 flex flex-col h-full md:h-auto relative">
-            <ChatInterface videoId={videoId} initialMessages={messages} quickStartQuestions={quickStartQuestions} />
+            <ChatInterface videoId={videoId} userVideoId={videoDetails.userVideo.id} initialMessages={messages} quickStartQuestions={quickStartQuestions} />
           </div>
         </div>
       </div>

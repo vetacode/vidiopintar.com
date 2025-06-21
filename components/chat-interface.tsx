@@ -16,11 +16,12 @@ import {
 
 interface ChatInterfaceProps {
   videoId: string;
+  userVideoId: number;
   quickStartQuestions: string[];
   initialMessages: any[];
 }
 
-export function ChatInterface({ videoId, initialMessages, quickStartQuestions }: ChatInterfaceProps) {
+export function ChatInterface({ videoId, userVideoId, initialMessages, quickStartQuestions }: ChatInterfaceProps) {
   const {
     messages,
     input,
@@ -30,7 +31,7 @@ export function ChatInterface({ videoId, initialMessages, quickStartQuestions }:
   } = useChat({
     api: '/api/chat',
     initialMessages,
-    body: { videoId },
+    body: { videoId, userVideoId },
   });
 
   return (

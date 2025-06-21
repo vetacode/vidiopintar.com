@@ -45,9 +45,9 @@ export function saveQuiz(videoId: string, quiz: Quiz): void {
   quizzes[videoId].unshift(quiz) // Add new quiz at the beginning
 }
 
-export async function getChatHistory(videoId: string): Promise<Message[]> {
+export async function getChatHistory(userVideoId: number): Promise<Message[]> {
   try {
-    const messages = await MessageRepository.getByVideoId(videoId);
+    const messages = await MessageRepository.getByUserVideoId(userVideoId);
     
     return messages.map(message => ({
       id: message.id,
@@ -61,20 +61,15 @@ export async function getChatHistory(videoId: string): Promise<Message[]> {
   }
 }
 
-export async function addChatMessage(videoId: string, message: Message): Promise<void> {
-  // Update the cache for client-side rendering
-  if (!chatHistoryCache[videoId]) {
-    chatHistoryCache[videoId] = [];
+export async function addChatMessage(userVideoId: number, message: Message): Promise<void> {
+  if (!chatHistoryCache[userVideoId]) {
+    chatHistoryCache[userVideoId] = [];
   }
-  chatHistoryCache[videoId].push(message);
+  chatHistoryCache[userVideoId].push(message);
   
   try {
-    // Ensure the video exists in the database
-    await ensureVideoExists(videoId);
-    
-    // Save the message to the database
     const newMessage: NewMessage = {
-      videoId,
+      userVideoId,
       content: message.content,
       role: message.role,
       timestamp: message.timestamp,
@@ -85,76 +80,3 @@ export async function addChatMessage(videoId: string, message: Message): Promise
     console.error('Error adding chat message:', error);
   }
 }
-
-// Notes functions
-export async function getNotesForVideo(videoId: string): Promise<Note[]> {
-  // For client-side rendering, use the cache
-  if (typeof window !== 'undefined') {
-    return notesCache[videoId] || [];
-  }
-  
-  try {
-    // For server-side rendering, fetch from the database
-    const notes = await NoteRepository.getByVideoId(videoId);
-    
-    // Transform database notes to the expected format
-    return notes.map(note => ({
-      id: note.id,
-      content: note.content,
-      timestamp: note.timestamp,
-    }));
-  } catch (error) {
-    console.error('Error fetching notes:', error);
-    return [];
-  }
-}
-
-export async function saveNote(videoId: string, note: Note): Promise<void> {
-  // Update the cache for client-side rendering
-  if (!notesCache[videoId]) {
-    notesCache[videoId] = [];
-  }
-  notesCache[videoId].push(note);
-  
-  try {
-    // Ensure the video exists in the database
-    await ensureVideoExists(videoId);
-    
-    // Save the note to the database
-    const newNote: NewNote = {
-      videoId,
-      content: note.content,
-      timestamp: note.timestamp,
-    };
-    
-    await NoteRepository.create(newNote);
-  } catch (error) {
-    console.error('Error saving note:', error);
-  }
-}
-
-// Helper function to ensure a video exists in the database
-async function ensureVideoExists(youtubeId: string): Promise<void> {
-  try {
-    // Check if the video already exists
-    const existingVideo = await VideoRepository.getByYoutubeId(youtubeId);
-    
-    if (!existingVideo) {
-      // Fetch video details from YouTube
-      const videoDetails = await fetchVideoDetails(youtubeId);
-      
-      // Create the video in the database
-      await VideoRepository.create({
-        youtubeId,
-        title: videoDetails.title,
-        description: videoDetails.description || '',
-        channelTitle: videoDetails.channelTitle || '',
-        publishedAt: videoDetails.publishedAt ? new Date(videoDetails.publishedAt) : new Date(),
-        thumbnailUrl: videoDetails.thumbnails?.high?.url || '',
-      });
-    }
-  } catch (error) {
-    console.error('Error ensuring video exists:', error);
-  }
-}
-

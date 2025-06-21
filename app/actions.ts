@@ -5,37 +5,56 @@ import { fetchVideoDetails, fetchVideoTranscript } from "@/lib/youtube"
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-
-export async function extractVideoId(url: string): Promise<string | null> {
-  // Handle different YouTube URL formats
-  const regexes = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/v\/|youtube\.com\/watch\?.*&v=)([^&\n?#]+)/,
-    /youtube\.com\/shorts\/([^&\n?#]+)/,
-  ]
-
-  for (const regex of regexes) {
-    const match = url.match(regex)
-    if (match && match[1]) {
-      return match[1]
-    }
-  }
-
-  return null
-}
+import { getCurrentUser } from "@/lib/auth";
+import { UserVideoRepository } from "@/lib/db/repository";
+import { extractVideoId } from "@/lib/utils";
 
 export async function handleVideoSubmit(formData: FormData) {
-  const videoUrl = formData.get("videoUrl") as string
-  if (!videoUrl) return
+  const videoUrl = formData.get("videoUrl") as string;
+  if (!videoUrl) return;
 
-  const videoId = await extractVideoId(videoUrl)
-  if (!videoId) return
+  const videoId = extractVideoId(videoUrl);
+  if (!videoId) return;
 
-  await fetchVideoDetails(videoId);
+  // Fetch video details and transcript
+  const videoDetails = await fetchVideoDetails(videoId);
   await fetchVideoTranscript(videoId);
+
+  // Get current user (throws if not authenticated)
+  const user = await getCurrentUser();
+
+  // Upsert the global video entry
+  await VideoRepository.upsert({
+    youtubeId: videoId,
+    title: videoDetails.title,
+    description: videoDetails.description,
+    channelTitle: videoDetails.channelTitle,
+    publishedAt: videoDetails.publishedAt ? new Date(videoDetails.publishedAt) : null,
+    thumbnailUrl:
+      videoDetails.thumbnails?.high?.url ||
+      videoDetails.thumbnails?.medium?.url ||
+      videoDetails.thumbnails?.default?.url ||
+      null,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+
+  // Create or upsert user_videos entry
+  let userVideo = await UserVideoRepository.getByUserAndYoutubeId(user.id, videoId);
+  if (!userVideo) {
+    await UserVideoRepository.create({
+      userId: user.id,
+      youtubeId: videoId,
+      summary: null,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+  }
 
   revalidatePath('/home', 'page');
   redirect(`/video/${videoId}`);
 }
+
 
 const deleteSchema = z.object({
   id: z.string().min(1, { message: 'Video ID is required.' }),
@@ -53,7 +72,7 @@ export async function handleDeleteVideo(prevState: any, formData: FormData): Pro
 
   const id = parseInt(validatedFields.data.id, 10);
   try {
-    await VideoRepository.delete(id);
+    await UserVideoRepository.delete(id);
     revalidatePath('/home', 'page');
     return { success: true, errors: undefined };
   } catch (error) {

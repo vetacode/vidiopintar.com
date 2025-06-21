@@ -3,12 +3,17 @@
 import { Trash2 } from 'lucide-react'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { videos } from '@/lib/db/schema'
-import { type InferSelectModel } from 'drizzle-orm'
 import { useDeleteVideoDialogStore } from '@/lib/store/dialog-store';
 import { DeleteVideoDialog } from './delete-video-dialog';
 
-type Video = InferSelectModel<typeof videos>;
+type Video = {
+    userVideoId: number;
+    youtubeId: string;
+    title: string;
+    channelTitle: string | null;
+    publishedAt: Date | null;
+    thumbnailUrl: string | null;
+};
 
 interface VideoListProps {
     videos: Video[];
@@ -26,7 +31,7 @@ export function VideoList({ videos }: VideoListProps) {
                 <h2 className="text-xl font-semibold text-left mb-8 tracking-tighter">Your recent videos</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {videos.map((video) => (
-                        <div key={video.id} className="relative group">
+                        <div key={video.userVideoId} className="relative group">
                             <Link href={`/video/${video.youtubeId}`}>
                                 <Card className=" dark:border-white/10 overflow-hidden rounded-2xl">
                                     <CardContent className="p-0 relative">
@@ -40,7 +45,7 @@ export function VideoList({ videos }: VideoListProps) {
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 e.preventDefault();
-                                                openDialog(video.id);
+                                                openDialog(video.userVideoId);
                                             }}
                                         >
                                             <Trash2 className="size-4" />

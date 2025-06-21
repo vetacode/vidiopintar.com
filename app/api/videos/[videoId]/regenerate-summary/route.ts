@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { VideoRepository, TranscriptRepository } from '@/lib/db/repository';
+import { UserVideoRepository, TranscriptRepository } from '@/lib/db/repository';
+import { getCurrentUser } from '@/lib/auth';
 import { generateSummary } from '@/lib/ai/summary';
 
 export async function POST(
@@ -8,9 +9,17 @@ export async function POST(
 ) {
   try {
     const { videoId } = params;
+    const user = await getCurrentUser();
+    const userId = user.id;
 
-    // Get video and transcript from database
-    const video = await VideoRepository.getByYoutubeId(videoId);
+    // Get user_video and transcript from database
+    const userVideo = await UserVideoRepository.getByUserAndYoutubeId(userId, videoId);
+    if (!userVideo) {
+      return NextResponse.json({ error: 'User video not found' }, { status: 404 });
+    }
+
+    // Fetch video info for title/description
+    const video = await import('@/lib/db/repository').then(m => m.VideoRepository.getByYoutubeId(userVideo.youtubeId));
     if (!video) {
       return NextResponse.json({ error: 'Video not found' }, { status: 404 });
     }
@@ -29,16 +38,8 @@ export async function POST(
     const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;
     const summary = await generateSummary(textToSummarize);
 
-    // Update video with new summary
-    await VideoRepository.upsert({
-      youtubeId: videoId,
-      title: video.title,
-      description: video.description,
-      summary,
-      channelTitle: video.channelTitle,
-      publishedAt: video.publishedAt,
-      thumbnailUrl: video.thumbnailUrl,
-    });
+    // Update user_video with new summary
+    await UserVideoRepository.updateSummary(userVideo.id, summary);
 
     return NextResponse.json({ summary });
 

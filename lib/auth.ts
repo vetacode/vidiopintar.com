@@ -4,6 +4,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { env } from "@/lib/env/server";
+import { headers } from "next/headers";
 
 export const auth = betterAuth({
     socialProviders: {
@@ -21,3 +22,15 @@ export const auth = betterAuth({
     }),
     plugins: [nextCookies()]
 });
+
+export async function getCurrentUser() {
+    const session = await auth.api.getSession({
+        headers: headers()
+    });
+
+    if (!session || !session.user) {
+        throw new Error("Not authenticated");
+    }
+
+    return session.user;
+}

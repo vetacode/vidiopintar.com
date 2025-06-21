@@ -5,9 +5,14 @@ import { z } from 'zod';
 import { generateSummary } from "@/lib/ai/summary";
 import { formatTime } from "@/lib/utils";
 
+import { UserVideoRepository } from "@/lib/db/repository";
+import { getCurrentUser } from "./auth";
+
 export async function fetchVideoDetails(videoId: string) {
   try {
+    const user = await getCurrentUser();
     const existingVideo = await VideoRepository.getByYoutubeId(videoId);
+    const userVideo = await UserVideoRepository.getByUserAndYoutubeId(user.id, videoId);
     
     if (existingVideo) {
       return {
@@ -15,9 +20,9 @@ export async function fetchVideoDetails(videoId: string) {
         description: existingVideo.description || "",
         channelTitle: existingVideo.channelTitle || "",
         publishedAt: existingVideo.publishedAt?.toISOString(),
-        summary: existingVideo.summary || "",
         thumbnails: { high: { url: existingVideo.thumbnailUrl || "" } },
         tags: [],
+        userVideo,
       };
     }
 
@@ -55,7 +60,7 @@ export async function fetchVideoDetails(videoId: string) {
       publishedAt: data.publishedAt,
       thumbnails: data.thumbnails,
       tags: data.tags,
-      summary: data.summary,
+      userVideo,
     };
   } catch (error) {
     console.error('Error fetching video details:', error);
@@ -68,6 +73,7 @@ export async function fetchVideoDetails(videoId: string) {
       publishedAt: new Date().toISOString(),
       thumbnails: {},
       tags: [],
+      userVideo: null,
     };
   }
 }
@@ -122,7 +128,7 @@ export async function fetchVideoTranscript(videoId: string) {
     // Generate and update summary for the video
     // Only generate summary if none exists
     const video = await VideoRepository.getByYoutubeId(videoId);
-    if (video && !video.summary) {
+    if (video) {
       const transcriptText = segments.map((seg: {text: string}) => seg.text);
       const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;
       const summary = await generateSummary(textToSummarize);
@@ -130,7 +136,6 @@ export async function fetchVideoTranscript(videoId: string) {
         youtubeId: videoId,
         title: video.title,
         description: video.description,
-        summary,
         channelTitle: video.channelTitle,
         publishedAt: video.publishedAt,
         thumbnailUrl: video.thumbnailUrl,

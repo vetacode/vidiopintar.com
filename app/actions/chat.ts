@@ -1,11 +1,10 @@
 "use server";
 import { MessageRepository } from "@/lib/db/repository";
 
-export async function getChatHistory(videoId: string) {
-  return MessageRepository.getByVideoId(videoId);
+export async function getChatHistory(id: number) {
+  return MessageRepository.getByUserVideoId(id);
 }
 
-export async function addChatMessage(videoId: string, message: any) {
-  // Implement your chat message save logic here
-  return MessageRepository.create({...message, videoId});
+export async function addChatMessage(id: number, message: any) {
+  return MessageRepository.create({...message, userVideoId: id});
 }

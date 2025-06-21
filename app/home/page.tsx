@@ -53,9 +53,11 @@ function CategoryCard({ image, label }: { image: string; label: string }) {
 
 import { HeroHeader } from "@/components/hero-header";
 import FooterSection from "@/components/footer";
+import { getCurrentUser } from "@/lib/auth";
 
 export default async function Home() {
-  const videos = await VideoRepository.getAll();
+  const user = await getCurrentUser()
+  const videos = await VideoRepository.getAllForUserWithDetails(user.id);
   return (
     <>
       <HeroHeader />

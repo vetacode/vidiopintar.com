@@ -1,10 +1,10 @@
 import { pgTable, uuid, varchar, text, integer, timestamp } from 'drizzle-orm/pg-core';
-import { videos } from './videos';
 import { InferInsertModel } from "drizzle-orm";
+import { userVideos } from './videos';
 
 export const messages = pgTable('messages', {
   id: uuid('id').defaultRandom().primaryKey(),
-  videoId: varchar('video_id', { length: 20 }).notNull().references(() => videos.youtubeId, { onDelete: 'cascade' }),
+  userVideoId: integer('user_video_id').notNull().references(() => userVideos.id, { onDelete: 'cascade' }),
   content: text('content').notNull(),
   role: varchar('role', { length: 10 }).notNull(), // 'user' or 'assistant'
   timestamp: integer('timestamp').notNull(),
