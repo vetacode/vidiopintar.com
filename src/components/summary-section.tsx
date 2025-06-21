@@ -58,10 +58,10 @@ export default function SummarySection({ videoId, initialSummary }: SummarySecti
           </Button>
         </div>
       ) : (
-        <div className='relative'>
+        <div className='relative group'>
           <MarkdownRenderer>{summary}</MarkdownRenderer>
-          <div className="absolute top-0 right-2">
-            <CopyButton content={summary} copyMessage="Summary copied to clipboard!" label="Copy" />
+          <div className="absolute top-0 right-2 group-hover:visible invisible">
+          <CopyButton content={summary} copyMessage="Summary copied to clipboard!" label="Copy" />
           </div>
         </div>
       )}

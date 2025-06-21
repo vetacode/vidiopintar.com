@@ -22,7 +22,7 @@ export function CopyButton({ content, copyMessage, label }: CopyButtonProps) {
     <Button
       variant="ghost"
       size="icon"
-      className="relative h-fit w-fit cursor-pointer items-center p-2"
+      className="relative h-fit w-fit cursor-pointer items-center p-1"
       aria-label={label || "Copy to clipboard"}
       onClick={handleCopy}
     >
