@@ -27,11 +27,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      {/* <Script
+      <Script
         src="https://vince.ngooding.com/js/script.js"
         data-domain="vidiopintar.com"
         strategy="afterInteractive"
-      /> */}
+      />
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem storageKey="vidiopintar-theme">
           {children}
