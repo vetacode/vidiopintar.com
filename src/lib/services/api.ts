@@ -17,11 +17,10 @@ export class Api extends Effect.Service<Api>()("Api", {
             )
         );
 
-        const setShareChatBody = HttpClientRequest.schemaBodyJson(ShareChatRequest);
-
         return {
             createShareVideo: (body: ShareChatRequest) =>
-                setShareChatBody(HttpClientRequest.post("/share"), body).pipe(
+                HttpClientRequest.schemaBodyJson(ShareChatRequest)
+                (HttpClientRequest.post("/share"), body).pipe(
                     Effect.flatMap(client.execute),
                     Effect.flatMap(HttpClientResponse.schemaBodyJson(ShareChatResponse)),
                     Effect.scoped
