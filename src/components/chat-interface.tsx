@@ -13,6 +13,11 @@ import {
   PromptInputActions,
   PromptInputTextarea,
 } from "@/components/ui/prompt-input"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { CopyButton } from "./ui/copy-button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useState } from "react";
@@ -96,9 +101,16 @@ export default function ChatInterface({ videoId, userVideoId, initialMessages, q
             </PopoverContent>
           </Popover>
           {!isSharePage && (
-            <Button variant="ghost" size="icon">
-              <Trash2 className="size-4" />
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Trash2 className="size-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Clear chat messages</p>
+              </TooltipContent>
+            </Tooltip>
           )}
         </div>
       </div>
