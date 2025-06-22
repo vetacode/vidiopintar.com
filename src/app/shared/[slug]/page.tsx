@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: SharedVideoPageProps): Promis
   }
 
   return {
-    title: `${sharedVideo.title} - Shared Video`,
+    title: `Vidiopintar - ${sharedVideo.title}`,
     description: sharedVideo.description || "Shared video from VidioPintar",
     openGraph: {
       title: sharedVideo.title,
