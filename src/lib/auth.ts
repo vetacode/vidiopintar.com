@@ -5,6 +5,7 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { env } from "@/lib/env/server";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const auth = betterAuth({
     socialProviders: {
@@ -29,6 +30,7 @@ export async function getCurrentUser() {
     });
 
     if (!session || !session.user) {
+        redirect("/login");
         throw new Error("Not authenticated");
     }
 
