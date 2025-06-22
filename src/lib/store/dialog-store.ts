@@ -1,4 +1,4 @@
-import { create, type StateCreator } from 'zustand'
+import { create } from 'zustand'
 
 interface DeleteVideoDialogState {
   isOpen: boolean;
