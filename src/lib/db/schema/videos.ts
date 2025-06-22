@@ -1,4 +1,4 @@
-import { pgTable, serial, text, varchar, timestamp, real, boolean } from 'drizzle-orm/pg-core';
+import { integer, pgTable, serial, text, varchar, timestamp, real, boolean } from 'drizzle-orm/pg-core';
 import { user } from './auth';
 
 export const videos = pgTable('videos', {
@@ -26,7 +26,8 @@ export const userVideos = pgTable('user_videos', {
 export const sharedVideos = pgTable('shared_videos', {
   id: serial('id').primaryKey(),
   youtubeId: varchar('youtube_id', { length: 20 }).notNull().references(() => videos.youtubeId, { onDelete: 'cascade' }),
-  slug: varchar('slug', { length: 100 }).notNull().unique(),
+  userVideoId: integer('user_video_id').notNull().references(() => userVideos.id, { onDelete: 'cascade' }),
+  slug: varchar('slug', { length: 255 }).notNull().unique(),
   ownerId: text('owner_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),

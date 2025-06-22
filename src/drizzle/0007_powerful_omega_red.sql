@@ -1,0 +1,1 @@
+ALTER TABLE "shared_videos" ALTER COLUMN "user_video_id" SET DATA TYPE serial;

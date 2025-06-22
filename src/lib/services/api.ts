@@ -1,0 +1,39 @@
+import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "@effect/platform";
+import { Effect, flow, Schema } from "effect";
+import { ShareChatRequest, ShareChatResponse } from "@/lib/services/schema";
+
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
+export class Api extends Effect.Service<Api>()("Api", {
+    dependencies: [FetchHttpClient.layer],
+    effect: Effect.gen(function* () {
+        const baseClient = yield* HttpClient.HttpClient;
+        const client = baseClient.pipe(
+            HttpClient.mapRequest(
+                flow(
+                    HttpClientRequest.prependUrl(`${baseUrl}/api`),
+                    HttpClientRequest.acceptJson
+                )
+            )
+        );
+
+        const setShareChatBody = HttpClientRequest.schemaBodyJson(ShareChatRequest);
+
+        return {
+            createShareVideo: (body: ShareChatRequest) =>
+                setShareChatBody(HttpClientRequest.post("/share"), body).pipe(
+                    Effect.flatMap(client.execute),
+                    Effect.flatMap(HttpClientResponse.schemaBodyJson(ShareChatResponse)),
+                    Effect.scoped
+                )
+        };
+    }),
+}) { }
+
+
+export const createShareVideo = (
+    input: ShareChatRequest
+) => Effect.gen(function* () {
+    const api = yield* Api;
+    return yield* api.createShareVideo(input);
+});

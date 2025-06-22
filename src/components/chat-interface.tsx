@@ -16,7 +16,8 @@ import {
 import { CopyButton } from "./ui/copy-button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useState } from "react";
-import { getShareUrl } from "@/lib/actions/share-video";
+import { createShareVideo } from "@/lib/services/api";
+import { RuntimeClient } from "@/lib/services/RuntimeClient";
 import { toast } from "sonner";
 
 interface ChatInterfaceProps {
@@ -41,16 +42,18 @@ export default function ChatInterface({ videoId, userVideoId, initialMessages, q
   
   const [shareUrl, setShareUrl] = useState<string>('');
   const [isGeneratingUrl, setIsGeneratingUrl] = useState(false);
+  const [popoverOpen, setPopoverOpen] = useState(false);
   
   const handleShareClick = async () => {
     try {
       setIsGeneratingUrl(true);
-      const url = await getShareUrl(videoId);
-      setShareUrl(url);
-      setIsGeneratingUrl(false);
+      const response = await RuntimeClient.runPromise(createShareVideo({ youtubeId: videoId, userVideoId }))
+      setShareUrl(response.url);
     } catch (error) {
       console.error("Error generating share URL:", error);
       toast.error("Failed to generate share URL");
+      setPopoverOpen(false);
+    } finally {
       setIsGeneratingUrl(false);
     }
   };
@@ -60,31 +63,40 @@ export default function ChatInterface({ videoId, userVideoId, initialMessages, q
       <div className="px-4 py-2.5 border-b bg-white dark:bg-black sticky top-0 z-50 flex justify-between items-center">
         <h2 className="font-semibold tracking-tight dark:text-foreground">Chat</h2>
         <div className="flex gap-2">
-          <Popover>
+          <Popover open={popoverOpen} onOpenChange={(open) => {
+            if (open && !shareUrl && !isGeneratingUrl) {
+              handleShareClick();
+            }
+            setPopoverOpen(open);
+          }}>
             <PopoverTrigger asChild>
               <Button 
                 variant="ghost" 
-                size="icon" 
-                onClick={handleShareClick}
-                disabled={isGeneratingUrl}
+                size="icon"
               >
                 <Share2 className="size-4" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80">
-              <div className="space-y-2">
-                <h4 className="font-medium">Share this chat</h4>
-                <p className="text-sm text-muted-foreground">Anyone with this link can view this chat</p>
-                <div className="flex items-center space-x-2 pt-2">
-                  <div className="grid flex-1 items-center gap-2">
-                    <div className="flex items-center border rounded-md px-3 py-2 bg-muted">
-                      <Link className="h-4 w-4 mr-2 flex-shrink-0 text-muted-foreground" />
-                      <span className="text-sm truncate">{shareUrl}</span>
-                    </div>
-                  </div>
-                  <CopyButton content={shareUrl} copyMessage="Link copied!" />
+              {isGeneratingUrl ? (
+                <div className="space-y-2">
+                  <p className="text-sm text-center p-4 text-muted-foreground">Generating share link...</p>
                 </div>
-              </div>
+              ) : (
+                <div className="space-y-2">
+                  <h4 className="font-medium">Share this chat</h4>
+                  <p className="text-sm text-muted-foreground">Anyone with this link can view this chat</p>
+                  <div className="flex items-center space-x-2 pt-2">
+                    <div className="grid flex-1 items-center gap-2">
+                      <div className="flex items-center border rounded-md px-3 py-2 bg-muted">
+                        <Link className="h-4 w-4 mr-2 flex-shrink-0 text-muted-foreground" />
+                        <span className="text-sm truncate">{shareUrl}</span>
+                      </div>
+                    </div>
+                    <CopyButton content={shareUrl} copyMessage="Link copied!" />
+                  </div>
+                </div>
+              )}
             </PopoverContent>
           </Popover>
           <Button variant="ghost" size="icon">
