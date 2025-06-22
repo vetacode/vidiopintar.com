@@ -17,7 +17,7 @@ function generateSlug(length: number = 8): string {
  * @param youtubeId The YouTube ID of the video to share
  * @returns The slug for the shared video
  */
-export async function createSharedVideo(youtubeId: string, userVideoId: number): Promise<string> {
+async function createSharedVideo(youtubeId: string, userVideoId: number): Promise<string> {
   const user = await getCurrentUser();
   if (!user) {
     throw new Error("Authentication required");
