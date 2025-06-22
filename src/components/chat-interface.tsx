@@ -102,10 +102,8 @@ export default function ChatInterface({ videoId, userVideoId, initialMessages, q
           </Popover>
           {!isSharePage && (
             <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
+              <TooltipTrigger className={buttonVariants({ variant: "ghost", size: "icon" })}>
                   <Trash2 className="size-4" />
-                </Button>
               </TooltipTrigger>
               <TooltipContent>
                 <p>Clear chat messages</p>
