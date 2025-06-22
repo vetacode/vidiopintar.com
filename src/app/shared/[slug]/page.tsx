@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SummarySection from "@/components/summary-section";
 import TranscriptView from "@/components/transcript-view";
 import { getChatHistory } from "@/lib/storage";
-import { fetchVideoTranscript, generateQuickStartQuestions } from "@/lib/youtube";
+import { fetchVideoTranscript } from "@/lib/youtube";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { formatShareChatUrl } from "@/lib/utils";
@@ -59,9 +59,6 @@ export default async function SharedVideoPage({ params }: SharedVideoPageProps) 
   const messages = await getChatHistory(sharedVideo.youtubeId, sharedVideo.userVideoId);
   
   let quickStartQuestions: string[] = [];
-  if (messages.length === 0 && sharedVideo.summary) {
-    quickStartQuestions = await generateQuickStartQuestions(sharedVideo.summary);
-  }
 
   return (
     <main className="flex flex-col min-h-screen bg-melody-gradient relative">
