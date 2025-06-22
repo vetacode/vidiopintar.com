@@ -22,7 +22,7 @@ interface VideoListProps {
 export function VideoList({ videos }: VideoListProps) {
     const { openDialog } = useDeleteVideoDialogStore();
 
-    if (!videos || videos.length === 0) return <p className='text-center text-muted-foreground mt-10'>No videos uploaded yet.</p>;
+    if (!videos || videos.length === 0) return <p className='text-center text-muted-foreground mt-10'>No videos yet.</p>;
 
     return (
         <>
