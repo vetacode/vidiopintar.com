@@ -25,9 +25,12 @@ interface ChatInterfaceProps {
   userVideoId: number;
   quickStartQuestions: string[];
   initialMessages: any[];
+  isSharePage?: boolean;
+  isLoggedIn?: boolean;
+  shareChatUrl?: string;
 }
 
-export default function ChatInterface({ videoId, userVideoId, initialMessages, quickStartQuestions }: ChatInterfaceProps) {
+export default function ChatInterface({ videoId, userVideoId, initialMessages, quickStartQuestions, shareChatUrl, isSharePage = false, isLoggedIn = false }: ChatInterfaceProps) {
   const {
     messages,
     input,
@@ -42,10 +45,11 @@ export default function ChatInterface({ videoId, userVideoId, initialMessages, q
 
   const [shareState, setShareState] = useState({
     isLoading: false,
-    url: null as string | null,
+    url: isSharePage ? shareChatUrl : null,
   });
 
   const handleShareClick = async () => {
+    if (isSharePage) return;
     setShareState({ isLoading: true, url: null });
     try {
       const response = await RuntimeClient.runPromise(createShareVideo({ youtubeId: videoId, userVideoId }))
@@ -91,9 +95,11 @@ export default function ChatInterface({ videoId, userVideoId, initialMessages, q
               )}
             </PopoverContent>
           </Popover>
-          <Button variant="ghost" size="icon">
-            <Trash2 className="size-4" />
-          </Button>
+          {!isSharePage && (
+            <Button variant="ghost" size="icon">
+              <Trash2 className="size-4" />
+            </Button>
+          )}
         </div>
       </div>
       <ChatContainerRoot className="flex-1">
@@ -155,33 +161,51 @@ export default function ChatInterface({ videoId, userVideoId, initialMessages, q
         )}
       </ChatContainerRoot>
       <div className="p-4">
-        <PromptInput
-          value={input}
-          onValueChange={(value) => setInput(value)}
-          isLoading={status === "streaming"}
-          onSubmit={handleSubmit}
-          className="w-full"
-        >
-          <PromptInputTextarea placeholder="Ask anything..." />
-          <PromptInputActions className="justify-end pt-2">
-            <PromptInputAction
-              tooltip={status === "streaming" ? "Stop generation" : "Send message"}
-            >
-              <Button
-                variant="default"
-                size="icon"
-                className="h-8 w-8 rounded-full"
-                onClick={handleSubmit}
+        {isSharePage ? (
+          <div className="text-center text-sm text-muted-foreground">
+            {isLoggedIn ? (
+              <a href={`/video/${videoId}`}>
+                <Button variant="outline">
+                  Click to continue the conversation
+                </Button>
+              </a>
+            ) : (
+              <a href="/login">
+                <Button variant="outline">
+                  Login to start your conversation
+                </Button>
+              </a>
+            )}
+          </div>
+        ) : (
+          <PromptInput
+            value={input}
+            onValueChange={(value) => setInput(value)}
+            isLoading={status === "streaming"}
+            onSubmit={handleSubmit}
+            className="w-full"
+          >
+            <PromptInputTextarea placeholder="Ask anything..." />
+            <PromptInputActions className="justify-end pt-2">
+              <PromptInputAction
+                tooltip={status === "streaming" ? "Stop generation" : "Send message"}
               >
-                {status === "streaming" ? (
-                  <Square className="size-5 fill-current" />
-                ) : (
-                  <ArrowUp className="size-5" />
-                )}
-              </Button>
-            </PromptInputAction>
-          </PromptInputActions>
-        </PromptInput>
+                <Button
+                  variant="default"
+                  size="icon"
+                  className="h-8 w-8 rounded-full"
+                  onClick={handleSubmit}
+                >
+                  {status === "streaming" ? (
+                    <Square className="size-5 fill-current" />
+                  ) : (
+                    <ArrowUp className="size-5" />
+                  )}
+                </Button>
+              </PromptInputAction>
+            </PromptInputActions>
+          </PromptInput>
+        )}
       </div>
     </div>
   )

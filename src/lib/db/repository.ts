@@ -203,9 +203,12 @@ export const SharedVideoRepository = {
         publishedAt: videos.publishedAt,
         thumbnailUrl: videos.thumbnailUrl,
         createdAt: sharedVideos.createdAt,
+        userVideoId: sharedVideos.userVideoId,
+        summary: userVideos.summary,
       })
       .from(sharedVideos)
       .innerJoin(videos, eq(sharedVideos.youtubeId, videos.youtubeId))
+      .innerJoin(userVideos, eq(sharedVideos.userVideoId, userVideos.id))
       .where(eq(sharedVideos.slug, slug));
     
     return result[0];

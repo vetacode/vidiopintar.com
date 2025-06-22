@@ -1,6 +1,18 @@
 import { notFound } from "next/navigation";
-import { SharedVideoRepository, VideoRepository } from "@/lib/db/repository";
+import { SharedVideoRepository } from "@/lib/db/repository";
 import { Metadata } from "next";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import ChatInterface from "@/components/chat-interface";
+import VideoPlayer from "@/components/video-player";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import SummarySection from "@/components/summary-section";
+import TranscriptView from "@/components/transcript-view";
+import { getChatHistory } from "@/lib/storage";
+import { fetchVideoTranscript, generateQuickStartQuestions } from "@/lib/youtube";
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
+import { formatShareChatUrl } from "@/lib/utils";
 
 interface SharedVideoPageProps {
   params: {
@@ -33,36 +45,73 @@ export async function generateMetadata({ params }: SharedVideoPageProps): Promis
 export default async function SharedVideoPage({ params }: SharedVideoPageProps) {
   const { slug } = params;
   
+  const session = await auth.api.getSession({ headers: headers() });
+  const isLoggedIn = !!session?.user;
+  const shareChatUrl = formatShareChatUrl(slug);
+
   const sharedVideo = await SharedVideoRepository.getBySlugWithDetails(slug);
   
-  if (!sharedVideo) {
+  if (!sharedVideo || !sharedVideo.userVideoId) {
     notFound();
   }
 
+  const transcript = await fetchVideoTranscript(sharedVideo.youtubeId);
+  const messages = await getChatHistory(sharedVideo.youtubeId, sharedVideo.userVideoId);
+  
+  let quickStartQuestions: string[] = [];
+  if (messages.length === 0 && sharedVideo.summary) {
+    quickStartQuestions = await generateQuickStartQuestions(sharedVideo.summary);
+  }
+
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-4">{sharedVideo.title}</h1>
-      
-      <div className="aspect-video mb-6">
-        <iframe
-          className="w-full h-full"
-          src={`https://www.youtube.com/embed/${sharedVideo.youtubeId}`}
-          title={sharedVideo.title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
+    <main className="flex flex-col min-h-screen bg-melody-gradient relative">
+      <div className="relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-7 h-screen">
+          <div className="lg:col-span-4 h-full overflow-y-auto scrollbar-none relative">
+            <div className="sticky top-0 z-50 bg-white dark:bg-black border-b">
+              <div className="flex items-center p-4 gap-2">
+                <Link href="/home" className="text-foreground hover:underline hover:text-melody transition-colors inline-flex gap-2 items-center">
+                  Home
+                </Link>
+                <ChevronRight className="size-5 text-muted-foreground" />
+                <h1 className="font-semibold tracking-tight flex-1 truncate">{sharedVideo.title}</h1>
+              </div>
+            </div>
+            <VideoPlayer videoId={sharedVideo.youtubeId} />
+
+            <div className="p-3">
+              <Tabs defaultValue="summary" className="w-full">
+                <TabsList>
+                  <TabsTrigger value="summary">
+                    <span className="flex items-center gap-2">Summary</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="transcript">
+                    <span className="flex items-center gap-2">Transcript</span>
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="summary" className="h-full overflow-y-auto p-0 m-0">
+                  <SummarySection videoId={sharedVideo.youtubeId} initialSummary={sharedVideo.summary ?? ""} />
+                </TabsContent>
+                <TabsContent value="transcript" className="h-full overflow-y-auto p-0 m-0">
+                  <TranscriptView transcript={transcript} />
+                </TabsContent>
+              </Tabs>
+            </div>
+          </div>
+
+          <div className="lg:col-span-3 flex flex-col h-full md:h-auto relative">
+            <ChatInterface 
+              videoId={sharedVideo.youtubeId} 
+              userVideoId={sharedVideo.userVideoId} 
+              initialMessages={messages} 
+              quickStartQuestions={quickStartQuestions}
+              isSharePage={true}
+              isLoggedIn={isLoggedIn}
+              shareChatUrl={shareChatUrl}
+            />
+          </div>
+        </div>
       </div>
-      
-      <div className="mb-6">
-        <h2 className="text-xl font-semibold mb-2">Description</h2>
-        <p className="whitespace-pre-line">{sharedVideo.description}</p>
-      </div>
-      
-      <div className="text-sm text-gray-500">
-        <p>Channel: {sharedVideo.channelTitle}</p>
-        <p>Published: {new Date(sharedVideo.publishedAt || "").toLocaleDateString()}</p>
-        <p>Shared: {new Date(sharedVideo.createdAt).toLocaleDateString()}</p>
-      </div>
-    </div>
+    </main>
   );
 }

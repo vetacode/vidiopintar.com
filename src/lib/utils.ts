@@ -26,3 +26,7 @@ export function extractVideoId(url: string): string | null {
 
   return null
 }
+
+export function formatShareChatUrl(slug: string) {
+  return `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/shared/${slug}`
+}

@@ -2,14 +2,12 @@ import { google } from '@ai-sdk/google';
 import { generateText } from 'ai';
 
 export async function generateSummary(text: string): Promise<string> {
-  console.log("Start summarizing!");
   // Limit the input to the first 4000 words
   const MAX_WORDS = 4000;
   let truncatedText = text;
   const words = text.split(/\s+/);
   if (words.length > MAX_WORDS) {
     truncatedText = words.slice(0, MAX_WORDS).join(' ');
-    console.log('Truncated text:', truncatedText);
   }
 
   const systemPrompt = `
