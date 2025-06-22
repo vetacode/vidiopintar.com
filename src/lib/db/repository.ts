@@ -31,7 +31,8 @@ export const VideoRepository = {
       })
       .from(userVideos)
       .innerJoin(videos, eq(userVideos.youtubeId, videos.youtubeId))
-      .where(eq(userVideos.userId, userId));
+      .where(eq(userVideos.userId, userId))
+      .orderBy(desc(userVideos.createdAt));
   },
   // Get a video by YouTube ID
   async getByYoutubeId(youtubeId: string): Promise<Video | undefined> {
