@@ -1,5 +1,5 @@
 import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "@effect/platform";
-import { Effect, flow, Schema } from "effect";
+import { Effect, flow } from "effect";
 import { ShareChatRequest, ShareChatResponse } from "@/lib/services/schema";
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
