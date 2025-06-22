@@ -102,6 +102,11 @@ export const MessageRepository = {
 };
 
 export const UserVideoRepository = {
+  // Get a user_video by id
+  async getById(id: number): Promise<UserVideo | undefined> {
+    const result = await db.select().from(userVideos).where(eq(userVideos.id, id));
+    return result[0];
+  },
   // Delete a user_video by id
   async delete(id: number): Promise<void> {
     await db.delete(userVideos).where(eq(userVideos.id, id));

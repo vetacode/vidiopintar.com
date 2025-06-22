@@ -1,6 +1,6 @@
 
 import { nanoid } from 'nanoid';
-import { SharedVideoRepository, VideoRepository } from '@/lib/db/repository';
+import { SharedVideoRepository, UserVideoRepository, VideoRepository } from '@/lib/db/repository';
 import { getCurrentUser } from '@/lib/auth';
 import { env } from '@/lib/env/server';
 
@@ -22,6 +22,11 @@ async function createSharedVideo(youtubeId: string, userVideoId: number): Promis
   const user = await getCurrentUser();
   if (!user) {
     throw new Error("Authentication required");
+  }
+
+  const userVideo = await UserVideoRepository.getById(userVideoId);
+  if (!userVideo || userVideo.userId !== user.id) {
+    throw new Error("Forbidden");
   }
 
   // Check if the video exists
