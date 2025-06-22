@@ -12,7 +12,7 @@ import { getChatHistory } from "@/lib/storage";
 import { fetchVideoTranscript } from "@/lib/youtube";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { formatShareChatUrl } from "@/lib/utils";
+import { env } from "@/lib/env/server";
 
 interface SharedVideoPageProps {
   params: {
@@ -47,8 +47,7 @@ export default async function SharedVideoPage({ params }: SharedVideoPageProps) 
   
   const session = await auth.api.getSession({ headers: headers() });
   const isLoggedIn = !!session?.user;
-  const shareChatUrl = formatShareChatUrl(slug);
-
+  const shareChatUrl = `${env.BETTER_AUTH_URL}/shared/${slug}`;
   const sharedVideo = await SharedVideoRepository.getBySlugWithDetails(slug);
   
   if (!sharedVideo || !sharedVideo.userVideoId) {

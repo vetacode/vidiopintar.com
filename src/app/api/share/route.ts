@@ -2,6 +2,7 @@
 import { nanoid } from 'nanoid';
 import { SharedVideoRepository, VideoRepository } from '@/lib/db/repository';
 import { getCurrentUser } from '@/lib/auth';
+import { env } from '@/lib/env/server';
 
 /**
  * Generate a slug for sharing a video
@@ -59,5 +60,5 @@ async function createSharedVideo(youtubeId: string, userVideoId: number): Promis
 export async function POST(req: Request) {
     const { youtubeId, userVideoId } = await req.json();
     const slug = await createSharedVideo(youtubeId, userVideoId);
-    return Response.json({ url: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/shared/${slug}` });
+    return Response.json({ url: `${env.BETTER_AUTH_URL}/shared/${slug}` });
 }
