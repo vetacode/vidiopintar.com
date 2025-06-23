@@ -185,15 +185,15 @@ export async function fetchVideoTranscript(videoId: string) {
 export async function generateQuickStartQuestions(summary: string) {
   let prompt = `You are a helpful assistant that analyzes YouTube video transcript summaries and generates relevant questions to facilitate learning and discussion.
 
-When given a transcript summary, generate exactly 4 first-person questions that sound like genuine reactions to the specific content.
+When given a transcript summary, generate exactly 4 first-person questions that capture the feeling of discovering ideas in real-time.
 
 Your questions should:
-- Directly reference specific ideas from the summary
-- Use natural, varied first-person language
-- Sound like spontaneous thoughts while learning
-- Avoid generic question templates
+- Sound like someone thinking out loud while learning
+- React naturally to surprising or interesting points
+- Mix short reactions with longer wonderings
+- Feel genuinely engaged with the specific content
 
-Let the content guide your question style - be specific and reactive to what's actually in the summary. Make each question feel like a unique personal response to that particular point.
+Write questions as if you're having an internal dialogue - sometimes excited ("Oh, so I could..."), sometimes puzzled ("Wait, does this mean I..."), sometimes connecting dots ("This reminds me... could I..."). Match the energy and tone to what's being discussed.
 
 Format: Present only the 4 questions as a numbered list (1-4), without any additional text, explanation, or preamble.
 
