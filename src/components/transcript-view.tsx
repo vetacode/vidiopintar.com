@@ -21,7 +21,7 @@ interface TranscriptViewProps {
   }
 }
 
-export default function TranscriptView({ transcript }: TranscriptViewProps) {
+export function TranscriptView({ transcript }: TranscriptViewProps) {
   const [searchQuery, setSearchQuery] = useState("")
 
   const filteredSegments = searchQuery

@@ -21,7 +21,7 @@ import {
 import { CopyButton } from "./ui/copy-button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useState } from "react";
-import { createShareVideo } from "@/lib/services/api";
+import { createShareVideo, clearChatMessages } from "@/lib/services/api";
 import { RuntimeClient } from "@/lib/services/RuntimeClient";
 import { toast } from "sonner";
 
@@ -49,6 +49,7 @@ export function ChatInterface({
     setInput,
     handleSubmit,
     status,
+    setMessages,
   } = useChat({
     api: '/api/chat',
     initialMessages,
@@ -60,6 +61,10 @@ export function ChatInterface({
     url: isSharePage ? shareChatUrl : null,
   });
 
+  const [clearState, setClearState] = useState({
+    isLoading: false,
+  });
+
   const handleShareClick = async () => {
     if (isSharePage) return;
     setShareState({ isLoading: true, url: null });
@@ -69,6 +74,21 @@ export function ChatInterface({
     } catch (error) {
       toast.error("Failed to generate share URL");
       setShareState({ isLoading: false, url: null });
+    }
+  };
+
+  const handleClearMessages = async () => {
+    if (isSharePage || clearState.isLoading) return;
+    
+    setClearState({ isLoading: true });
+    try {
+      await RuntimeClient.runPromise(clearChatMessages({ userVideoId }));
+      setMessages([]);
+      toast.success("Chat messages cleared successfully");
+    } catch (error) {
+      toast.error("Failed to clear chat messages");
+    } finally {
+      setClearState({ isLoading: false });
     }
   };
 
@@ -109,11 +129,15 @@ export function ChatInterface({
           </Popover>
           {!isSharePage && (
             <Tooltip>
-              <TooltipTrigger className={buttonVariants({ variant: "ghost", size: "icon" })}>
-                  <Trash2 className="size-4" />
+              <TooltipTrigger 
+                className={buttonVariants({ variant: "ghost", size: "icon" })}
+                onClick={handleClearMessages}
+                disabled={clearState.isLoading}
+              >
+                <Trash2 className="size-4" />
               </TooltipTrigger>
               <TooltipContent>
-                <p>Clear chat messages</p>
+                <p>{clearState.isLoading ? "Clearing..." : "Clear chat messages"}</p>
               </TooltipContent>
             </Tooltip>
           )}

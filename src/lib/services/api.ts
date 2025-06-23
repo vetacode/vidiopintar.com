@@ -1,6 +1,6 @@
 import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "@effect/platform";
 import { Effect, flow } from "effect";
-import { ShareChatRequest, ShareChatResponse } from "@/lib/services/schema";
+import { ShareChatRequest, ShareChatResponse, ClearMessagesRequest, ClearMessagesResponse } from "@/lib/services/schema";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
@@ -24,6 +24,13 @@ export class Api extends Effect.Service<Api>()("Api", {
                     Effect.flatMap(client.execute),
                     Effect.flatMap(HttpClientResponse.schemaBodyJson(ShareChatResponse)),
                     Effect.scoped
+                ),
+            clearMessages: (body: ClearMessagesRequest) =>
+                HttpClientRequest.schemaBodyJson(ClearMessagesRequest)
+                (HttpClientRequest.post("/clear-messages"), body).pipe(
+                    Effect.flatMap(client.execute),
+                    Effect.flatMap(HttpClientResponse.schemaBodyJson(ClearMessagesResponse)),
+                    Effect.scoped
                 )
         };
     }),
@@ -35,4 +42,11 @@ export const createShareVideo = (
 ) => Effect.gen(function* () {
     const api = yield* Api;
     return yield* api.createShareVideo(input);
+});
+
+export const clearChatMessages = (
+    input: ClearMessagesRequest
+) => Effect.gen(function* () {
+    const api = yield* Api;
+    return yield* api.clearMessages(input);
 });

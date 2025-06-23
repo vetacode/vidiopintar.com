@@ -1,11 +1,10 @@
 import { fetchVideoDetails, fetchVideoTranscript, generateQuickStartQuestions, saveVideoUser } from "@/lib/youtube"
-import VideoPlayer from "@/components/video-player"
+import { VideoPlayer } from "@/components/video-player"
 import { getChatHistory } from "@/lib/storage"
-import TranscriptView from "@/components/transcript-view"
+import { TranscriptView } from "@/components/transcript-view"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronRight } from "lucide-react"
-import Link from "next/link"
-import SummarySection from "@/components/summary-section"
+import { SummarySection } from "@/components/summary-section"
 import { ChatInterface } from "@/components/chat-interface"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
@@ -22,7 +21,9 @@ export default async function VideoPage({ params }: { params: { videoId: string 
   }
 
   if (messages.length === 0 && videoDetails.userVideo?.summary) {
-    quickStartQuestions = await generateQuickStartQuestions(videoDetails.userVideo.summary)
+    quickStartQuestions = await generateQuickStartQuestions(
+      `${videoDetails.title}\n${videoDetails.description}\nSummary: \n${videoDetails.userVideo.summary}`
+    )
   }
 
   return (
@@ -32,13 +33,14 @@ export default async function VideoPage({ params }: { params: { videoId: string 
           <div className="lg:col-span-4 h-full overflow-y-auto scrollbar-none relative">
             <div className="sticky top-0 z-50 bg-white dark:bg-black border-b">
               <div className="flex items-center p-4 gap-2">
-                <Link href="/home" className="text-foreground hover:underline hover:text-melody transition-colors inline-flex gap-2 items-center">
+                <a href="/home" className="text-foreground hover:underline hover:text-melody transition-colors inline-flex gap-2 items-center">
                   Home
-                </Link>
+                </a>
                 <ChevronRight className="size-5 text-muted-foreground" />
                 <h1 className="font-semibold tracking-tight flex-1 truncate">{videoDetails.title}</h1>
               </div>
             </div>
+
             <VideoPlayer videoId={videoId} />
 
             <div className="p-3">

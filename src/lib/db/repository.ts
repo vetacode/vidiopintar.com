@@ -140,6 +140,11 @@ export const UserVideoRepository = {
   async getAllByUser(userId: string): Promise<UserVideo[]> {
     return await db.select().from(userVideos).where(eq(userVideos.userId, userId)).orderBy(desc(userVideos.createdAt));
   },
+
+  // Clear all messages for a user_video
+  async clearMessages(userVideoId: number): Promise<void> {
+    await db.delete(messages).where(eq(messages.userVideoId, userVideoId));
+  },
 };
 
 export const TranscriptRepository = {

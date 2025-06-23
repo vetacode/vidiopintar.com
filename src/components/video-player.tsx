@@ -6,7 +6,7 @@ interface VideoPlayerProps {
   videoId: string
 }
 
-export default function VideoPlayer({ videoId }: VideoPlayerProps) {
+export function VideoPlayer({ videoId }: VideoPlayerProps) {
   const [isLoading, setIsLoading] = useState(true)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 

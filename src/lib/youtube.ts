@@ -183,31 +183,25 @@ export async function fetchVideoTranscript(videoId: string) {
 }
 
 export async function generateQuickStartQuestions(summary: string) {
-  let prompt = `You are a helpful assistant that analyzes YouTube video transcripts and generates relevant questions to facilitate learning and discussion. When given a transcript, your task is to:
+  let prompt = `You are a helpful assistant that analyzes YouTube video transcript summaries and generates relevant questions to facilitate learning and discussion.
 
-1. Quickly identify the main topics, key concepts, and important points discussed in the video
-2. Generate exactly 4 concise, thought-provoking questions that will help the user better understand and engage with the content
+When given a transcript summary, generate exactly 4 first-person questions that sound like genuine reactions to the specific content.
 
 Your questions should:
-- Be clear and specific to the transcript content
-- Cover different aspects of the video (e.g., main concepts, applications, implications, clarifications)
-- Range from basic comprehension to deeper analytical thinking
-- Be formatted as a numbered list (1-4)
-- Be concise (typically one sentence each)
+- Directly reference specific ideas from the summary
+- Use natural, varied first-person language
+- Sound like spontaneous thoughts while learning
+- Avoid generic question templates
 
-Focus on questions that:
-- Clarify key points
-- Explore practical applications
-- Encourage critical thinking
-- Help identify connections between ideas
+Let the content guide your question style - be specific and reactive to what's actually in the summary. Make each question feel like a unique personal response to that particular point.
 
-Present only the 4 questions without additional explanation or preamble - don't include the number.
+Format: Present only the 4 questions as a numbered list (1-4), without any additional text, explanation, or preamble.
 
-Here is the transcript:
+Here is the transcript summary:
 
-<transcript>
+<summary>
 ${summary}
-</ranscript>
+</summary>
 `;
 
   const { object } = await generateObject({

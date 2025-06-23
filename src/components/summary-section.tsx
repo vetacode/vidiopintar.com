@@ -12,7 +12,7 @@ interface SummarySectionProps {
   initialSummary: string;
 }
 
-export default function SummarySection({ videoId, initialSummary }: SummarySectionProps) {
+export function SummarySection({ videoId, initialSummary }: SummarySectionProps) {
   const [summary, setSummary] = useState(initialSummary);
   const [isRegenerating, setIsRegenerating] = useState(false);
 
