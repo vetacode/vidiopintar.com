@@ -4,10 +4,10 @@ import { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { ChatInterface } from "@/components/chat-interface";
-import VideoPlayer from "@/components/video-player";
+import { VideoPlayer } from "@/components/video-player";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SummarySection from "@/components/summary-section";
-import TranscriptView from "@/components/transcript-view";
+import { SummarySection } from "@/components/summary-section";
+import { TranscriptView } from "@/components/transcript-view";
 import { getChatHistory } from "@/lib/storage";
 import { fetchVideoTranscript } from "@/lib/youtube";
 import Link from "next/link";
@@ -22,9 +22,9 @@ interface SharedVideoPageProps {
 
 export async function generateMetadata({ params }: SharedVideoPageProps): Promise<Metadata> {
   const { slug } = params;
-  
+
   const sharedVideo = await SharedVideoRepository.getBySlugWithDetails(slug);
-  
+
   if (!sharedVideo) {
     return {
       title: "Video Not Found",
@@ -44,19 +44,19 @@ export async function generateMetadata({ params }: SharedVideoPageProps): Promis
 
 export default async function SharedVideoPage({ params }: SharedVideoPageProps) {
   const { slug } = params;
-  
+
   const session = await auth.api.getSession({ headers: headers() });
   const isLoggedIn = !!session?.user;
   const shareChatUrl = `${env.BETTER_AUTH_URL}/shared/${slug}`;
   const sharedVideo = await SharedVideoRepository.getBySlugWithDetails(slug);
-  
+
   if (!sharedVideo || !sharedVideo.userVideoId) {
     notFound();
   }
 
   const transcript = await fetchVideoTranscript(sharedVideo.youtubeId);
   const messages = await getChatHistory(sharedVideo.youtubeId, sharedVideo.userVideoId);
-  
+
   let quickStartQuestions: string[] = [];
 
   return (
@@ -96,10 +96,10 @@ export default async function SharedVideoPage({ params }: SharedVideoPageProps) 
           </div>
 
           <div className="lg:col-span-3 flex flex-col h-full md:h-auto relative">
-            <ChatInterface 
-              videoId={sharedVideo.youtubeId} 
-              userVideoId={sharedVideo.userVideoId} 
-              initialMessages={messages} 
+            <ChatInterface
+              videoId={sharedVideo.youtubeId}
+              userVideoId={sharedVideo.userVideoId}
+              initialMessages={messages}
               quickStartQuestions={quickStartQuestions}
               isSharePage={true}
               isLoggedIn={isLoggedIn}
