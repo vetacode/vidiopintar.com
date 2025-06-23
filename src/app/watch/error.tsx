@@ -1,33 +1,24 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { useState } from "react";
 
 export default function Error({
-  error,
-  reset,
+    error,
+    reset,
 }: {
-  error: Error & { digest?: string };
-  reset: () => void;
+    error: Error & { digest?: string };
+    reset: () => void;
 }) {
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleReset = () => {
-    setIsLoading(true);
-    reset();
-  };
-
-  return (
-    <div className="container mx-auto py-12 text-center">
-      <h2 className="text-xl font-semibold mb-4">Failed to process video!</h2>
-      <p className="text-gray-600 mb-4">{error.message}</p>
-      <Button
-        onClick={handleReset}
-        disabled={isLoading}
-      >
-        {isLoading ? <LoadingSpinner text="Trying again..." /> : "Try again"}
-      </Button>
-    </div>
-  );
+    return (
+        <div className="h-screen w-full flex flex-col justify-center">
+            <div className="text-center">
+                <h2 className="text-xl font-semibold mb-4">Something went wrong!</h2>
+                <p className="text-gray-600 mb-4">{error.message}</p>
+                <Button
+                    onClick={reset}
+                >Try again
+                </Button>
+            </div>
+        </div>
+    );
 }

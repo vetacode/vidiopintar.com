@@ -10,6 +10,9 @@ async function ProcessAndRedirect({ videoUrl }: { videoUrl: string }) {
     return <div>Invalid video URL provided.</div>;
   }
 
+  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  // throw new Error('Failed to process video');
+
   await processVideo(videoId);
 
   redirect(`/video/${videoId}`);
