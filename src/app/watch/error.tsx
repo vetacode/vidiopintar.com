@@ -20,7 +20,7 @@ export default function Error({
 
   return (
     <div className="container mx-auto py-12 text-center">
-      <h2 className="text-xl font-semibold mb-4">Something went wrong!</h2>
+      <h2 className="text-xl font-semibold mb-4">Failed to process video!</h2>
       <p className="text-gray-600 mb-4">{error.message}</p>
       <Button
         onClick={handleReset}
