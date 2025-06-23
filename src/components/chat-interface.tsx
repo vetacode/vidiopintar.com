@@ -35,7 +35,14 @@ interface ChatInterfaceProps {
   shareChatUrl?: string;
 }
 
-export default function ChatInterface({ videoId, userVideoId, initialMessages, quickStartQuestions, shareChatUrl, isSharePage = false, isLoggedIn = false }: ChatInterfaceProps) {
+export function ChatInterface({ 
+  videoId,
+  userVideoId,
+  initialMessages,
+  quickStartQuestions,
+  shareChatUrl,
+  isSharePage = false,
+  isLoggedIn = false }: ChatInterfaceProps) {
   const {
     messages,
     input,

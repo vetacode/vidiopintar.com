@@ -3,7 +3,7 @@ import { SharedVideoRepository } from "@/lib/db/repository";
 import { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import ChatInterface from "@/components/chat-interface";
+import { ChatInterface } from "@/components/chat-interface";
 import VideoPlayer from "@/components/video-player";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SummarySection from "@/components/summary-section";
