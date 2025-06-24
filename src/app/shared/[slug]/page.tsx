@@ -57,7 +57,6 @@ export default async function SharedVideoPage({ params }: SharedVideoPageProps) 
   const transcript = await fetchVideoTranscript(sharedVideo.youtubeId);
   const messages = await getChatHistory(sharedVideo.youtubeId, sharedVideo.userVideoId);
 
-  // Use database-stored quickStartQuestions if available
   const quickStartQuestions: string[] = sharedVideo.quickStartQuestions || [];
 
   return (
@@ -67,9 +66,9 @@ export default async function SharedVideoPage({ params }: SharedVideoPageProps) 
           <div className="lg:col-span-4 h-full overflow-y-auto scrollbar-none relative">
             <div className="sticky top-0 z-50 bg-white dark:bg-black border-b">
               <div className="flex items-center p-4 gap-2">
-                <Link href="/home" className="text-foreground hover:underline hover:text-melody transition-colors inline-flex gap-2 items-center">
+                <a href="/home" className="text-foreground hover:underline hover:text-melody transition-colors inline-flex gap-2 items-center">
                   Home
-                </Link>
+                </a>
                 <ChevronRight className="size-5 text-muted-foreground" />
                 <h1 className="font-semibold tracking-tight flex-1 truncate">{sharedVideo.title}</h1>
               </div>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useChat } from "@ai-sdk/react";
-import { ArrowUp, Square, Share2, Trash2, Link } from "lucide-react"
+import { ArrowUp, Square, Share2, Trash2, Link as LinkIcon} from "lucide-react"
 import { flushSync } from "react-dom"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Markdown } from "@/components/ui/markdown"
@@ -117,7 +117,7 @@ export function ChatInterface({
                   <div className="flex items-center space-x-2 pt-2">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center border rounded-md px-3 py-2 bg-muted">
-                        <Link className="h-4 w-4 mr-2 flex-shrink-0 text-muted-foreground" />
+                        <LinkIcon className="h-4 w-4 mr-2 flex-shrink-0 text-muted-foreground" />
                         {shareState.url && <span className="text-sm truncate">{shareState.url}</span>}
                       </div>
                     </div>
