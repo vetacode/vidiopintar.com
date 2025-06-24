@@ -136,6 +136,15 @@ export const UserVideoRepository = {
     return result[0];
   },
 
+  // Update quickStartQuestions for a user_video
+  async updateQuickStartQuestions(id: number, quickStartQuestions: string[]): Promise<UserVideo | undefined> {
+    const result = await db.update(userVideos)
+      .set({ quickStartQuestions, updatedAt: new Date() })
+      .where(eq(userVideos.id, id))
+      .returning();
+    return result[0];
+  },
+
   // Get all user_videos for a user
   async getAllByUser(userId: string): Promise<UserVideo[]> {
     return await db.select().from(userVideos).where(eq(userVideos.userId, userId)).orderBy(desc(userVideos.createdAt));
@@ -215,6 +224,7 @@ export const SharedVideoRepository = {
         createdAt: sharedVideos.createdAt,
         userVideoId: sharedVideos.userVideoId,
         summary: userVideos.summary,
+        quickStartQuestions: userVideos.quickStartQuestions,
       })
       .from(sharedVideos)
       .innerJoin(videos, eq(sharedVideos.youtubeId, videos.youtubeId))

@@ -182,7 +182,7 @@ export async function fetchVideoTranscript(videoId: string) {
   }
 }
 
-export async function generateQuickStartQuestions(summary: string) {
+export async function generateQuickStartQuestions(summary: string, userVideoId?: number) {
   let prompt = `You are a helpful assistant that analyzes YouTube video transcript summaries and generates relevant questions to facilitate learning and discussion.
 
 When given a transcript summary, generate exactly 4 first-person questions that capture the feeling of discovering ideas in real-time.
@@ -211,5 +211,13 @@ ${summary}
       questions: z.array(z.string()),
     }),
   });
-  return object?.questions || [];
+  
+  const questions = object?.questions || [];
+  
+  // Save to database if userVideoId is provided
+  if (userVideoId && questions.length > 0) {
+    await UserVideoRepository.updateQuickStartQuestions(userVideoId, questions);
+  }
+  
+  return questions;
 }

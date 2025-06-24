@@ -57,7 +57,8 @@ export default async function SharedVideoPage({ params }: SharedVideoPageProps) 
   const transcript = await fetchVideoTranscript(sharedVideo.youtubeId);
   const messages = await getChatHistory(sharedVideo.youtubeId, sharedVideo.userVideoId);
 
-  let quickStartQuestions: string[] = [];
+  // Use database-stored quickStartQuestions if available
+  const quickStartQuestions: string[] = sharedVideo.quickStartQuestions || [];
 
   return (
     <main className="flex flex-col min-h-screen bg-melody-gradient relative">

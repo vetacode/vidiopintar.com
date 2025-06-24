@@ -21,9 +21,16 @@ export default async function VideoPage({ params }: { params: { videoId: string 
   }
 
   if (messages.length === 0 && videoDetails.userVideo?.summary) {
-    quickStartQuestions = await generateQuickStartQuestions(
-      `${videoDetails.title}\n${videoDetails.description}\nSummary: \n${videoDetails.userVideo.summary}`
-    )
+    // Check if quickStartQuestions exist in database first
+    if (videoDetails.userVideo.quickStartQuestions && videoDetails.userVideo.quickStartQuestions.length > 0) {
+      quickStartQuestions = videoDetails.userVideo.quickStartQuestions;
+    } else {
+      // Generate and save to database if they don't exist
+      quickStartQuestions = await generateQuickStartQuestions(
+        `${videoDetails.title}\n${videoDetails.description}\nSummary: \n${videoDetails.userVideo.summary}`,
+        videoDetails.userVideo.id
+      );
+    }
   }
 
   return (
