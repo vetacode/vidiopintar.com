@@ -1,3 +1,4 @@
+import { env } from "@/lib/env/server";
 import { VideoRepository, TranscriptRepository, Video } from "@/lib/db/repository";
 import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
@@ -51,7 +52,7 @@ export async function fetchVideoDetails(videoId: string) {
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
     const encodedUrl = encodeURIComponent(videoUrl);
     
-    const response = await fetch(`https://api.ahmadrosid.com/youtube/video?videoUrl=${encodedUrl}`);
+    const response = await fetch(`${env.API_BASE_URL}/youtube/video?videoUrl=${encodedUrl}`);
     
     if (!response.ok) {
       throw new Error(`Failed to fetch video details: ${response.status} ${response.statusText}`);
@@ -123,7 +124,7 @@ export async function fetchVideoTranscript(videoId: string) {
 
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
     const encodedUrl = encodeURIComponent(videoUrl)
-    const response = await fetch(`https://api.ahmadrosid.com/youtube/transcript?videoUrl=${encodedUrl}`)
+    const response = await fetch(`${env.API_BASE_URL}/youtube/transcript?videoUrl=${encodedUrl}`)
     
     if (!response.ok) {
       throw new Error(`Failed to fetch transcript: ${response.status} ${response.statusText}`)

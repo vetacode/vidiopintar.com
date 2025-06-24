@@ -1,9 +1,10 @@
-import { createEnv } from "@t3-oss/env-nextjs"
-import { z } from "zod"
+import { createEnv } from "@t3-oss/env-nextjs";
+import { z } from "zod";
 import 'dotenv/config';
 
 export const env = createEnv({
   server: {
+    API_BASE_URL: z.string().url(),
     NODE_ENV: z.string().min(1),
     DB_PASSWORD: z.string().min(1),
     DB_USER: z.string().min(1),
