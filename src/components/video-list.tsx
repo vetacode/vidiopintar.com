@@ -32,7 +32,7 @@ export function VideoList({ videos }: VideoListProps) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {videos.map((video) => (
                         <div key={video.userVideoId} className="relative group">
-                            <Link href={`/video/${video.youtubeId}`}>
+                            <a href={`/video/${video.youtubeId}`}>
                                 <Card className=" dark:border-white/10 overflow-hidden rounded-2xl">
                                     <CardContent className="p-0 relative">
                                         <img
@@ -58,7 +58,7 @@ export function VideoList({ videos }: VideoListProps) {
                                         </CardDescription>
                                     </CardHeader>
                                 </Card>
-                            </Link>
+                            </a>
                         </div>
                     ))}
                 </div>

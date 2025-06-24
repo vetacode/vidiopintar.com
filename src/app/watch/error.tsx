@@ -15,7 +15,7 @@ export default function Error({
                 <h2 className="text-xl font-semibold mb-4">Something went wrong!</h2>
                 <p className="text-gray-600 mb-4">{error.message}</p>
                 <Button
-                    onClick={reset}
+                    onClick={() => window.location.reload()}
                 >Try again
                 </Button>
             </div>

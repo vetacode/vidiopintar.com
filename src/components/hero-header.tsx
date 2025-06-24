@@ -68,12 +68,12 @@ export const HeroHeader = () => {
                 <div className={cn('mx-auto mt-2 px-6 transition-all duration-300 lg:px-12 max-w-5xl', isScrolled && 'bg-background/50 max-w-4xl rounded-2xl border backdrop-blur-lg lg:px-5')}>
                     <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
                         <div className="flex w-full justify-between lg:w-auto">
-                            <Link
+                            <a
                                 href="/"
                                 aria-label="home"
                                 className="flex items-center space-x-2 tracking-tight">
                                 Vidiopintar
-                            </Link>
+                            </a>
 
                             <button
                                 onClick={() => setMenuState(!menuState)}
@@ -89,11 +89,11 @@ export const HeroHeader = () => {
                                 <ul className="flex gap-8 text-sm">
                                     {menuItems.map((item, index) => (
                                         <li key={index}>
-                                            <Link
+                                            <a
                                                 href={item.href}
                                                 className="text-muted-foreground hover:text-accent-foreground block duration-150">
                                                 <span>{item.name}</span>
-                                            </Link>
+                                            </a>
                                         </li>
                                     ))}
                                 </ul>
@@ -106,11 +106,11 @@ export const HeroHeader = () => {
                                     <ul className="space-y-6 text-base">
                                         {menuItems.map((item, index) => (
                                             <li key={index}>
-                                                <Link
+                                                <a
                                                     href={item.href}
                                                     className="text-muted-foreground hover:text-accent-foreground block duration-150">
                                                     <span>{item.name}</span>
-                                                </Link>
+                                                </a>
                                             </li>
                                         ))}
                                     </ul>
