@@ -15,7 +15,6 @@ export async function POST(req: Request) {
       return Response.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    // Clear the messages by updating the userVideo record
     await UserVideoRepository.clearMessages(userVideoId);
 
     return Response.json({ success: true });

@@ -10,14 +10,11 @@ import { UserVideoRepository } from "@/lib/db/repository";
 import { extractVideoId } from "@/lib/utils";
 
 export async function processVideo(youtubeVideoId: string) {
-  // Fetch video details and transcript
   const videoDetails = await fetchVideoDetails(youtubeVideoId);
   await fetchVideoTranscript(youtubeVideoId);
 
-  // Get current user (throws if not authenticated)
   const user = await getCurrentUser();
 
-  // Upsert the global video entry
   await VideoRepository.upsert({
     youtubeId: youtubeVideoId,
     title: videoDetails.title,
@@ -33,7 +30,6 @@ export async function processVideo(youtubeVideoId: string) {
     updatedAt: new Date(),
   });
 
-  // Create or upsert user_videos entry
   let userVideo = await UserVideoRepository.getByUserAndYoutubeId(user.id, youtubeVideoId);
   if (!userVideo) {
     await UserVideoRepository.create({
@@ -58,7 +54,6 @@ export async function handleVideoSubmit(formData: FormData) {
 
   await processVideo(youtubeVideoId);
 }
-
 
 const deleteSchema = z.object({
   id: z.string().min(1, { message: 'Video ID is required.' }),

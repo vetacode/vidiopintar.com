@@ -29,7 +29,6 @@ async function createSharedVideo(youtubeId: string, userVideoId: number): Promis
     throw new Error("Forbidden");
   }
 
-  // Check if the video exists
   const video = await VideoRepository.getByYoutubeId(youtubeId);
   if (!video) {
     throw new Error("Video not found");
@@ -46,7 +45,6 @@ async function createSharedVideo(youtubeId: string, userVideoId: number): Promis
     }
   }
 
-  // Generate a unique slug
   const slug = generateSlug();
 
   // Create the shared video record
