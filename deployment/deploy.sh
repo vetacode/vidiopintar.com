@@ -9,7 +9,7 @@ set -e
 PROJECT_NAME="vidiopintar"
 IMAGE_NAME="ghcr.io/${GITHUB_REPOSITORY:-ahmadrosid/vidiopintar.com}:latest"
 CONTAINER_NAME="vidiopintar-app"
-PORT="3000"
+PORT="5000"
 LOG_FILE="/var/log/vidiopintar-deploy.log"
 
 # Colors for output
