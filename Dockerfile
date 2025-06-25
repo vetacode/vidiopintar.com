@@ -13,7 +13,6 @@ COPY package.json package-lock.json* ./
 RUN npm ci
 
 COPY . .
-COPY .env .env
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
