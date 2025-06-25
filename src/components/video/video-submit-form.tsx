@@ -1,8 +1,8 @@
 "use client";
 
 import { handleVideoSubmit } from "@/app/actions"
-import { SubmitButton } from "./submit-button";
-import { PromptInput, PromptInputTextarea, PromptInputActions, PromptInputAction } from "@/components/ui/prompt-input"
+import { SubmitButton } from "@/components/submit-button"
+import { PromptInput, PromptInputTextarea, PromptInputActions } from "@/components/ui/prompt-input"
 import { useState } from "react";
 
 export default function VideoSubmitForm() {

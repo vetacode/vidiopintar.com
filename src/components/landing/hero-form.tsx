@@ -1,5 +1,5 @@
 import { handleVideoSubmit } from "@/app/actions"
-import { SubmitButton } from "./submit-button"
+import { SubmitButton } from "@/components/submit-button"
 
 export function FormStartLearning() {
     return (

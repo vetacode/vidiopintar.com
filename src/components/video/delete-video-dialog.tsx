@@ -13,7 +13,7 @@ import {
 import { useDeleteVideoDialogStore } from '@/lib/store/dialog-store'
 import { handleDeleteVideo } from "@/app/actions"
 import React from 'react'
-import { SubmitButton } from "./submit-button"
+import { SubmitButton } from "@/components/submit-button"
 import { useFormState } from "react-dom";
 import { useEffect } from "react";
 

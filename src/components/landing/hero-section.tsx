@@ -3,8 +3,8 @@ import React from 'react'
 import { TextEffect } from '@/components/motion-primitives/text-effect'
 import { AnimatedGroup } from '@/components/motion-primitives/animated-group'
 import { HeroHeader } from '@/components/hero-header'
-import { TopicMarquee } from '@/components/topic-marquee'
-import { FormStartLearning } from '@/components/hero-form'
+import { TopicMarquee } from '@/components/landing/topic-marquee'
+import { FormStartLearning } from '@/components/landing/hero-form'
 
 const transitionVariants = {
     item: {

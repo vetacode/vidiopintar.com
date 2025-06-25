@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 
 export interface LoadingSpinnerProps
   extends React.HTMLAttributes<HTMLSpanElement> {
@@ -13,7 +13,7 @@ const LoadingSpinner = React.forwardRef<
 >(({ className, text, ...props }, ref) => {
   return (
     <span className={cn("flex items-center", className)} {...props} ref={ref}>
-      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      <Loader className="mr-2 size-4 animate-spin" />
       {text}
     </span>
   );

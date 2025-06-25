@@ -4,18 +4,15 @@ import { useChat } from "@ai-sdk/react";
 import { ArrowUp, Square} from "lucide-react"
 import { flushSync } from "react-dom"
 import { Button } from "@/components/ui/button"
-import { Markdown } from "@/components/ui/markdown"
-import { Message, MessageContent } from "@/components/ui/message"
-import { ChatContainerContent, ChatContainerRoot } from "@/components/ui/chat-container"
+import { ChatContainerRoot } from "@/components/ui/chat-container"
 import {
   PromptInput,
   PromptInputAction,
   PromptInputActions,
   PromptInputTextarea,
 } from "@/components/ui/prompt-input"
-import { CopyButton } from "@/components/ui/copy-button";
-import { Ellipsis } from "@/components/ui/loader";
 import { ChatHeader } from "@/components/chat/header";
+import { MessageItem } from "./message-item";
 
 interface ChatInterfaceProps {
   videoId: string;
@@ -83,39 +80,11 @@ export function ChatInterface({
             </div>
           </div>
         ) : (
-          <ChatContainerContent className="space-y-4 p-4">
-            {messages.map((message) => {
-              const isAssistant = message.role === "assistant"
-              return (
-                <Message
-                  key={message.id}
-                  className={
-                    message.role === "user" ? "justify-end" : "justify-start"
-                  }
-                >
-                  {isAssistant ? (
-                    <div className="max-w-full flex-1 sm:max-w-full">
-                      <div className="relative group prose prose-sm px-2 py-6 max-w-none">
-                        <Markdown>{message.content}</Markdown>
-                        <div className="absolute bottom-0 right-2 group-hover:visible invisible">
-                          <CopyButton content={message.content} copyMessage="Copied to clipboard" label="Copy" />
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="max-w-[85%] flex-1 sm:max-w-[75%]">
-                      <MessageContent className="bg-secondary text-secondary-foreground p-3" markdown={true}>
-                        {message.content}
-                      </MessageContent>
-                    </div>
-                  )}
-                </Message>
-              )
-            })}
-            {status === "submitted" && <div className="px-2 py-6">
-              <Ellipsis className="text-secondary-foreground/25"/>
-            </div>}
-          </ChatContainerContent>
+          <MessageItem
+            messages={messages}
+            status={status}
+            isLoggedIn={isLoggedIn}
+          />
         )}
       </ChatContainerRoot>
       <div className="p-4">
