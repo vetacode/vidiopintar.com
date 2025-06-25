@@ -11,26 +11,21 @@ export default async function VideoPage({ params }: { params: { videoId: string 
   const { videoId } = params;
   let videoDetails = await fetchVideoDetails(videoId);
   let transcript = await fetchVideoTranscript(videoId);
-  let messages: any[] = []
+  let messages: any[] = [];
   let quickStartQuestions: string[] = [];
 
   if (!videoDetails.userVideo) {
     videoDetails.userVideo = transcript.userVideo;
   } else {
     messages = await getChatHistory(videoId, videoDetails.userVideo.id);
+    quickStartQuestions = videoDetails.userVideo.quickStartQuestions ?? [];
   }
 
-  if (messages.length === 0 && videoDetails.userVideo?.summary) {
-    // Check if quickStartQuestions exist in database first
-    if (videoDetails.userVideo.quickStartQuestions && videoDetails.userVideo.quickStartQuestions.length > 0) {
-      quickStartQuestions = videoDetails.userVideo.quickStartQuestions;
-    } else {
-      // Generate and save to database if they don't exist
-      quickStartQuestions = await generateQuickStartQuestions(
-        `${videoDetails.title}\n${videoDetails.description}\nSummary: \n${videoDetails.userVideo.summary}`,
-        videoDetails.userVideo.id
-      );
-    }
+  if (quickStartQuestions.length === 0 && videoDetails.userVideo?.summary) {
+    quickStartQuestions = await generateQuickStartQuestions(
+      `${videoDetails.title}\n${videoDetails.description}\nSummary: \n${videoDetails.userVideo.summary}`,
+      videoDetails.userVideo.id
+    );
   }
 
   return (
