@@ -15,17 +15,7 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: z.string().min(1),
     BETTER_AUTH_URL: z.string().min(1),
   },
-  createFinalSchema: env => {
-    return z.object(env).transform(val => {
-      const { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER, ...rest } = val
-      
-      return {
-        ...rest,
-        DATABASE_URL: `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`,
-      }
-    })
-  },
   emptyStringAsUndefined: true,
   experimental__runtimeEnv: process.env,
-  skipValidation: true,
-})
+  skipValidation: process.env.NODE_ENV === "production",
+});

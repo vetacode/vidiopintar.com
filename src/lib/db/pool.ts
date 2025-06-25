@@ -7,7 +7,7 @@ declare global {
 }
 
 let pool: Pool;
-const databaseUrl = env.DATABASE_URL;
+const databaseUrl = `postgres://${env.DB_USER}:${env.DB_PASSWORD}@${env.DB_HOST}:${env.DB_PORT}/${env.DB_NAME}`;
 
 if (env.NODE_ENV === 'production') {
   pool = new Pool({
