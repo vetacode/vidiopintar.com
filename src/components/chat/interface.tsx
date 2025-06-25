@@ -46,7 +46,7 @@ export function ChatInterface({
   });
 
   return (
-    <div className="flex h-screen w-full flex-col overflow-hidden border-l">
+    <div className="flex h-screen h-screen-dvh w-full flex-col overflow-hidden border-l">
       <ChatHeader 
         videoId={videoId}
         userVideoId={userVideoId}

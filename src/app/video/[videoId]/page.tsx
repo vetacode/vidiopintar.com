@@ -86,7 +86,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
                 initialMessages={messages}
                 quickStartQuestions={quickStartQuestions} />
             ) : (
-              <div className="p-4 text-center">
+              <div className="p-4 text-center h-screen h-screen-dvh w-full">
                 <p className="text-muted-foreground">Unable to load chat interface. Video details are incomplete.</p>
               </div>
             )}
