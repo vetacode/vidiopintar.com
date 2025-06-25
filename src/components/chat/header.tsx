@@ -37,7 +37,6 @@ export function ChatHeader({
         if (isSharePage) return;
         setStatus("sharing");
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000));
             const response = await RuntimeClient.runPromise(createShareVideo({ youtubeId: videoId, userVideoId }))
             setShareUrl(response.url);
         } catch (error) {
