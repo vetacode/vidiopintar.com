@@ -110,7 +110,7 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
                         onClick={() => setShowAllChannels(!showAllChannels)}
                         className="rounded-full px-4 py-2 text-sm whitespace-nowrap"
                     >
-                        {showAllChannels ? 'Show Less' : `+${uniqueChannels.length - 10} More`}
+                        {showAllChannels ? 'Show Less' : `+${uniqueChannels.length - maxChannels} More`}
                     </Button>
                 )}
             </div>
