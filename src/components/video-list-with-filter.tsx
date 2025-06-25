@@ -68,6 +68,16 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
         return filtered
     }, [videos, selectedChannel, searchQuery])
 
+    // Don't show filters if there are no videos
+    if (!videos || videos.length === 0) {
+        return (
+            <div className="max-w-4xl mx-auto w-full">
+                <h2 className="text-xl font-semibold tracking-tighter mb-6">Your recent videos</h2>
+                <VideoList videos={[]} />
+            </div>
+        )
+    }
+
     return (
         <div className="max-w-4xl mx-auto w-full">
             <h2 className="text-xl font-semibold tracking-tighter mb-6">Your recent videos</h2>
