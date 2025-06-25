@@ -80,7 +80,7 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
                         key={channel}
                         variant={selectedChannel === channel ? "default" : "secondary"}
                         size="sm"
-                        onClick={() => setSelectedChannel(channel)}
+                        onClick={() => setSelectedChannel(selectedChannel === channel ? null : channel)}
                         className="rounded-full px-4 py-2 text-sm whitespace-nowrap flex items-center gap-2"
                     >
                         {channel}
