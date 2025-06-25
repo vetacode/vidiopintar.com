@@ -27,9 +27,7 @@ export function VideoList({ videos }: VideoListProps) {
     return (
         <>
             <DeleteVideoDialog /> 
-            <div className="max-w-4xl mx-auto w-full">
-                <h2 className="text-xl font-semibold text-left mb-8 tracking-tighter">Your recent videos</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {videos.map((video) => (
                         <div key={video.userVideoId} className="relative group">
                             <a href={`/video/${video.youtubeId}`}>
@@ -62,7 +60,6 @@ export function VideoList({ videos }: VideoListProps) {
                         </div>
                     ))}
                 </div>
-            </div>
         </>
     );
 }

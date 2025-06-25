@@ -1,7 +1,7 @@
 import { VideoRepository } from "@/lib/db/repository";
 import VideoSubmitForm from "@/components/video-submit-form";
 import { Card } from "@/components/ui/card";
-import { VideoList } from "@/components/video-list";
+import { VideoListWithFilter } from "@/components/video-list-with-filter";
 
 const cardData = [
   {
@@ -78,7 +78,7 @@ export default async function Home() {
             ))}
           </div>
         </div>
-        <VideoList videos={videos} />
+        <VideoListWithFilter videos={videos} />
       </div>
     </main>
     <FooterSection />
