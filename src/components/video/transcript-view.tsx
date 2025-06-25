@@ -36,7 +36,7 @@ export function TranscriptView({ transcript }: TranscriptViewProps) {
     : transcript.segments
 
   return (
-    <div className="space-y-4 p-4">
+    <div className="space-y-4 py-4">
       <div className="relative">
         <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">
           <Search className="h-4 w-4" />
