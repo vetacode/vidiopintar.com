@@ -24,6 +24,7 @@ import { useState } from "react";
 import { createShareVideo, clearChatMessages } from "@/lib/services/api";
 import { RuntimeClient } from "@/lib/services/RuntimeClient";
 import { toast } from "sonner";
+import { Ellipsis } from "./ui/loader";
 
 interface ChatInterfaceProps {
   videoId: string;
@@ -198,6 +199,9 @@ export function ChatInterface({
                 </Message>
               )
             })}
+            {status === "submitted" && <div className="px-2 py-6">
+              <Ellipsis />
+            </div>}
           </ChatContainerContent>
         )}
       </ChatContainerRoot>
