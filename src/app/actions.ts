@@ -1,6 +1,6 @@
 "use server"
 
-import { VideoRepository } from "@/lib/db/repository";
+import { TranscriptRepository, VideoRepository } from "@/lib/db/repository";
 import { fetchVideoDetails, fetchVideoTranscript } from "@/lib/youtube"
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";

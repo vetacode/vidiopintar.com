@@ -30,13 +30,43 @@ export async function generateUserVideoSummary(video: Video, segments: any[]) {
   return summary;
 }
 
+async function getVideoDetailFromApi(videoId: string) {
+  const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
+  const encodedUrl = encodeURIComponent(videoUrl)
+  const response = await fetch(`${env.API_BASE_URL}/youtube/video?videoUrl=${encodedUrl}`)
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch video details: ${response.status} ${response.statusText}`)
+  }
+  
+  const data = await response.json()
+  return data;
+}
+
 export async function fetchVideoDetails(videoId: string) {
   try {
     const user = await getCurrentUser();
-    const existingVideo = await VideoRepository.getByYoutubeId(videoId);
+    let existingVideo = await VideoRepository.getByYoutubeId(videoId);
     const userVideo = await UserVideoRepository.getByUserAndYoutubeId(user.id, videoId);
     
     if (existingVideo) {
+      if (existingVideo.channelTitle === "Unknown Channel") {
+        const videoDetails = await getVideoDetailFromApi(videoId);
+        existingVideo = await VideoRepository.upsert({
+          youtubeId: videoId,
+          title: videoDetails.title,
+          description: videoDetails.description,
+          channelTitle: videoDetails.channelTitle,
+          publishedAt: videoDetails.publishedAt ? new Date(videoDetails.publishedAt) : null,
+          thumbnailUrl:
+            videoDetails.thumbnails?.high?.url ||
+            videoDetails.thumbnails?.medium?.url ||
+            videoDetails.thumbnails?.default?.url ||
+            null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+      }
       return {
         title: existingVideo.title,
         description: existingVideo.description || "",
