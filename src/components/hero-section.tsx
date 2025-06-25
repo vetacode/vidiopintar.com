@@ -3,7 +3,7 @@ import React from 'react'
 import { TextEffect } from '@/components/motion-primitives/text-effect'
 import { AnimatedGroup } from '@/components/motion-primitives/animated-group'
 import { HeroHeader } from '@/components/hero-header'
-import { LogoCloud } from '@/components/logo-cloud'
+import { TopicMarquee } from '@/components/topic-marquee'
 import { FormStartLearning } from '@/components/hero-form'
 
 const transitionVariants = {
@@ -79,7 +79,7 @@ export default function HeroSection() {
                     </div>
                 </section>
                 <section className='py-12'>
-                    <LogoCloud />
+                    <TopicMarquee />
                 </section>
             </main>
         </>
