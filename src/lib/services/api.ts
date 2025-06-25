@@ -2,8 +2,6 @@ import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } fr
 import { Effect, flow } from "effect";
 import { ShareChatRequest, ShareChatResponse, ClearMessagesRequest, ClearMessagesResponse } from "@/lib/services/schema";
 
-const baseUrl = window.location.origin;
-
 export class Api extends Effect.Service<Api>()("Api", {
     dependencies: [FetchHttpClient.layer],
     effect: Effect.gen(function* () {
@@ -11,7 +9,7 @@ export class Api extends Effect.Service<Api>()("Api", {
         const client = baseClient.pipe(
             HttpClient.mapRequest(
                 flow(
-                    HttpClientRequest.prependUrl(`${baseUrl}/api`),
+                    HttpClientRequest.prependUrl(`/api`),
                     HttpClientRequest.acceptJson
                 )
             )
