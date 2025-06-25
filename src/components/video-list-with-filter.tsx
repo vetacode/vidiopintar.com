@@ -21,6 +21,7 @@ interface VideoListWithFilterProps {
 
 export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
     const [selectedChannel, setSelectedChannel] = useState<string | null>(null)
+    const [searchQuery, setSearchQuery] = useState('')
 
     // Get unique channels from videos
     const uniqueChannels = useMemo(() => {
@@ -31,12 +32,25 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
     }, [videos])
 
     const filteredVideos = useMemo(() => {
-        if (!selectedChannel) return videos
-        
-        return videos.filter(video => 
-            video.channelTitle === selectedChannel
-        )
-    }, [videos, selectedChannel])
+        let filtered = videos
+
+        // Filter by selected channel
+        if (selectedChannel) {
+            filtered = filtered.filter(video => 
+                video.channelTitle === selectedChannel
+            )
+        }
+
+        // Filter by search query (title or channel name)
+        if (searchQuery.trim()) {
+            filtered = filtered.filter(video => 
+                video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                video.channelTitle?.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+        }
+
+        return filtered
+    }, [videos, selectedChannel, searchQuery])
 
     return (
         <div className="max-w-4xl mx-auto w-full">
@@ -48,6 +62,8 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                     <Input
                         placeholder="Search..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                         className="pl-10 ml-0.5 w-64 rounded-full"
                     />
                 </div>
