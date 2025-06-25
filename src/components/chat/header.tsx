@@ -7,8 +7,8 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { CopyButton } from "../ui/copy-button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { CopyButton } from ".@/components/ui/copy-button";
+import { Popover, PopoverContent, PopoverTrigger } from ".@/components/ui/popover";
 import { useState } from "react";
 import { createShareVideo, clearChatMessages } from "@/lib/services/api";
 import { RuntimeClient } from "@/lib/services/RuntimeClient";

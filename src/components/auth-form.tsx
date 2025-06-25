@@ -3,7 +3,7 @@
 import { authClient } from "@/lib/auth-client";
 import { Button } from '@/components/ui/button'
 import { useState } from "react";
-import { LoadingSpinner } from "./ui/loading-spinner";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { toast } from "sonner";
 
 export function AuthForm() {

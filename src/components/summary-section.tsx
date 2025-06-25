@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { RefreshCw } from 'lucide-react';
-import MarkdownRenderer from '@/components/ui/markdown-renderer';
+import { Markdown} from '@/components/ui/markdown';
 import { toast } from 'sonner';
-import { CopyButton } from "./ui/copy-button";
+import { CopyButton } from "@/components/ui/copy-button";
+import { Ellipsis } from '@/components/ui/loader';
 
 interface SummarySectionProps {
   videoId: string;
@@ -16,7 +16,7 @@ export function SummarySection({ videoId, initialSummary }: SummarySectionProps)
   const [summary, setSummary] = useState(initialSummary);
   const [isRegenerating, setIsRegenerating] = useState(false);
 
-  const regenerateSummary = async () => {
+  const regenerateSummary = useCallback(async () => {
     setIsRegenerating(true);
     try {
       const response = await fetch(`/api/videos/${videoId}/regenerate-summary`, {
@@ -36,7 +36,13 @@ export function SummarySection({ videoId, initialSummary }: SummarySectionProps)
     } finally {
       setIsRegenerating(false);
     }
-  };
+  }, [videoId]);
+
+  useEffect(() => {
+    if (!initialSummary) {
+      regenerateSummary();
+    }
+  }, [initialSummary, regenerateSummary]);
 
   const showRegenerateButton = !summary || summary.trim() === '' || summary.includes('Unable to generate summary');
 
@@ -53,13 +59,13 @@ export function SummarySection({ videoId, initialSummary }: SummarySectionProps)
             variant="outline"
             className="gap-2 cursor-pointer"
           >
-            <RefreshCw className={`size-3 ${isRegenerating ? 'animate-spin' : ''}`} />
+            {isRegenerating && <Ellipsis className="text-secondary-foreground/25" />}
             {isRegenerating ? 'Generating...' : 'Generate'}
           </Button>
         </div>
       ) : (
         <div className='relative group'>
-          <MarkdownRenderer>{summary}</MarkdownRenderer>
+          <Markdown>{summary}</Markdown>
           <div className="absolute top-0 right-2 group-hover:visible invisible">
           <CopyButton content={summary} copyMessage="Summary copied to clipboard!" label="Copy" />
           </div>
