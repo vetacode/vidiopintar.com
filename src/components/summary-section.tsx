@@ -64,10 +64,10 @@ export function SummarySection({ videoId, initialSummary }: SummarySectionProps)
           </Button>
         </div>
       ) : (
-        <div className='relative group'>
+        <div className="relative group prose prose-sm px-2 py-6 max-w-none">
           <Markdown>{summary}</Markdown>
           <div className="absolute top-0 right-2 group-hover:visible invisible">
-          <CopyButton content={summary} copyMessage="Summary copied to clipboard!" label="Copy" />
+            <CopyButton content={summary} copyMessage="Summary copied to clipboard!" label="Copy" />
           </div>
         </div>
       )}
