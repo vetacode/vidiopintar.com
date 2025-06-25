@@ -34,7 +34,6 @@ export class Api extends Effect.Service<Api>()("Api", {
     }),
 }) { }
 
-
 export const createShareVideo = (
     input: ShareChatRequest
 ) => Effect.gen(function* () {
