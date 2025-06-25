@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Search } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { VideoList } from "@/components/video-list"
@@ -20,8 +20,10 @@ interface VideoListWithFilterProps {
 }
 
 export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
+    const maxChannels = 7;
     const [selectedChannel, setSelectedChannel] = useState<string | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
+    const [showAllChannels, setShowAllChannels] = useState(false)
 
     // Get unique channels from videos
     const uniqueChannels = useMemo(() => {
@@ -30,6 +32,20 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
             .filter((channel): channel is string => channel !== null)
         return Array.from(new Set(channels))
     }, [videos])
+
+    // Determine which channels to display
+    const displayedChannels = useMemo(() => {
+        return showAllChannels ? uniqueChannels : uniqueChannels.slice(0, maxChannels)
+    }, [uniqueChannels, showAllChannels])
+
+    const hasMoreChannels = uniqueChannels.length > maxChannels
+
+    // Reset selected channel if it no longer exists after video deletion
+    useEffect(() => {
+        if (selectedChannel && !uniqueChannels.includes(selectedChannel)) {
+            setSelectedChannel(null)
+        }
+    }, [selectedChannel, uniqueChannels])
 
     const filteredVideos = useMemo(() => {
         let filtered = videos
@@ -75,7 +91,7 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
                 >
                     All Channels
                 </Button>
-                {uniqueChannels.map((channel) => (
+                {displayedChannels.map((channel) => (
                     <Button
                         key={channel}
                         variant={selectedChannel === channel ? "default" : "secondary"}
@@ -86,6 +102,17 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
                         {channel}
                     </Button>
                 ))}
+                
+                {hasMoreChannels && (
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowAllChannels(!showAllChannels)}
+                        className="rounded-full px-4 py-2 text-sm whitespace-nowrap"
+                    >
+                        {showAllChannels ? 'Show Less' : `+${uniqueChannels.length - 10} More`}
+                    </Button>
+                )}
             </div>
             
             <VideoList videos={filteredVideos} />

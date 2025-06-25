@@ -25,12 +25,12 @@ export function DeleteVideoDialog() {
         if (state.success) {
             closeDialog();
         }
-      }, [state]);
+    }, [state, closeDialog]);
     
     return (
         <AlertDialog open={isOpen} onOpenChange={closeDialog}>
             <AlertDialogContent>
-                <form action={formAction}>
+                <form key={id} action={formAction}>
                     <input type="hidden" value={id} name="id" />
                     <AlertDialogHeader>
                         <AlertDialogTitle>Delete video?</AlertDialogTitle>
