@@ -33,7 +33,7 @@ jobs:
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
-        run: echo "${{ secrets.ENV_RAW }}" > .env
+        # run: echo "${{ secrets.ENV_RAW }}" > .env
         with:
             context: .
             file: ./Dockerfile
