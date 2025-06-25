@@ -25,7 +25,6 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
     const [searchQuery, setSearchQuery] = useState('')
     const [showAllChannels, setShowAllChannels] = useState(false)
 
-    // Get unique channels from videos
     const uniqueChannels = useMemo(() => {
         const channels = videos
             .map(video => video.channelTitle)
@@ -33,7 +32,6 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
         return Array.from(new Set(channels))
     }, [videos])
 
-    // Determine which channels to display
     const displayedChannels = useMemo(() => {
         return showAllChannels ? uniqueChannels : uniqueChannels.slice(0, maxChannels)
     }, [uniqueChannels, showAllChannels])
@@ -50,7 +48,6 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
     const filteredVideos = useMemo(() => {
         let filtered = videos
 
-        // Filter by selected channel
         if (selectedChannel) {
             filtered = filtered.filter(video => 
                 video.channelTitle === selectedChannel
@@ -68,7 +65,6 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
         return filtered
     }, [videos, selectedChannel, searchQuery])
 
-    // Don't show filters if there are no videos
     if (!videos || videos.length === 0) {
         return (
             <div className="max-w-4xl mx-auto w-full">
@@ -81,8 +77,7 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
     return (
         <div className="max-w-4xl mx-auto w-full">
             <h2 className="text-xl font-semibold tracking-tighter mb-6">Your recent videos</h2>
-            
-            {/* Channel Filter Pills */}
+
             <div className="flex flex-wrap items-center gap-3 mb-8 overflow-x-auto py-2">
                 <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
@@ -112,7 +107,7 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
                         {channel}
                     </Button>
                 ))}
-                
+
                 {hasMoreChannels && (
                     <Button
                         variant="outline"
@@ -124,7 +119,7 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
                     </Button>
                 )}
             </div>
-            
+
             <VideoList videos={filteredVideos} />
         </div>
     )
