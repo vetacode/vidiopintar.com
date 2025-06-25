@@ -2,7 +2,7 @@ import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } fr
 import { Effect, flow } from "effect";
 import { ShareChatRequest, ShareChatResponse, ClearMessagesRequest, ClearMessagesResponse } from "@/lib/services/schema";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+const baseUrl = window.location.origin;
 
 export class Api extends Effect.Service<Api>()("Api", {
     dependencies: [FetchHttpClient.layer],
