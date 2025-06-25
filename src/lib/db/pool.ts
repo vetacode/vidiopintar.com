@@ -1,5 +1,5 @@
 import { Pool } from 'pg';
-import { env } from '../env/server';
+import { env } from '@/lib/env/server';
 
 // Declare global types for the connection pool
 declare global {
