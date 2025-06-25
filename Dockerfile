@@ -1,5 +1,7 @@
 FROM node:18-alpine AS base
 
+ARG ENV_RAW
+
 FROM base AS dependencies
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
@@ -13,6 +15,8 @@ COPY package.json package-lock.json* ./
 RUN npm ci
 
 COPY . .
+
+RUN echo "${ENV_RAW}" > .env
 
 ENV NEXT_TELEMETRY_DISABLED=1
 

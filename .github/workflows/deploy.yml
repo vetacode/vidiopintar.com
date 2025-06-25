@@ -31,9 +31,6 @@ jobs:
           username: ahmadrosid
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-      - name: Set up environment variables
-        run: echo "${{ secrets.ENV_RAW }}" > .env
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
@@ -43,6 +40,9 @@ jobs:
             tags: ghcr.io/${{ github.repository }}:latest
             cache-from: type=gha
             cache-to: type=gha,mode=max
+            build-args: |
+              ENV_RAW=${{ secrets.ENV_RAW }}
+
 
       - name: VPS install ssh keys
         # check this thread to understand why its needed:
