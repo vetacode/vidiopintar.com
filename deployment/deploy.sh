@@ -65,12 +65,12 @@ sleep 10
 
 # Health check
 log "Performing health check..."
-for i in {1..10}; do
+for i in {1..5}; do
     if curl -f "http://localhost:$PORT/api/health" > /dev/null 2>&1; then
         log "Application is healthy"
         break
     fi
-    if [ $i -eq 10 ]; then
+    if [ $i -eq 5 ]; then
         error "Health check failed after 10 attempts"
         log "Rolling back..."
         docker stop "$CONTAINER_NAME"
