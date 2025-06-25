@@ -2,8 +2,6 @@ import { openai } from '@ai-sdk/openai';
 import { google } from '@ai-sdk/google';
 import { streamText } from 'ai';
 
-export const maxDuration = 60;
-
 import { fetchVideoTranscript, fetchVideoDetails } from '@/lib/youtube';
 import { MessageRepository, VideoRepository } from '@/lib/db/repository';
 

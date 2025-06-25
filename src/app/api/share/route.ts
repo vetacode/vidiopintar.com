@@ -5,15 +5,6 @@ import { getCurrentUser } from '@/lib/auth';
 import { env } from '@/lib/env/server';
 
 /**
- * Generate a slug for sharing a video
- * @param length The length of the slug
- * @returns A random string for the slug
- */
-function generateSlug(length: number = 8): string {
-  return nanoid(length);
-}
-
-/**
  * Create a shared video link
  * @param youtubeId The YouTube ID of the video to share
  * @returns The slug for the shared video
@@ -45,9 +36,8 @@ async function createSharedVideo(youtubeId: string, userVideoId: number): Promis
     }
   }
 
-  const slug = generateSlug();
+  const slug = nanoid(8);
 
-  // Create the shared video record
   await SharedVideoRepository.create({
     youtubeId,
     userVideoId,
