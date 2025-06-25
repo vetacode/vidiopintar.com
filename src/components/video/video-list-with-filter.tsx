@@ -3,7 +3,7 @@
 import { useState, useMemo, useEffect } from 'react'
 import { Search } from 'lucide-react'
 import { Input } from "@/components/ui/input"
-import { VideoList } from "@/components/video-list"
+import { VideoList } from "@/components/video/video-list"
 import { Button } from "@/components/ui/button"
 
 type Video = {

@@ -1,7 +1,7 @@
 import { VideoRepository } from "@/lib/db/repository";
-import VideoSubmitForm from "@/components/video-submit-form";
+import VideoSubmitForm from "@/components/video/video-submit-form";
 import { Card } from "@/components/ui/card";
-import { VideoListWithFilter } from "@/components/video-list-with-filter";
+import { VideoListWithFilter } from "@/components/video/video-list-with-filter";
 
 const cardData = [
   {
@@ -85,4 +85,3 @@ export default async function Home() {
     </>
   );
 }
-
