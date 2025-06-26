@@ -1,7 +1,7 @@
 import { getCategoryBySlug } from "@/lib/data/categories";
 import { Card } from "@/components/ui/card";
 import { HeroHeader } from "@/components/hero-header";
-import FooterSection from "@/components/footer";
+import { FooterSection } from "@/components/footer";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

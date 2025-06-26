@@ -57,7 +57,7 @@ const chunkArray = (array: Testimonial[], chunkSize: number): Testimonial[][] =>
 
 const testimonialChunks = chunkArray(testimonials, Math.ceil(testimonials.length / 3))
 
-export default function WallOfLoveSection() {
+export function WallOfLoveSection() {
     return (
         <section>
             <div className="py-16 md:py-32">

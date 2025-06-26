@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { HeroHeader } from "@/components/hero-header";
-import FooterSection from "@/components/footer";
+import { FooterSection } from "@/components/footer";
 
 function LoadingSkeleton() {
   return (

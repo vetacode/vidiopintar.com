@@ -1,8 +1,12 @@
 import { VideoRepository } from "@/lib/db/repository";
-import VideoSubmitForm from "@/components/video/video-submit-form";
+import { VideoSubmitForm } from "@/components/video/video-submit-form";
 import { Card } from "@/components/ui/card";
 import { VideoListWithFilter } from "@/components/video/video-list-with-filter";
 import { categories } from "@/lib/data/categories";
+import { HeroHeader } from "@/components/hero-header";
+import { FooterSection} from "@/components/footer";
+import { getCurrentUser } from "@/lib/auth";
+
 import Link from "next/link";
 
 
@@ -20,10 +24,6 @@ function CategoryCard({ image, label, slug }: { image: string; label: string; sl
     </Link>
   );
 }
-
-import { HeroHeader } from "@/components/hero-header";
-import FooterSection from "@/components/footer";
-import { getCurrentUser } from "@/lib/auth";
 
 export default async function Home() {
   const user = await getCurrentUser()

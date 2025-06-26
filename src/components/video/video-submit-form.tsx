@@ -5,7 +5,7 @@ import { SubmitButton } from "@/components/submit-button"
 import { PromptInput, PromptInputTextarea, PromptInputActions } from "@/components/ui/prompt-input"
 import { useState } from "react";
 
-export default function VideoSubmitForm() {
+export function VideoSubmitForm() {
   const [input, setInput] = useState("")
   return (
     <form action={handleVideoSubmit} className="space-y-4 max-w-md mx-auto mb-8">

@@ -12,7 +12,7 @@ import {
   PromptInputTextarea,
 } from "@/components/ui/prompt-input"
 import { ChatHeader } from "@/components/chat/header";
-import { MessageItem } from "./message-item";
+import { MessageItem } from "@/components/chat/message-item";
 
 interface ChatInterfaceProps {
   videoId: string;

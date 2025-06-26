@@ -1,6 +1,6 @@
 import { Cpu, Fingerprint, Pencil, Settings2, Sparkles, Zap } from 'lucide-react'
 
-export default function Features() {
+export function Features() {
     return (
         <section className="py-12 md:py-20">
             <div className="mx-auto max-w-5xl space-y-8 px-6 md:space-y-16">
