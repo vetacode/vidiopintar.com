@@ -1,16 +1,22 @@
 import { db } from "@/lib/db";
-import { user, videos, userVideos } from "@/lib/db/schema";
+import { user, videos, userVideos, tokenUsage } from "@/lib/db/schema";
 import { messages } from "@/lib/db/schema/messages";
-import { sql } from "drizzle-orm";
+import { sql, gte } from "drizzle-orm";
+import { TokenUsageRepository } from "@/lib/db/repository";
 
 export type TimeRange = "7d" | "1m" | "3m";
 
 export async function getAdminMetrics() {
-  const [totalUsers, totalVideos, totalUserVideos, totalMessages] = await Promise.all([
+  const [totalUsers, totalVideos, totalUserVideos, totalMessages, totalTokenUsage] = await Promise.all([
     db.select({ count: sql<number>`count(*)`.mapWith(Number) }).from(user),
     db.select({ count: sql<number>`count(*)`.mapWith(Number) }).from(videos),
     db.select({ count: sql<number>`count(*)`.mapWith(Number) }).from(userVideos),
     db.select({ count: sql<number>`count(*)`.mapWith(Number) }).from(messages),
+    db.select({ 
+      totalTokens: sql<number>`sum(${tokenUsage.totalTokens})`,
+      totalCost: sql<string>`sum(${tokenUsage.totalCost})`,
+      totalRequests: sql<number>`count(*)`
+    }).from(tokenUsage),
   ]);
 
   return {
@@ -18,7 +24,30 @@ export async function getAdminMetrics() {
     totalVideos: totalVideos[0]?.count ?? 0,
     totalUserVideos: totalUserVideos[0]?.count ?? 0,
     totalMessages: totalMessages[0]?.count ?? 0,
+    totalTokens: totalTokenUsage[0]?.totalTokens ?? 0,
+    totalTokenCost: parseFloat(totalTokenUsage[0]?.totalCost ?? '0'),
+    totalTokenRequests: totalTokenUsage[0]?.totalRequests ?? 0,
   };
+}
+
+export async function getTokenUsageData(timeRange: TimeRange) {
+  const days = timeRange === "7d" ? 7 : timeRange === "1m" ? 30 : 90;
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+  
+  return await TokenUsageRepository.getUsageByDateRange(startDate, new Date());
+}
+
+export async function getTokenUsageByModel() {
+  return await TokenUsageRepository.getUsageByModel();
+}
+
+export async function getTokenUsageByOperation() {
+  return await TokenUsageRepository.getUsageByOperation();
+}
+
+export async function getTopTokenUsers(limit = 10) {
+  return await TokenUsageRepository.getTopUsers(limit);
 }
 
 export async function getUserGrowthData(timeRange: TimeRange) {

@@ -1,10 +1,11 @@
 import { requireAdmin } from "@/lib/auth-admin";
-import { getAdminMetrics, getUserGrowthData, getVideoAdditionsData } from "@/lib/admin-queries";
+import { getAdminMetrics, getUserGrowthData, getVideoAdditionsData, getTokenUsageData, getTokenUsageByModel, getTokenUsageByOperation } from "@/lib/admin-queries";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UserGrowthChart } from "@/components/admin/user-growth-chart";
 import { VideoAdditionsChart } from "@/components/admin/video-additions-chart";
-import { Users, Video, FileText, MessageSquare } from "lucide-react";
+import { TokenUsageOverview } from "@/components/admin/token-usage-overview";
+import { Users, Video, FileText, MessageSquare, DollarSign, Zap } from "lucide-react";
+import { AdminChartFilters } from "@/components/admin/admin-chart-filters";
 
 export default async function AdminPage() {
   await requireAdmin();
@@ -17,6 +18,12 @@ export default async function AdminPage() {
   const videoAdditions7d = await getVideoAdditionsData("7d");
   const videoAdditions1m = await getVideoAdditionsData("1m");
   const videoAdditions3m = await getVideoAdditionsData("3m");
+
+  const tokenUsage7d = await getTokenUsageData("7d");
+  const tokenUsage1m = await getTokenUsageData("1m");
+  const tokenUsage3m = await getTokenUsageData("3m");
+  const modelUsage = await getTokenUsageByModel();
+  const operationUsage = await getTokenUsageByOperation();
 
   return (
     <main className="bg-accent">
@@ -82,63 +89,73 @@ export default async function AdminPage() {
         </div>
 
         {/* Charts */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {/* User Growth Chart */}
+        <AdminChartFilters 
+          userGrowthData={{
+            "7d": userGrowth7d,
+            "1m": userGrowth1m,
+            "3m": userGrowth3m
+          }}
+          videoAdditionsData={{
+            "7d": videoAdditions7d,
+            "1m": videoAdditions1m,
+            "3m": videoAdditions3m
+          }}
+        />
+
+        {/* Token Usage Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle>User Growth</CardTitle>
-              <CardDescription>
-                New user registrations over time
-              </CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Tokens</CardTitle>
+              <Zap className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <Tabs defaultValue="7d" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="7d">7 Days</TabsTrigger>
-                  <TabsTrigger value="1m">1 Month</TabsTrigger>
-                  <TabsTrigger value="3m">3 Months</TabsTrigger>
-                </TabsList>
-                <TabsContent value="7d" className="mt-4">
-                  <UserGrowthChart data={userGrowth7d} />
-                </TabsContent>
-                <TabsContent value="1m" className="mt-4">
-                  <UserGrowthChart data={userGrowth1m} />
-                </TabsContent>
-                <TabsContent value="3m" className="mt-4">
-                  <UserGrowthChart data={userGrowth3m} />
-                </TabsContent>
-              </Tabs>
+              <div className="text-2xl font-bold">{metrics.totalTokens.toLocaleString()}</div>
+              <p className="text-xs text-muted-foreground">
+                {metrics.totalTokenRequests.toLocaleString()} API requests
+              </p>
             </CardContent>
           </Card>
 
-          {/* Video Additions Chart */}
           <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle>Video Additions</CardTitle>
-              <CardDescription>
-                Daily video additions to the platform
-              </CardDescription>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Token Cost</CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <Tabs defaultValue="7d" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="7d">7 Days</TabsTrigger>
-                  <TabsTrigger value="1m">1 Month</TabsTrigger>
-                  <TabsTrigger value="3m">3 Months</TabsTrigger>
-                </TabsList>
-                <TabsContent value="7d" className="mt-4">
-                  <VideoAdditionsChart data={videoAdditions7d} />
-                </TabsContent>
-                <TabsContent value="1m" className="mt-4">
-                  <VideoAdditionsChart data={videoAdditions1m} />
-                </TabsContent>
-                <TabsContent value="3m" className="mt-4">
-                  <VideoAdditionsChart data={videoAdditions3m} />
-                </TabsContent>
-              </Tabs>
+              <div className="text-2xl font-bold">${metrics.totalTokenCost.toFixed(4)}</div>
+              <p className="text-xs text-muted-foreground">
+                Total LLM costs
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-none">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Avg Cost/Request</CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                ${metrics.totalTokenRequests > 0 ? (metrics.totalTokenCost / metrics.totalTokenRequests).toFixed(6) : '0.000000'}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Average per API call
+              </p>
             </CardContent>
           </Card>
         </div>
+
+        {/* Token Usage Overview */}
+        <TokenUsageOverview 
+          tokenUsageData={{
+            "7d": tokenUsage7d,
+            "1m": tokenUsage1m,
+            "3m": tokenUsage3m
+          }}
+          modelUsage={modelUsage}
+          operationUsage={operationUsage}
+        />
       </div>
     </main>
   );

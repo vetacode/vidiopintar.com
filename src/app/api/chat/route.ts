@@ -4,9 +4,19 @@ import { streamText } from 'ai';
 
 import { fetchVideoTranscript, fetchVideoDetails } from '@/lib/youtube';
 import { MessageRepository, VideoRepository } from '@/lib/db/repository';
+import { createStreamTokenTracker } from '@/lib/token-tracker';
+import { getCurrentUser } from '@/lib/auth';
 
 export async function POST(req: Request) {
   const { messages, videoId, userVideoId } = await req.json();
+  
+  // Get user for token tracking
+  let user;
+  try {
+    user = await getCurrentUser();
+  } catch (error) {
+    console.error('Failed to get user for token tracking:', error);
+  }
 
   let transcriptText = '';
   let videoTitle = '';
@@ -97,11 +107,21 @@ Remember: Each paragraph should make them want to read the next one. Think TikTo
     ];
   }
 
+  const tokenTracker = user ? createStreamTokenTracker({
+    userId: user.id,
+    model: 'gpt-4o-mini-2024-07-18',
+    provider: 'openai',
+    operation: 'chat',
+    videoId,
+    userVideoId,
+  }) : null;
+
   const result = streamText({
     model: openai('gpt-4o-mini-2024-07-18'),
     // model: google('gemini-2.0-flash-001'),
     messages: enrichedMessages,
-    onFinish: (data) => {
+    onFinish: async (data) => {
+      // Save assistant messages
       data.steps.forEach(async (item) => {
         try {
           await MessageRepository.create({
@@ -113,7 +133,12 @@ Remember: Each paragraph should make them want to read the next one. Think TikTo
         } catch (err) {
           console.error('Failed to save assistant message:', err);
         }
-      })
+      });
+      
+      // Track token usage
+      if (tokenTracker) {
+        await tokenTracker.onFinish(data);
+      }
     }
   });
 

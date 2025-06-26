@@ -24,7 +24,8 @@ export default async function VideoPage({ params }: { params: { videoId: string 
   if (quickStartQuestions.length === 0 && videoDetails.userVideo?.summary) {
     quickStartQuestions = await generateQuickStartQuestions(
       `${videoDetails.title}\n${videoDetails.description}\nSummary: \n${videoDetails.userVideo.summary}`,
-      videoDetails.userVideo.id
+      videoDetails.userVideo.id,
+      videoId
     );
   }
 

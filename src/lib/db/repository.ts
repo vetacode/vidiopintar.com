@@ -3,6 +3,8 @@ import { videos, messages, transcriptSegments, userVideos, sharedVideos } from '
 import { InferSelectModel, InferInsertModel } from 'drizzle-orm';
 import { eq, desc, and } from 'drizzle-orm';
 
+export { TokenUsageRepository } from './repository/token-usage';
+
 // Types for user_videos
 export type UserVideo = InferSelectModel<typeof userVideos>;
 export type NewUserVideo = InferInsertModel<typeof userVideos>;

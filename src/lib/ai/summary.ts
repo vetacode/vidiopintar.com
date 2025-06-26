@@ -1,7 +1,9 @@
 import { google } from '@ai-sdk/google';
 import { generateText } from 'ai';
+import { trackGenerateTextUsage } from '@/lib/token-tracker';
+import { getCurrentUser } from '@/lib/auth';
 
-export async function generateSummary(text: string): Promise<string> {
+export async function generateSummary(text: string, videoId?: string, userVideoId?: number): Promise<string> {
   // Limit the input to the first 4000 words to speedup the generation
   const MAX_WORDS = 4000;
   let truncatedText = text;
@@ -37,7 +39,8 @@ Format your output with this markdown structure:
 ## Next Steps
 `;
 
-    const { text: summary } = await generateText({
+    const startTime = Date.now();
+    const result = await generateText({
         model: google('gemini-2.0-flash-001'),
         messages: [
             {
@@ -49,6 +52,23 @@ Format your output with this markdown structure:
                 content: `INPUT:\n${truncatedText}`
             }
         ]
-    })
-  return summary;
+    });
+    
+    // Track token usage
+    try {
+        const user = await getCurrentUser();
+        await trackGenerateTextUsage(result, {
+            userId: user.id,
+            model: 'gemini-2.0-flash-001',
+            provider: 'google',
+            operation: 'summary',
+            videoId,
+            userVideoId,
+            requestDuration: Date.now() - startTime,
+        });
+    } catch (error) {
+        console.error('Failed to track summary token usage:', error);
+    }
+    
+    return result.text;
 }

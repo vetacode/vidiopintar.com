@@ -5,14 +5,24 @@ import { generateObject } from 'ai';
 import { z } from 'zod';
 import { generateSummary } from "@/lib/ai/summary";
 import { formatTime } from "@/lib/utils";
+import { trackGenerateTextUsage } from '@/lib/token-tracker';
 
 import { UserVideoRepository } from "@/lib/db/repository";
 import { getCurrentUser } from "./auth";
 
 export async function saveVideoUser(videoId: string, video: Video, segments: any[]) {
   const user = await getCurrentUser();
-  const summary = await generateUserVideoSummary(video, segments);
-
+  
+  // First create/get the user video to have the ID
+  const userVideo = await UserVideoRepository.upsert({
+    userId: user.id,
+    youtubeId: videoId,
+    summary: '', // Will be updated below
+  });
+  
+  const summary = await generateUserVideoSummary(video, segments, userVideo.id);
+  
+  // Update with the generated summary
   return await UserVideoRepository.upsert({
     userId: user.id,
     youtubeId: videoId,
@@ -20,10 +30,10 @@ export async function saveVideoUser(videoId: string, video: Video, segments: any
   });
 }
 
-export async function generateUserVideoSummary(video: Video, segments: any[]) {
+export async function generateUserVideoSummary(video: Video, segments: any[], userVideoId?: number) {
   const transcriptText = segments.map((seg: {text: string}) => seg.text);
   const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;
-  const summary = await generateSummary(textToSummarize);
+  const summary = await generateSummary(textToSummarize, video.youtubeId, userVideoId);
 
   return summary;
 }
@@ -189,6 +199,16 @@ export async function fetchVideoTranscript(videoId: string) {
     if (video) {
       if (!userVideo) {
         userVideo = await saveVideoUser(videoId, video, segments);
+      } else {
+        // Generate summary if it doesn't exist
+        if (!userVideo.summary) {
+          const summary = await generateUserVideoSummary(video, segments, userVideo.id);
+          userVideo = await UserVideoRepository.upsert({
+            userId: user.id,
+            youtubeId: videoId,
+            summary: summary,
+          });
+        }
       }
       await VideoRepository.upsert({
         youtubeId: videoId,
@@ -211,7 +231,7 @@ export async function fetchVideoTranscript(videoId: string) {
   }
 }
 
-export async function generateQuickStartQuestions(summary: string, userVideoId?: number) {
+export async function generateQuickStartQuestions(summary: string, userVideoId?: number, videoId?: string) {
   let prompt = `You are a helpful assistant that analyzes YouTube video transcript summaries and generates relevant questions to facilitate learning and discussion.
 
 When given a transcript summary, generate exactly 4 first-person questions that capture the feeling of discovering ideas in real-time.
@@ -233,7 +253,8 @@ ${summary}
 </summary>
 `;
 
-  const { object } = await generateObject({
+  const startTime = Date.now();
+  const result = await generateObject({
     model: openai('gpt-4.1-2025-04-14'),
     prompt: prompt,
     schema: z.object({
@@ -241,7 +262,23 @@ ${summary}
     }),
   });
   
-  const questions = object?.questions || [];
+  // Track token usage
+  try {
+    const user = await getCurrentUser();
+    await trackGenerateTextUsage(result, {
+      userId: user.id,
+      model: 'gpt-4.1-2025-04-14',
+      provider: 'openai',
+      operation: 'quick_start_questions',
+      videoId,
+      userVideoId,
+      requestDuration: Date.now() - startTime,
+    });
+  } catch (error) {
+    console.error('Failed to track quick start questions token usage:', error);
+  }
+  
+  const questions = result.object?.questions || [];
   
   // Save to database if userVideoId is provided
   if (userVideoId && questions.length > 0) {
