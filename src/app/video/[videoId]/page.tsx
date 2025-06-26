@@ -4,7 +4,7 @@ import { getChatHistory } from "@/lib/storage"
 import { TranscriptView } from "@/components/video/transcript-view"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronRight } from "lucide-react"
-import { ChatInterface } from "@/components/chat/interface"
+import { ChatInterface } from "@/components/chat/chat-interface"
 import { SummarySection } from "@/components/video/summary-section"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
@@ -75,9 +75,9 @@ export default async function VideoPage({ params }: { params: { videoId: string 
 
           <div className="lg:col-span-3 flex flex-col h-full md:h-auto relative">
             {videoDetails.userVideo ? (
-              <ChatInterface 
-                videoId={videoId} 
-                userVideoId={videoDetails.userVideo.id} 
+              <ChatInterface
+                videoId={videoId}
+                userVideoId={videoDetails.userVideo.id}
                 initialMessages={messages}
                 quickStartQuestions={quickStartQuestions} />
             ) : (

@@ -1,10 +1,10 @@
 "use client"
 
 import { useChat } from "@ai-sdk/react";
-import { ArrowUp, Square} from "lucide-react"
+import { ArrowUp, Square } from "lucide-react"
 import { flushSync } from "react-dom"
 import { Button } from "@/components/ui/button"
-import { ChatContainerRoot } from "@/components/ui/chat-container"
+import { ChatContainerRoot, ChatContainerScrollAnchor } from "@/components/ui/chat-container"
 import {
   PromptInput,
   PromptInputAction,
@@ -24,7 +24,7 @@ interface ChatInterfaceProps {
   shareChatUrl?: string;
 }
 
-export function ChatInterface({ 
+export function ChatInterface({
   videoId,
   userVideoId,
   initialMessages,
@@ -46,15 +46,15 @@ export function ChatInterface({
   });
 
   return (
-    <div className="flex h-screen h-screen-dvh w-full flex-col overflow-hidden border-l">
-      <ChatHeader 
+    <div className="flex flex-col overflow-hidden h-screen h-screen-dvh w-full border-l">
+      <ChatHeader
         videoId={videoId}
         userVideoId={userVideoId}
         shareChatUrl={shareChatUrl}
         setMessages={setMessages}
         isSharePage={isSharePage}
       />
-      <ChatContainerRoot className="flex-1">
+      <ChatContainerRoot className="relative w-full flex-1 scrollbar-hidden">
         {messages.length === 0 && quickStartQuestions.length > 0 ? (
           <div className="flex flex-col gap-4 p-4 h-full justify-center">
             <div>
@@ -83,10 +83,10 @@ export function ChatInterface({
           <MessageItem
             messages={messages}
             status={status}
-            isLoggedIn={isLoggedIn}
           />
         )}
       </ChatContainerRoot>
+      <ChatContainerScrollAnchor />
       <div className="p-4">
         {isSharePage ? (
           <div className="text-center text-sm text-muted-foreground">

@@ -72,7 +72,7 @@ export default function Loading() {
               </div>
 
               {/* Quick Start Questions */}
-              <div className="p-4 border-b">
+              <div className="p-4 border-b flex-1">
                 <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-40 mb-3" />
                 <div className="space-y-2">
                   {Array.from({ length: 3 }).map((_, i) => (
@@ -82,7 +82,7 @@ export default function Loading() {
               </div>
 
               {/* Chat Messages Area */}
-              <div className="flex-1 p-4 space-y-4">
+              <div className="p-4 space-y-4">
                 {Array.from({ length: 3 }).map((_, i) => (
                   <div key={i} className="space-y-2">
                     <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-3/4" />

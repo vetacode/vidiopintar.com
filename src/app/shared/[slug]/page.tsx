@@ -3,14 +3,13 @@ import { SharedVideoRepository } from "@/lib/db/repository";
 import { Metadata } from "next";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { ChatInterface } from "@/components/chat/interface";
+import { ChatInterface } from "@/components/chat/chat-interface";
 import { VideoPlayer } from "@/components/video/video-player";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SummarySection } from "@/components/video/summary-section";
 import { TranscriptView } from "@/components/video/transcript-view";
 import { getChatHistory } from "@/lib/storage";
 import { fetchVideoTranscript } from "@/lib/youtube";
-import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { env } from "@/lib/env/server";
 
