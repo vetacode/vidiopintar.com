@@ -19,7 +19,3 @@ export async function requireAdmin() {
     
     return user;
 }
-
-export async function checkIsAdmin(userEmail: string): Promise<boolean> {
-    return userEmail === env.ADMIN_MASTER_EMAIL;
-}
