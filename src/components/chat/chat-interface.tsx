@@ -112,7 +112,7 @@ export function ChatInterface({
             onSubmit={handleSubmit}
             className="w-full"
           >
-            <PromptInputTextarea placeholder="Ask anything..." />
+            <PromptInputTextarea className="bg-transparent!" placeholder="Ask anything..." />
             <PromptInputActions className="justify-end pt-2">
               <PromptInputAction
                 tooltip={status === "streaming" ? "Stop generation" : "Send message"}
