@@ -31,7 +31,7 @@ export function MessageItem({ messages, status }: MessageItemProps) {
                     >
                         {isAssistant ? (
                             <div className="max-w-full flex-1 sm:max-w-full">
-                                <div className="relative group prose prose-sm px-2 py-6 max-w-none">
+                                <div className="relative group prose dark:prose-invert prose-sm px-2 py-6 max-w-none">
                                     <Markdown>{message.content}</Markdown>
                                     <div className="absolute bottom-0 right-2 group-hover:visible invisible">
                                         <CopyButton content={message.content} copyMessage="Copied to clipboard" label="Copy" />
