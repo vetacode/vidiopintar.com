@@ -26,7 +26,7 @@ export default async function AdminPage() {
   const operationUsage = await getTokenUsageByOperation();
 
   return (
-    <main className="bg-accent">
+    <main className="bg-accent dark:bg-background">
       <div className="container mx-auto py-8 px-4">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
