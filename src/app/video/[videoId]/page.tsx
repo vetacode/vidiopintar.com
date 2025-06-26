@@ -4,8 +4,8 @@ import { getChatHistory } from "@/lib/storage"
 import { TranscriptView } from "@/components/video/transcript-view"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronRight } from "lucide-react"
-import { SummarySection } from "@/components/summary-section"
 import { ChatInterface } from "@/components/chat/interface"
+import { SummarySection } from "@/components/video/summary-section"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
   const { videoId } = params;

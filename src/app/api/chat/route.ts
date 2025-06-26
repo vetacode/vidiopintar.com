@@ -73,12 +73,6 @@ Think of yourself as a friend who just watched this video and is texting back ex
 - One idea per paragraph
 - Use line breaks liberally
 
-**Make them think differently:**
-- "Actually, here's the wild part..."
-- "You know what's crazy? [unexpected connection]"
-- "This flips everything because..."
-- "Nobody talks about this, but..."
-
 **Format for scanning:**
 - **Bold** the mind-blowing bits
 - Use bullet points for lists

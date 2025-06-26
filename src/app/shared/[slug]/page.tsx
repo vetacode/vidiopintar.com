@@ -6,7 +6,7 @@ import { headers } from "next/headers";
 import { ChatInterface } from "@/components/chat/interface";
 import { VideoPlayer } from "@/components/video/video-player";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SummarySection } from "@/components/summary-section";
+import { SummarySection } from "@/components/video/summary-section";
 import { TranscriptView } from "@/components/video/transcript-view";
 import { getChatHistory } from "@/lib/storage";
 import { fetchVideoTranscript } from "@/lib/youtube";
