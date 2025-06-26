@@ -22,7 +22,7 @@ export default function Loading() {
       <main className="relative min-h-screen p-6 overflow-hidden">
         <div className="relative z-10 max-w-4xl mx-auto mt-24">
           {/* Hero Section with Background Image */}
-          <div className="relative h-96 lg:h-[500px] overflow-hidden rounded-2xl mb-8">
+          <div className="relative h-64 overflow-hidden rounded-2xl mb-8">
             <div className="w-full h-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
             <div className="absolute inset-0 bg-black/35">
               <div className="flex flex-col justify-center items-center h-full p-8 text-center">
