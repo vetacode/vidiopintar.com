@@ -24,11 +24,8 @@ export function calculateTokenCost(
   inputTokens: number,
   outputTokens: number
 ): { inputCost: number; outputCost: number; totalCost: number } {
-  // Get the provider pricing object
   const providerPricing = TOKEN_PRICING[provider];
   
-  // Check if the model exists for this provider
-  // Use type assertion with unknown as intermediate step for better type safety
   const pricing = providerPricing && model in providerPricing
     ? (providerPricing as any)[model]
     : undefined;
@@ -43,7 +40,7 @@ export function calculateTokenCost(
   const totalCost = inputCost + outputCost;
   
   return {
-    inputCost: Math.round(inputCost * 1_000_000) / 1_000_000, // Round to 6 decimal places
+    inputCost: Math.round(inputCost * 1_000_000) / 1_000_000,
     outputCost: Math.round(outputCost * 1_000_000) / 1_000_000,
     totalCost: Math.round(totalCost * 1_000_000) / 1_000_000,
   };
