@@ -11,7 +11,7 @@ import {
   PromptInputActions,
   PromptInputTextarea,
 } from "@/components/ui/prompt-input"
-import { ChatHeader } from "@/components/chat/header";
+import { ChatHeader } from "@/components/chat/chat-header";
 import { MessageItem } from "@/components/chat/message-item";
 
 interface ChatInterfaceProps {
