@@ -4,6 +4,9 @@ import { redirect } from "next/navigation";
 
 export async function getCurrentUserWithAdminCheck() {
     const user = await getCurrentUser();
+    console.log({
+        userEmail: user.email, envemail: env.ADMIN_MASTER_EMAIL
+    })
     return {
         ...user,
         isAdmin: user.email === env.ADMIN_MASTER_EMAIL
