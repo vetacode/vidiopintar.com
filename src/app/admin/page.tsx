@@ -1,8 +1,6 @@
 import { requireAdmin } from "@/lib/auth-admin";
 import { getAdminMetrics, getUserGrowthData, getVideoAdditionsData, getTokenUsageData, getTokenUsageByModel, getTokenUsageByOperation } from "@/lib/admin-queries";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { UserGrowthChart } from "@/components/admin/user-growth-chart";
-import { VideoAdditionsChart } from "@/components/admin/video-additions-chart";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TokenUsageOverview } from "@/components/admin/token-usage-overview";
 import { Users, Video, FileText, MessageSquare, DollarSign, Zap } from "lucide-react";
 import { AdminChartFilters } from "@/components/admin/admin-chart-filters";
