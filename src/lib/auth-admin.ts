@@ -12,10 +12,10 @@ export async function getCurrentUserWithAdminCheck() {
 
 export async function requireAdmin() {
     const user = await getCurrentUserWithAdminCheck();
-    
+
     if (!user.isAdmin) {
         redirect("/home");
     }
-    
+
     return user;
 }
