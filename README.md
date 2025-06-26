@@ -1,6 +1,6 @@
 # Vidiopintar.com
 
-AI-powered YouTube video analysis platform. Paste a YouTube link to get video summaries and chat with the content using AI.
+AI-powered YouTube video learning platform. Submit a YouTube link to get video summaries and chat with the content using AI.
 
 ![Demo 1](http://res.cloudinary.com/dr15yjl8w/image/upload/v1750910596/public/gtvf4kejtuxr3fvethqe.png)
 
