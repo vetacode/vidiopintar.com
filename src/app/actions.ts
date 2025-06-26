@@ -1,49 +1,10 @@
 "use server"
 
-import { TranscriptRepository, VideoRepository } from "@/lib/db/repository";
-import { fetchVideoDetails, fetchVideoTranscript } from "@/lib/youtube"
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { getCurrentUser } from "@/lib/auth";
 import { UserVideoRepository } from "@/lib/db/repository";
 import { extractVideoId } from "@/lib/utils";
-
-export async function processVideo(youtubeVideoId: string) {
-  const videoDetails = await fetchVideoDetails(youtubeVideoId);
-  await fetchVideoTranscript(youtubeVideoId);
-
-  const user = await getCurrentUser();
-
-  await VideoRepository.upsert({
-    youtubeId: youtubeVideoId,
-    title: videoDetails.title,
-    description: videoDetails.description,
-    channelTitle: videoDetails.channelTitle,
-    publishedAt: videoDetails.publishedAt ? new Date(videoDetails.publishedAt) : null,
-    thumbnailUrl:
-      videoDetails.thumbnails?.high?.url ||
-      videoDetails.thumbnails?.medium?.url ||
-      videoDetails.thumbnails?.default?.url ||
-      null,
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  });
-
-  let userVideo = await UserVideoRepository.getByUserAndYoutubeId(user.id, youtubeVideoId);
-  if (!userVideo) {
-    await UserVideoRepository.create({
-      userId: user.id,
-      youtubeId: youtubeVideoId,
-      summary: null,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    });
-  }
-
-  revalidatePath('/home', 'page');
-  redirect(`/video/${youtubeVideoId}`);
-}
 
 export async function handleVideoSubmit(formData: FormData) {
   const videoUrl = formData.get("videoUrl") as string;
@@ -52,7 +13,7 @@ export async function handleVideoSubmit(formData: FormData) {
   const youtubeVideoId = extractVideoId(videoUrl);
   if (!youtubeVideoId) return;
 
-  await processVideo(youtubeVideoId);
+  redirect(`/video/${youtubeVideoId}`);
 }
 
 const deleteSchema = z.object({
