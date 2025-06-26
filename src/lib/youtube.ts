@@ -13,12 +13,10 @@ export async function saveVideoUser(videoId: string, video: Video, segments: any
   const user = await getCurrentUser();
   const summary = await generateUserVideoSummary(video, segments);
 
-  return await UserVideoRepository.create({
+  return await UserVideoRepository.upsert({
     userId: user.id,
     youtubeId: videoId,
     summary: summary,
-    createdAt: new Date(),
-    updatedAt: new Date(),
   });
 }
 

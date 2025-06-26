@@ -127,6 +127,28 @@ export const UserVideoRepository = {
     return result[0];
   },
 
+  // Upsert a user_video (create if not exists, update if exists)
+  async upsert(userVideo: NewUserVideo): Promise<UserVideo> {
+    const existingUserVideo = await this.getByUserAndYoutubeId(userVideo.userId!, userVideo.youtubeId!);
+
+    if (existingUserVideo) {
+      // Update existing user_video
+      const result = await db
+        .update(userVideos)
+        .set({ summary: userVideo.summary, updatedAt: new Date() })
+        .where(eq(userVideos.id, existingUserVideo.id))
+        .returning();
+      return result[0];
+    } else {
+      // Create new user_video
+      return await this.create({
+        ...userVideo,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    }
+  },
+
   // Update summary for a user_video
   async updateSummary(id: number, summary: string): Promise<UserVideo | undefined> {
     const result = await db.update(userVideos)
