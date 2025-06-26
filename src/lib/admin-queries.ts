@@ -1,20 +1,23 @@
 import { db } from "@/lib/db";
 import { user, videos, userVideos } from "@/lib/db/schema";
+import { messages } from "@/lib/db/schema/messages";
 import { sql } from "drizzle-orm";
 
 export type TimeRange = "7d" | "1m" | "3m";
 
 export async function getAdminMetrics() {
-  const [totalUsers, totalVideos, totalUserVideos] = await Promise.all([
+  const [totalUsers, totalVideos, totalUserVideos, totalMessages] = await Promise.all([
     db.select({ count: sql<number>`count(*)`.mapWith(Number) }).from(user),
     db.select({ count: sql<number>`count(*)`.mapWith(Number) }).from(videos),
     db.select({ count: sql<number>`count(*)`.mapWith(Number) }).from(userVideos),
+    db.select({ count: sql<number>`count(*)`.mapWith(Number) }).from(messages),
   ]);
 
   return {
     totalUsers: totalUsers[0]?.count ?? 0,
     totalVideos: totalVideos[0]?.count ?? 0,
     totalUserVideos: totalUserVideos[0]?.count ?? 0,
+    totalMessages: totalMessages[0]?.count ?? 0,
   };
 }
 
