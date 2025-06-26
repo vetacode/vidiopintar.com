@@ -4,12 +4,11 @@ import { FooterSection } from "@/components/footer";
 
 function LoadingSkeleton() {
   return (
-    <Card className="rounded-2xl overflow-hidden dark:border-white/10">
-      <div className="w-full h-48 bg-gray-200 dark:bg-gray-700 animate-pulse" />
+    <Card className="rounded-2xl overflow-hidden dark:border-white/10 shadow-none">
+      <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 animate-pulse" />
       <div className="p-4">
         <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mb-2" />
         <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded animate-pulse w-3/4 mb-4" />
-        <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded-lg animate-pulse" />
       </div>
     </Card>
   );

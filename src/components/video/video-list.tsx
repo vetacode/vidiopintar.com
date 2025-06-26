@@ -30,7 +30,7 @@ export function VideoList({ videos }: VideoListProps) {
                     {videos.map((video) => (
                         <div key={video.userVideoId} className="relative group">
                             <a href={`/video/${video.youtubeId}`}>
-                                <Card className=" dark:border-white/10 overflow-hidden rounded-2xl">
+                                <Card className=" dark:border-white/10 overflow-hidden rounded-2xl shadow-none">
                                     <CardContent className="p-0 relative">
                                         <img
                                             src={video.thumbnailUrl!}
@@ -38,14 +38,14 @@ export function VideoList({ videos }: VideoListProps) {
                                             className="object-cover w-full h-40"
                                         />
                                         <button
-                                            className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white p-1 rounded-lg z-10 cursor-pointer hover:text-red-500/80"
+                                            className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-white text-white p-1 rounded-lg z-10 cursor-pointer hover:text-red-500/80"
                                             onClick={(e) => {
                                                 e.stopPropagation();
                                                 e.preventDefault();
                                                 openDialog(video.userVideoId);
                                             }}
                                         >
-                                            <Trash2 className="size-4" />
+                                            <Trash2 className="size-4 text-foreground" />
                                         </button>
                                     </CardContent>
                                     <CardHeader className="p-4">
