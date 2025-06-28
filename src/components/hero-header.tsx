@@ -17,7 +17,6 @@ export const HeroHeader = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        // Check localStorage for authentication status
         const auth = localStorage.getItem('isAuthenticated');
         try {
             const parsed = auth ? JSON.parse(auth) : null;
