@@ -43,7 +43,6 @@ export const HeroHeader = () => {
         router.push("/");
     };
 
-
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50)
