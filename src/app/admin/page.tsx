@@ -26,7 +26,7 @@ export default async function AdminPage() {
   const operationUsage = await getTokenUsageByOperation();
 
   const latestVideos = await getLatestVideos(6);
-  const latestMessages = await getLatestMessages();
+  const latestMessages = await getLatestMessages(6);
 
   return (
     <main className="bg-accent dark:bg-background">

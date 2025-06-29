@@ -105,25 +105,59 @@ export async function getLatestVideos(limit = 5) {
   return result;
 }
 
-export async function getLatestMessages(limit = 5) {
-  const result = await db
-    .select({
-      id: messages.id,
-      content: messages.content,
-      role: messages.role,
-      createdAt: messages.createdAt,
-      userVideoId: messages.userVideoId,
-      videoTitle: videos.title,
-      youtubeId: videos.youtubeId,
-      userName: user.name,
-    })
-    .from(messages)
-    .innerJoin(userVideos, sql`${messages.userVideoId} = ${userVideos.id}`)
-    .innerJoin(videos, sql`${userVideos.youtubeId} = ${videos.youtubeId}`)
-    .innerJoin(user, sql`${userVideos.userId} = ${user.id}`)
-    .where(sql`${messages.role} = 'user'`)
-    .orderBy(sql`${messages.createdAt} DESC`)
-    .limit(limit);
+export async function getLatestMessages(limit = 6) {
+  // Using a CTE to get the latest 2 messages per user from the 3 most recent users
+  const result = await db.execute(sql`
+    WITH recent_users AS (
+      SELECT DISTINCT uv.user_id, MAX(m.created_at) as last_message_at
+      FROM messages m
+      INNER JOIN user_videos uv ON m.user_video_id = uv.id
+      WHERE m.role = 'user'
+      GROUP BY uv.user_id
+      ORDER BY last_message_at DESC
+      LIMIT 3
+    ),
+    ranked_messages AS (
+      SELECT 
+        m.id,
+        m.content,
+        m.role,
+        m.created_at,
+        m.user_video_id,
+        v.title as video_title,
+        v.youtube_id,
+        u.name as user_name,
+        ROW_NUMBER() OVER (PARTITION BY uv.user_id ORDER BY m.created_at DESC) as rn
+      FROM messages m
+      INNER JOIN user_videos uv ON m.user_video_id = uv.id
+      INNER JOIN videos v ON uv.youtube_id = v.youtube_id
+      INNER JOIN "user" u ON uv.user_id = u.id
+      INNER JOIN recent_users ru ON uv.user_id = ru.user_id
+      WHERE m.role = 'user'
+    )
+    SELECT 
+      id,
+      content,
+      role,
+      created_at as "createdAt",
+      user_video_id as "userVideoId",
+      video_title as "videoTitle",
+      youtube_id as "youtubeId",
+      user_name as "userName"
+    FROM ranked_messages
+    WHERE rn <= 2
+    ORDER BY created_at DESC
+    LIMIT ${limit}
+  `);
 
-  return result;
+  return result.rows as Array<{
+    id: string;
+    content: string;
+    role: string;
+    createdAt: Date;
+    userVideoId: number;
+    videoTitle: string;
+    youtubeId: string;
+    userName: string;
+  }>;
 }
