@@ -87,3 +87,41 @@ export async function getVideoAdditionsData(timeRange: TimeRange) {
     videos: row.count,
   }));
 }
+
+export async function getLatestVideos(limit = 5) {
+  const result = await db
+    .select({
+      id: videos.id,
+      youtubeId: videos.youtubeId,
+      title: videos.title,
+      channelTitle: videos.channelTitle,
+      thumbnailUrl: videos.thumbnailUrl,
+      createdAt: videos.createdAt,
+    })
+    .from(videos)
+    .orderBy(sql`${videos.createdAt} DESC`)
+    .limit(limit);
+
+  return result;
+}
+
+export async function getLatestMessages(limit = 5) {
+  const result = await db
+    .select({
+      id: messages.id,
+      content: messages.content,
+      role: messages.role,
+      createdAt: messages.createdAt,
+      userVideoId: messages.userVideoId,
+      videoTitle: videos.title,
+      youtubeId: videos.youtubeId,
+    })
+    .from(messages)
+    .innerJoin(userVideos, sql`${messages.userVideoId} = ${userVideos.id}`)
+    .innerJoin(videos, sql`${userVideos.youtubeId} = ${videos.youtubeId}`)
+    .where(sql`${messages.role} = 'user'`)
+    .orderBy(sql`${messages.createdAt} DESC`)
+    .limit(limit);
+
+  return result;
+}

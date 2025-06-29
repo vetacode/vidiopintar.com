@@ -1,9 +1,11 @@
 import { requireAdmin } from "@/lib/auth-admin";
-import { getAdminMetrics, getUserGrowthData, getVideoAdditionsData, getTokenUsageData, getTokenUsageByModel, getTokenUsageByOperation } from "@/lib/admin-queries";
+import { getAdminMetrics, getUserGrowthData, getVideoAdditionsData, getTokenUsageData, getTokenUsageByModel, getTokenUsageByOperation, getLatestVideos, getLatestMessages } from "@/lib/admin-queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TokenUsageOverview } from "@/components/admin/token-usage-overview";
 import { Users, Video, FileText, MessageSquare, DollarSign, Zap } from "lucide-react";
 import { AdminChartFilters } from "@/components/admin/admin-chart-filters";
+import { LatestVideos } from "@/components/admin/latest-videos";
+import { LatestMessages } from "@/components/admin/latest-messages";
 
 export default async function AdminPage() {
   await requireAdmin();
@@ -23,9 +25,12 @@ export default async function AdminPage() {
   const modelUsage = await getTokenUsageByModel();
   const operationUsage = await getTokenUsageByOperation();
 
+  const latestVideos = await getLatestVideos(6);
+  const latestMessages = await getLatestMessages();
+
   return (
     <main className="bg-accent dark:bg-background">
-      <div className="container mx-auto py-8 px-4">
+      <div className="container max-w-6xl w-full mx-auto py-8 px-4">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
           <p className="text-muted-foreground">Overview of your application metrics</p>
@@ -154,6 +159,12 @@ export default async function AdminPage() {
           modelUsage={modelUsage}
           operationUsage={operationUsage}
         />
+
+        {/* Latest Videos and Messages */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+          <LatestVideos videos={latestVideos} />
+          <LatestMessages messages={latestMessages} />
+        </div>
       </div>
     </main>
   );
