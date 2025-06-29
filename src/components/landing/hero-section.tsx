@@ -48,7 +48,7 @@ export function HeroSection() {
                                 speedSegment={0.3}
                                 as="h1"
                                 className="text-balance text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-                                Stop Watching YouTube Videos. Start Mastering Them with AI
+                                Don't Just Watch YouTube — Learn From It
                             </TextEffect>
                             <TextEffect
                                 per="line"
@@ -57,7 +57,8 @@ export function HeroSection() {
                                 delay={0.5}
                                 as="p"
                                 className="mx-auto mt-12 max-w-2xl text-pretty text-lg">
-                                Turn your casual YouTube watching into structured learning experiences. Vidiopintar helps you retain more, understand deeper, and actually apply what you learn - in any topic.
+                                Get instant "aha moments" from any YouTube video. Get key insights, connects the dots, and helps you build
+                                real knowledge — not just watch time.
                             </TextEffect>
 
                             <AnimatedGroup

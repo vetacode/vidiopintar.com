@@ -13,37 +13,37 @@ const testimonials: Testimonial[] = [
       "name": "Jonathan Yombo",
       "role": "Aspiring Developer",
       "image": "https://randomuser.me/api/portraits/men/1.jpg",
-      "quote": "Vidiopintar turned my YouTube binge-watching into productive learning sessions. I've mastered coding concepts I struggled with for months!"
+      "quote": "Finally, I extract the gold from coding tutorials instead of rewatching the same parts. Connected concepts I never saw before!"
     },
     {
       "name": "Yves Kalume",
       "role": "Biology Major",
       "image": "https://randomuser.me/api/portraits/men/2.jpg",
-      "quote": "As a college student, Vidiopintar is my secret weapon. Complex lectures are now easier to grasp, and my grades have improved significantly."
+      "quote": "Every lecture video now gives me instant insights. I build real understanding, not just notes. My knowledge actually sticks!"
     },
     {
       "name": "Yucel Faruksahan",
       "role": "HR Manager",
       "image": "https://randomuser.me/api/portraits/men/3.jpg",
-      "quote": "I use Vidiopintar for my team's professional development. The AI summaries save us hours and keep us updated on industry trends."
+      "quote": "We extract key insights from industry talks in seconds. My team gets 'aha moments' from every conference video we watch."
     },
     {
       "name": "Shekinah Tshiokufila",
       "role": "English Learner",
       "image": "https://randomuser.me/api/portraits/men/4.jpg",
-      "quote": "Learning English became fun and interactive with Vidiopintar. I'm picking up new phrases and improving my pronunciation daily."
+      "quote": "I connect language patterns I missed before. Every video becomes an 'aha moment' for understanding real English usage."
     },
     {
       "name": "Oketa Fred",
       "role": "Online Educator",
       "image": "https://randomuser.me/api/portraits/men/5.jpg",
-      "quote": "Vidiopintar helps me create engaging lessons for my online classes. My students are more attentive and retain information better."
+      "quote": "I extract the best teaching methods from educator videos. Now I help my students get their own 'aha moments' faster."
     },
     {
       "name": "Khatab Wedaa",
       "role": "Lifelong Learner",
       "image": "https://randomuser.me/api/portraits/men/6.jpg",
-      "quote": "I'm always curious about new topics, and Vidiopintar satisfies that perfectly. It's like having a personal tutor for every subject I'm interested in!"
+      "quote": "Every video I watch builds my knowledge base. I connect ideas across topics and get insights I'd never find just watching."
     }
 ];
 
@@ -63,8 +63,8 @@ export function WallOfLoveSection() {
             <div className="py-16 md:py-32">
                 <div className="mx-auto max-w-6xl px-6">
                     <div className="text-center">
-                        <h2 className="text-title text-3xl font-semibold text-balance">What Our Learners Are Saying</h2>
-                        <p className="text-body mt-6">Discover how Vidiopintar is transforming the way people learn from YouTube videos across various fields and interests.</p>
+                        <h2 className="text-title text-3xl font-semibold text-balance">From watch time to "aha moments"</h2>
+                        <p className="text-body mt-6">See how people are extracting real insights and building knowledge from the videos they love.</p>
                     </div>
                     <div className="mt-8 grid gap-3 sm:grid-cols-2 md:mt-12 lg:grid-cols-3">
                         {testimonialChunks.map((chunk, chunkIndex) => (
