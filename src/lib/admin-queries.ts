@@ -115,10 +115,12 @@ export async function getLatestMessages(limit = 5) {
       userVideoId: messages.userVideoId,
       videoTitle: videos.title,
       youtubeId: videos.youtubeId,
+      userName: user.name,
     })
     .from(messages)
     .innerJoin(userVideos, sql`${messages.userVideoId} = ${userVideos.id}`)
     .innerJoin(videos, sql`${userVideos.youtubeId} = ${videos.youtubeId}`)
+    .innerJoin(user, sql`${userVideos.userId} = ${user.id}`)
     .where(sql`${messages.role} = 'user'`)
     .orderBy(sql`${messages.createdAt} DESC`)
     .limit(limit);
