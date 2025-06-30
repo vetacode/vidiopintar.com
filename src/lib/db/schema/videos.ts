@@ -5,6 +5,7 @@ import {
   pgTable,
   serial,
   text,
+  time,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core"
@@ -56,8 +57,8 @@ export const sharedVideos = pgTable("shared_videos", {
 export const transcriptSegments = pgTable("transcript_segments", {
   id: serial("id").primaryKey(),
   videoId: varchar("video_id", { length: 32 }).notNull(),
-  start: integer("start").notNull(),
-  end: integer("end").notNull(),
+  start: time("start").notNull(),
+  end: time("end").notNull(),
   text: varchar("text", { length: 1000 }).notNull(),
   isChapterStart: boolean("is_chapter_start").notNull(),
 })
