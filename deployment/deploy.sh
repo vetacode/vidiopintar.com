@@ -72,7 +72,9 @@ log "Starting zero-downtime deployment process..."
 # Generate unique container version
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 NEW_CONTAINER="${CONTAINER_NAME}-${TIMESTAMP}"
-OLD_CONTAINER=$(docker ps -q -f "name=^${CONTAINER_NAME}$" 2>/dev/null || true)
+
+# Find any running container with our app name (including timestamped ones)
+OLD_CONTAINER=$(docker ps -q -f "name=^${CONTAINER_NAME}" 2>/dev/null | head -1 || true)
 
 # Pull latest image
 log "Pulling latest Docker image: $IMAGE_NAME"
@@ -159,8 +161,12 @@ if [ "$ROLLING_DEPLOYMENT" = true ]; then
     # Method: Use iptables to redirect traffic during switch
     # This provides true zero-downtime deployment
     
+    # Get the actual running container name
+    CURRENT_CONTAINER_NAME=$(docker ps --format "{{.Names}}" -f "id=$OLD_CONTAINER")
+    log "Current running container: $CURRENT_CONTAINER_NAME"
+    
     # Get the current container's port binding
-    CURRENT_HOST_PORT=$(docker port "$CONTAINER_NAME" ${INTERNAL_PORT} 2>/dev/null | cut -d: -f2)
+    CURRENT_HOST_PORT=$(docker port "$CURRENT_CONTAINER_NAME" ${INTERNAL_PORT} 2>/dev/null | cut -d: -f2)
     
     # Find an available temporary port
     TEMP_PORT=$((PORT + 1))
@@ -192,11 +198,11 @@ if [ "$ROLLING_DEPLOYMENT" = true ]; then
         # Now perform the atomic switch
         log "Switching containers..."
         
-        # Rename old container
-        docker rename "$CONTAINER_NAME" "${CONTAINER_NAME}-old" 2>/dev/null || true
-        
         # Stop old container
-        docker stop "${CONTAINER_NAME}-old" 2>/dev/null || true
+        docker stop "$CURRENT_CONTAINER_NAME" 2>/dev/null || true
+        
+        # Remove old container to free up the port
+        docker rm "$CURRENT_CONTAINER_NAME" 2>/dev/null || true
         
         # Stop new container temporarily
         docker stop "$NEW_CONTAINER" 2>/dev/null || true
@@ -211,9 +217,6 @@ if [ "$ROLLING_DEPLOYMENT" = true ]; then
             -p "$PORT:$INTERNAL_PORT" \
             --env-file .env \
             "$IMAGE_NAME"
-        
-        # Clean up old container
-        docker rm "${CONTAINER_NAME}-old" 2>/dev/null || true
         
         log "Container switch completed successfully"
     else
