@@ -64,7 +64,7 @@ export function TranscriptView({ transcript }: TranscriptViewProps) {
               key={index}
               className={`p-3 rounded-xl transition-all duration-200 hover:bg-secondary/40 ${
                 searchQuery && segment.text.toLowerCase().includes(searchQuery.toLowerCase())
-                  ? "bg-melody/10 border border-melody/20"
+                  ? "bg-melody/10 border bg-accent border-melody/20"
                   : ""
               }`}
             >
