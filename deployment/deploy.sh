@@ -136,15 +136,25 @@ if health_check "$TARGET_PORT"; then
     log "Deployment completed successfully!"
     log "New version is running on port $TARGET_PORT"
     
-    # Optional: Clean up old container after some time
+    # Stop and remove old container if exists
     if [ "$ACTIVE_PORT" != "none" ] && [ "$ACTIVE_PORT" != "$TARGET_PORT" ]; then
-        log "Previous version is still running on port $ACTIVE_PORT as fallback"
-        log "To remove the old container after nginx switches traffic, run:"
+        log "Stopping previous container on port $ACTIVE_PORT..."
+        
         if [ "$ACTIVE_PORT" = "$PORT_A" ]; then
-            log "  docker stop $CONTAINER_A && docker rm $CONTAINER_A"
+            OLD_CONTAINER="$CONTAINER_A"
         else
-            log "  docker stop $CONTAINER_B && docker rm $CONTAINER_B"
+            OLD_CONTAINER="$CONTAINER_B"
         fi
+        
+        # Give nginx time to switch traffic (optional, adjust as needed)
+        log "Waiting 5 seconds for nginx to switch traffic..."
+        sleep 5
+        
+        # Stop and remove old container
+        docker stop "$OLD_CONTAINER" 2>/dev/null || true
+        docker rm "$OLD_CONTAINER" 2>/dev/null || true
+        
+        log "Previous container on port $ACTIVE_PORT has been removed"
     fi
     
     # Show container status
