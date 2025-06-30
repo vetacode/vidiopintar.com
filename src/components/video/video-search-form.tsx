@@ -43,7 +43,7 @@ export function VideoSearchForm() {
         required
       />
       <PromptInputActions className="justify-end pt-2">
-        <Button type="submit" disabled={isLoading} className="rounded-xl cursor-pointer">
+        <Button onClick={handleSearch} type="submit" disabled={isLoading} className="rounded-xl cursor-pointer">
           {isLoading ? <Loader className="size-4 animate-spin" /> : "Search"}
         </Button>
       </PromptInputActions>
