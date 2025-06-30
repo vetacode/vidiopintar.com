@@ -210,6 +210,10 @@ if [ "$ROLLING_DEPLOYMENT" = true ]; then
         # Remove new container to change port
         docker rm "$NEW_CONTAINER" 2>/dev/null || true
         
+        # Ensure no container exists with the base name
+        docker stop "$CONTAINER_NAME" 2>/dev/null || true
+        docker rm "$CONTAINER_NAME" 2>/dev/null || true
+        
         # Start final container with correct name and port
         docker run -d \
             --name "$CONTAINER_NAME" \
