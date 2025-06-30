@@ -2,12 +2,22 @@
 
 import { authClient } from "@/lib/auth-client";
 import { Button } from '@/components/ui/button'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { toast } from "sonner";
 
 export function AuthForm() {
     const [loading, setLoading] = useState(false);
+    const [callbackUrl, setCallbackUrl] = useState("/home");
+
+    useEffect(() => {
+        // Check if there's a pending video ID in sessionStorage
+        const pendingVideoId = sessionStorage.getItem("pendingVideoId");
+        if (pendingVideoId) {
+            setCallbackUrl(`/video/${pendingVideoId}`);
+        }
+    }, []);
+
     const signInWithGoogle = async () => {
         try {
             setLoading(true);
@@ -15,8 +25,10 @@ export function AuthForm() {
             localStorage.setItem('isAuthenticated', JSON.stringify({ authenticated: true }));
             await authClient.signIn.social({
                 provider: "google",
-                callbackURL: "/home",
+                callbackURL: callbackUrl,
             });
+            // Clear the pending video ID after successful login
+            sessionStorage.removeItem("pendingVideoId");
         } catch (error) {
             localStorage.setItem('isAuthenticated', JSON.stringify({ authenticated: false }));
             console.log(error);

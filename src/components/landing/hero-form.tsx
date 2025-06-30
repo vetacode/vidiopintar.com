@@ -1,10 +1,35 @@
+"use client";
+
 import { handleVideoSubmit } from "@/app/actions"
 import { SubmitButton } from "@/components/submit-button"
+import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { extractVideoId } from "@/lib/utils";
 
 export function FormStartLearning() {
+    const { data: session } = useSession();
+    const router = useRouter();
+
+    const handleSubmit = async (formData: FormData) => {
+        const videoUrl = formData.get("videoUrl") as string;
+        
+        if (!session) {
+            if (videoUrl) {
+                const videoId = extractVideoId(videoUrl);
+                if (videoId) {
+                    // Store the video ID for redirect after login
+                    sessionStorage.setItem("pendingVideoId", videoId);
+                }
+            }
+            router.push("/register");
+            return;
+        }
+        await handleVideoSubmit(formData);
+    };
+
     return (
         <form
-            action={handleVideoSubmit}
+            action={handleSubmit}
             className="mx-auto max-w-md">
             <div className="bg-background has-[input:focus]:ring-muted relative grid grid-cols-[1fr_auto] items-center rounded-[calc(var(--radius)+0.5rem)] border pr-2 shadow shadow-zinc-950/5 has-[input:focus]:ring-2">
                 <input
