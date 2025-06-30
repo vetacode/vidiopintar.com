@@ -161,6 +161,8 @@ export async function fetchVideoTranscript(videoId: string) {
       return { segments, userVideo };
     }
 
+    // No transcript found in database, fetch from API
+
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
     const encodedUrl = encodeURIComponent(videoUrl)
     const response = await fetch(`${env.API_BASE_URL}/youtube/transcript?videoUrl=${encodedUrl}`)
