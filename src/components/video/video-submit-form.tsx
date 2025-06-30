@@ -7,9 +7,17 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import { PromptInput, PromptInputTextarea, PromptInputActions } from "@/components/ui/prompt-input"
 
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  
+  return (
+    <Button type="submit" disabled={pending} className="rounded-xl cursor-pointer">
+      {pending ? <Loader className="size-4 animate-spin" /> : "Submit"}
+    </Button>
+  );
+}
 export function VideoSubmitForm() {
   const [input, setInput] = useState("")
-  const { pending } = useFormStatus();
   
   return (
     <form action={handleVideoSubmit} className="space-y-4">
@@ -23,9 +31,7 @@ export function VideoSubmitForm() {
           required
         />
         <PromptInputActions className="justify-end pt-2">
-          <Button type="submit" disabled={pending} className="rounded-xl cursor-pointer">
-            {pending ? <Loader className="size-4 animate-spin" /> : "Search"}
-          </Button>
+          <SubmitButton />
         </PromptInputActions>
       </PromptInput>
     </form>

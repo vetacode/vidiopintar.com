@@ -8,6 +8,15 @@ import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 
+function ButtonSubmitStartLearning() {
+    const { pending } = useFormStatus();
+
+    return (
+        <Button type="submit" disabled={pending} className="rounded-xl cursor-pointer">
+            {pending ? <Loader className="size-4 animate-spin" /> : "Start learning"}
+        </Button>);
+}
+
 export function FormStartLearning() {
     const { data: session } = useSession();
     const router = useRouter();
@@ -15,7 +24,7 @@ export function FormStartLearning() {
 
     const handleSubmit = async (formData: FormData) => {
         const videoUrl = formData.get("videoUrl") as string;
-        
+
         if (!session) {
             if (videoUrl) {
                 const videoId = extractVideoId(videoUrl);
@@ -43,12 +52,9 @@ export function FormStartLearning() {
                 />
 
                 <div className="md:pr-1.5 lg:pr-0">
-                    <Button type="submit" disabled={pending} className="rounded-xl cursor-pointer">
-                        {pending ? <Loader className="size-4 animate-spin" /> : "Start learning"}
-                    </Button>
+                    <ButtonSubmitStartLearning />
                 </div>
             </div>
         </form>
-
     )
 }

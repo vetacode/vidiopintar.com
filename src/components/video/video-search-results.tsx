@@ -62,7 +62,16 @@ export function VideoSearchResults({ results }: VideoSearchResultsProps) {
             </div>
           </div>
           <div className="p-4 space-y-2">
-            <h3 className="font-semibold line-clamp-2 text-sm">{video.title}</h3>
+            <h3 className="font-semibold line-clamp-2 text-sm">
+              <a 
+                href={`https://www.youtube.com/watch?v=${video.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline"
+              >
+                {video.title}
+              </a>
+            </h3>
             <p className="text-xs text-muted-foreground">{video.author.name}</p>
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>{video.view_count}</span>
