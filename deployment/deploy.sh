@@ -203,7 +203,13 @@ if [ "$ROLLING_DEPLOYMENT" = true ]; then
         exit 1
     fi
 else
-    # Rename container to standard name for initial deployment
+    # For initial deployment, check if container name is already in use
+    if docker ps -a -q -f "name=^${CONTAINER_NAME}$" > /dev/null 2>&1; then
+        log "Container name $CONTAINER_NAME already exists, removing it first"
+        docker stop "$CONTAINER_NAME" 2>/dev/null || true
+        docker rm "$CONTAINER_NAME" 2>/dev/null || true
+    fi
+    # Rename container to standard name
     docker rename "$NEW_CONTAINER" "$CONTAINER_NAME"
 fi
 
