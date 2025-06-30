@@ -8,7 +8,7 @@ import { useState } from "react";
 export function VideoSubmitForm() {
   const [input, setInput] = useState("")
   return (
-    <form action={handleVideoSubmit} className="space-y-4 max-w-md mx-auto mb-8">
+    <form action={handleVideoSubmit} className="space-y-4">
       <PromptInput
         value={input}
         onValueChange={(value) => setInput(value)}>
@@ -19,11 +19,9 @@ export function VideoSubmitForm() {
           required
         />
         <PromptInputActions className="justify-end pt-2">
-          <SubmitButton label="Go" />
+          <SubmitButton label="Submit" />
         </PromptInputActions>
       </PromptInput>
-      <div className="flex justify-end">
-      </div>
     </form>
   )
 }
