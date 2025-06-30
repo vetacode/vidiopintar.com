@@ -7,7 +7,7 @@ set -e
 
 # Configuration
 PROJECT_NAME="vidiopintar"
-IMAGE_NAME="ghcr.io/${GITHUB_REPOSITORY:-ahmadrosid/vidiopintar.com}:latest"
+IMAGE_NAME="ghcr.io/ahmadrosid/vidiopintar.com:latest"
 CONTAINER_NAME="vidiopintar-app"
 PORT="5000"
 INTERNAL_PORT="3000"
