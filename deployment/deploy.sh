@@ -114,6 +114,7 @@ NEW_HEALTH_CHECK_URL="http://${CONTAINER_IP}:${INTERNAL_PORT}/api/health"
 log "Performing health check on new container..."
 HEALTH_CHECK_PASSED=false
 for i in $(seq 1 $MAX_HEALTH_RETRIES); do
+    log "Health check url $NEW_HEALTH_CHECK_URL"
     if curl -f "$NEW_HEALTH_CHECK_URL" > /dev/null 2>&1; then
         log "New container is healthy"
         HEALTH_CHECK_PASSED=true
@@ -224,7 +225,7 @@ log "Container status:"
 docker ps | grep "$CONTAINER_NAME"
 
 # Final health check
-log "Performing final health check..."
+log "Performing final health check $HEALTH_CHECK_URL..."
 if curl -f "$HEALTH_CHECK_URL" > /dev/null 2>&1; then
     log "Final health check passed"
     log "Deployment completed successfully!"
