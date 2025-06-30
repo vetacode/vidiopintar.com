@@ -50,7 +50,7 @@ export function DeleteVideoDialog() {
                     <AlertDialogFooter>
                         <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
                         <AlertDialogAction asChild>
-                    <Button type="submit" disabled={pending} className="rounded-xl cursor-pointer">
+                    <Button type="submit" disabled={pending} className="cursor-pointer">
                         {pending ? <Loader className="size-4 animate-spin" /> : "Yes, delete!"}
                     </Button>
                         </AlertDialogAction>
