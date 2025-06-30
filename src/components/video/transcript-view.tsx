@@ -1,12 +1,11 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import FuzzySearch from "fuzzy-search"
 import { Search, X } from "lucide-react"
-import { formatTime } from "@/lib/utils";
-import FuzzySearch from 'fuzzy-search'
+import { useState } from "react"
 
 interface TranscriptSegment {
   start: number
@@ -26,13 +25,13 @@ export function TranscriptView({ transcript }: TranscriptViewProps) {
 
   const filteredSegments = searchQuery
     ? (() => {
-        const searcher = new FuzzySearch(transcript.segments, ['text'], {
-            caseSensitive: false,
-            sort: true
-        });
-        const result = searcher.search(searchQuery);
-        return result;
-    })()
+        const searcher = new FuzzySearch(transcript.segments, ["text"], {
+          caseSensitive: false,
+          sort: true,
+        })
+        const result = searcher.search(searchQuery)
+        return result
+      })()
     : transcript.segments
 
   return (
@@ -71,7 +70,7 @@ export function TranscriptView({ transcript }: TranscriptViewProps) {
             >
               <div className="flex">
                 <span className="text-muted-foreground font-mono mr-3 whitespace-nowrap">
-                  {formatTime(segment.start)}
+                  {segment.start}
                 </span>
                 <span className="flex-1">{segment.text}</span>
               </div>
