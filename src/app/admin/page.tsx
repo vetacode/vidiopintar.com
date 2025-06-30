@@ -33,7 +33,7 @@ export default async function AdminPage() {
       <div className="container max-w-6xl w-full mx-auto py-8 px-4">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Overview of your application metrics</p>
+          <p className="text-muted-foreground">Overview of vidiopintar.com metrics</p>
         </div>
 
         {/* Metrics Cards */}
