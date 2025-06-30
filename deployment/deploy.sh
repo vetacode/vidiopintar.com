@@ -83,8 +83,28 @@ if [ -n "$OLD_CONTAINER" ]; then
     log "Found existing container running"
     ROLLING_DEPLOYMENT=true
 else
-    log "No existing container found, performing initial deployment"
-    ROLLING_DEPLOYMENT=false
+    # Check if port is in use by another process
+    if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null 2>&1; then
+        # Check if it's our container using the port
+        PORT_CONTAINER=$(docker ps --format "table {{.Names}}" --filter "publish=$PORT" | grep -v NAMES | head -1)
+        if [ -n "$PORT_CONTAINER" ]; then
+            log "Found container $PORT_CONTAINER using port $PORT"
+            if [[ "$PORT_CONTAINER" == "$CONTAINER_NAME"* ]]; then
+                log "Our container is using the port, treating as rolling deployment"
+                ROLLING_DEPLOYMENT=true
+                OLD_CONTAINER=$(docker ps -q -f "name=$PORT_CONTAINER")
+            else
+                error "Port $PORT is already in use by another container: $PORT_CONTAINER"
+                exit 1
+            fi
+        else
+            error "Port $PORT is already in use by another process"
+            exit 1
+        fi
+    else
+        log "No existing container found, performing initial deployment"
+        ROLLING_DEPLOYMENT=false
+    fi
 fi
 
 # Start new container (on same port if no existing container, otherwise let Docker assign)
