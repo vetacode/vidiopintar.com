@@ -16,3 +16,32 @@ export class ClearMessagesRequest extends Schema.Class<ClearMessagesRequest>("Cl
 export class ClearMessagesResponse extends Schema.Class<ClearMessagesResponse>("ClearMessagesResponse")({
     success: Schema.Boolean,
 }) { }
+
+export class VideoSearchRequest extends Schema.Class<VideoSearchRequest>("VideoSearchRequest")({
+    q: Schema.String,
+}) { }
+
+export class VideoSearchItem extends Schema.Class<VideoSearchItem>("VideoSearchItem")({
+    id: Schema.String,
+    title: Schema.String,
+    description: Schema.String,
+    thumbnails: Schema.Array(Schema.Struct({
+        url: Schema.String,
+        width: Schema.Number,
+        height: Schema.Number,
+    })),
+    published: Schema.String,
+    view_count: Schema.String,
+    duration: Schema.Struct({
+        text: Schema.String,
+        seconds: Schema.Number,
+    }),
+    author: Schema.Struct({
+        id: Schema.String,
+        name: Schema.String,
+    }),
+}) { }
+
+export class VideoSearchResponse extends Schema.Class<VideoSearchResponse>("VideoSearchResponse")({
+    data: Schema.Array(VideoSearchItem),
+}) { }

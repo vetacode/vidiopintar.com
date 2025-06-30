@@ -1,6 +1,6 @@
 import { FetchHttpClient, HttpClient, HttpClientRequest, HttpClientResponse } from "@effect/platform";
 import { Effect, flow } from "effect";
-import { ShareChatRequest, ShareChatResponse, ClearMessagesRequest, ClearMessagesResponse } from "@/lib/services/schema";
+import { ShareChatRequest, ShareChatResponse, ClearMessagesRequest, ClearMessagesResponse, VideoSearchRequest, VideoSearchResponse } from "@/lib/services/schema";
 
 export class Api extends Effect.Service<Api>()("Api", {
     dependencies: [FetchHttpClient.layer],
@@ -13,6 +13,10 @@ export class Api extends Effect.Service<Api>()("Api", {
                     HttpClientRequest.acceptJson
                 )
             )
+        );
+        
+        const externalClient = baseClient.pipe(
+            HttpClient.mapRequest(HttpClientRequest.acceptJson)
         );
 
         return {
@@ -28,6 +32,13 @@ export class Api extends Effect.Service<Api>()("Api", {
                 (HttpClientRequest.post("/clear-messages"), body).pipe(
                     Effect.flatMap(client.execute),
                     Effect.flatMap(HttpClientResponse.schemaBodyJson(ClearMessagesResponse)),
+                    Effect.scoped
+                ),
+            searchVideos: (query: string) =>
+                externalClient.execute(
+                    HttpClientRequest.get(`https://api.ahmadrosid.com/youtube/search?q=${encodeURIComponent(query)}`)
+                ).pipe(
+                    Effect.flatMap(HttpClientResponse.schemaBodyJson(VideoSearchResponse)),
                     Effect.scoped
                 )
         };
@@ -46,4 +57,11 @@ export const clearChatMessages = (
 ) => Effect.gen(function* () {
     const api = yield* Api;
     return yield* api.clearMessages(input);
+});
+
+export const searchVideos = (
+    query: string
+) => Effect.gen(function* () {
+    const api = yield* Api;
+    return yield* api.searchVideos(query);
 });

@@ -5,6 +5,8 @@ import { PromptInput, PromptInputTextarea, PromptInputActions } from "@/componen
 import { Button } from "@/components/ui/button";
 import { useVideoSearch } from "@/contexts/video-search-context";
 import { Loader } from "lucide-react";
+import { searchVideos } from "@/lib/services/api";
+import { RuntimeClient } from "@/lib/services/RuntimeClient";
 
 export function VideoSearchForm() {
   const [query, setQuery] = useState("");
@@ -16,12 +18,13 @@ export function VideoSearchForm() {
 
     setIsLoading(true);
     try {
-      const response = await fetch(`https://api.ahmadrosid.com/youtube/search?q=${encodeURIComponent(query)}`);
-      if (!response.ok) {
-        throw new Error('Failed to search videos');
-      }
-      const data = await response.json();
-      setResults(data.data || []);
+      const result = await RuntimeClient.runPromise(searchVideos(query));
+      setResults(result.data.map(item => ({
+        ...item,
+        thumbnails: [...item.thumbnails],
+        duration: { ...item.duration },
+        author: { ...item.author }
+      })));
     } catch (error) {
       console.error("Search failed:", error);
     } finally {
