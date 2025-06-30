@@ -1,14 +1,17 @@
 "use client";
 
 import { handleVideoSubmit } from "@/app/actions"
-import { SubmitButton } from "@/components/submit-button"
 import { useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { extractVideoId } from "@/lib/utils";
+import { useFormStatus } from "react-dom";
+import { Button } from "@/components/ui/button";
+import { Loader } from "lucide-react";
 
 export function FormStartLearning() {
     const { data: session } = useSession();
     const router = useRouter();
+    const { pending } = useFormStatus();
 
     const handleSubmit = async (formData: FormData) => {
         const videoUrl = formData.get("videoUrl") as string;
@@ -40,7 +43,9 @@ export function FormStartLearning() {
                 />
 
                 <div className="md:pr-1.5 lg:pr-0">
-                    <SubmitButton label="Start learning" />
+                    <Button type="submit" disabled={pending} className="rounded-xl cursor-pointer">
+                        {pending ? <Loader className="size-4 animate-spin" /> : "Start learning"}
+                    </Button>
                 </div>
             </div>
         </form>

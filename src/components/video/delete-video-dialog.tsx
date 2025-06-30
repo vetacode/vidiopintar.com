@@ -12,13 +12,16 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useDeleteVideoDialogStore } from '@/lib/store/dialog-store'
 import { handleDeleteVideo } from "@/app/actions"
-import { SubmitButton } from "@/components/submit-button"
 import { useFormState } from "react-dom";
 import { useEffect } from "react";
+import { useFormStatus } from "react-dom";
+import { Button } from "@/components/ui/button";
+import { Loader } from "lucide-react";
 
 export function DeleteVideoDialog() {
     const { isOpen, closeDialog, id } = useDeleteVideoDialogStore()
     const [state, formAction] = useFormState(handleDeleteVideo, { success: false, errors: undefined });
+    const { pending } = useFormStatus();
 
     useEffect(() => {
         if (state.success) {
@@ -47,7 +50,9 @@ export function DeleteVideoDialog() {
                     <AlertDialogFooter>
                         <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
                         <AlertDialogAction asChild>
-                            <SubmitButton label="Yes, delete!" />
+                    <Button type="submit" disabled={pending} className="rounded-xl cursor-pointer">
+                        {pending ? <Loader className="size-4 animate-spin" /> : "Yes, delete!"}
+                    </Button>
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </form>
