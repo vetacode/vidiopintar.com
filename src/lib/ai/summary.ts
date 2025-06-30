@@ -26,7 +26,7 @@ Your summary should:
 7. Extract practical takeaways or lessons that viewers can apply
 8. Maintain the nuance and depth of the original content while making it more accessible
 9. Present information in a cohesive narrative flow rather than just bullet points
-10. Add recomendations for next steps or actions to take after watching the video
+10. Add recommendations for next steps or actions to take after watching the video
 
 Format your output with this markdown structure:
 

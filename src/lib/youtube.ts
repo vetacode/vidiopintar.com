@@ -9,6 +9,7 @@ import { trackGenerateTextUsage } from '@/lib/token-tracker';
 
 import { UserVideoRepository } from "@/lib/db/repository";
 import { getCurrentUser } from "./auth";
+import { addSeconds, format } from "date-fns";
 
 export async function saveVideoUser(videoId: string, video: Video, segments: any[]) {
   const user = await getCurrentUser();
@@ -174,6 +175,12 @@ export async function fetchVideoTranscript(videoId: string) {
       // Convert start and end times from strings to numbers
       const start = parseInt(item.start, 10) / 1000 // Convert milliseconds to seconds if needed
       const end = parseInt(item.end, 10) / 1000 // Convert milliseconds to seconds if needed
+
+      const baseDate = new Date(0)
+      baseDate.setHours(0, 0, 0, 0)
+
+      const startTime = addSeconds(baseDate, Number(start))
+      const endTime = addSeconds(baseDate, Number(end))
       
       // Check if this might be a chapter start (simple heuristic)
       // We'll consider segments with short text that might be titles as potential chapter starts
@@ -183,8 +190,8 @@ export async function fetchVideoTranscript(videoId: string) {
                             (index === 0 || index % 10 === 0) // Just a heuristic
 
       return {
-        start,
-        end,
+        start: format(startTime, 'HH:mm:ss'),
+        end: format(endTime, 'HH:mm:ss'),
         text: item.text !== 'N/A' ? item.text : `Segment at ${formatTime(start)}`,
         isChapterStart,
       }
