@@ -1,7 +1,7 @@
 "use client"
 
 import { useChat } from "@ai-sdk/react";
-import { ArrowUp, Square } from "lucide-react"
+import { ArrowUp, Square, MessageCircleMore } from "lucide-react"
 import { flushSync } from "react-dom"
 import { Button } from "@/components/ui/button"
 import { ChatContainerRoot, ChatContainerScrollAnchor } from "@/components/ui/chat-container"
@@ -92,14 +92,16 @@ export function ChatInterface({
           <div className="text-center text-sm text-muted-foreground">
             {isLoggedIn ? (
               <a href={`/video/${videoId}`}>
-                <Button variant="outline">
-                  Click to continue the conversation
+                <Button variant="default">
+                  <MessageCircleMore className="mr-2 size-4" />
+                  Click to continue this conversation
                 </Button>
               </a>
             ) : (
               <a href="/login">
-                <Button variant="outline">
-                  Login to start your conversation
+                <Button variant="default">
+                  <MessageCircleMore className="mr-2 size-4" />
+                  Login to continue conversation
                 </Button>
               </a>
             )}
