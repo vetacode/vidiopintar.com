@@ -251,14 +251,12 @@ cleanup_old_containers() {
     docker image prune -f > /dev/null 2>&1 || true
 }
 
-cleanup_old_containers
-
 # Show container status
 log "Container status:"
 docker ps | grep "$CONTAINER_NAME"
 
 # Final health check
-log "Performing final health check $HEALTH_CHECK_URL..."
+log "Performing final health check $HEALTH_CHECK_URL "
 if curl -f "$HEALTH_CHECK_URL" > /dev/null 2>&1; then
     log "Final health check passed"
     log "Deployment completed successfully!"
@@ -267,6 +265,8 @@ else
     error "Final health check failed!"
     rollback
 fi
+
+cleanup_old_containers
 
 # Optional: Send notification
 # curl -X POST -H 'Content-type: application/json' \
