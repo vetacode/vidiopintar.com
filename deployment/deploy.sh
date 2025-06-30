@@ -74,7 +74,7 @@ TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 NEW_CONTAINER="${CONTAINER_NAME}-${TIMESTAMP}"
 
 # Find any running container with our app name (including timestamped ones)
-OLD_CONTAINER=$(docker ps -q -f "name=^${CONTAINER_NAME}" 2>/dev/null | head -1 || true)
+OLD_CONTAINER=$(docker ps -q --filter "name=${CONTAINER_NAME}" 2>/dev/null | head -1 || true)
 
 # Pull latest image
 log "Pulling latest Docker image: $IMAGE_NAME"
@@ -176,11 +176,10 @@ if [ "$ROLLING_DEPLOYMENT" = true ]; then
     
     log "Using temporary port $TEMP_PORT for new container"
     
-    # Stop and remove the temporary new container
+    # Start new container on temporary port (reuse existing container)
     docker stop "$NEW_CONTAINER" 2>/dev/null || true
     docker rm "$NEW_CONTAINER" 2>/dev/null || true
     
-    # Start new container on temporary port
     docker run -d \
         --name "$NEW_CONTAINER" \
         --restart unless-stopped \
@@ -231,7 +230,7 @@ if [ "$ROLLING_DEPLOYMENT" = true ]; then
     fi
 else
     # For initial deployment, check if container name is already in use
-    if docker ps -a -q -f "name=^${CONTAINER_NAME}$" > /dev/null 2>&1; then
+    if docker ps -a -q --filter "name=${CONTAINER_NAME}" | grep -q "."; then
         log "Container name $CONTAINER_NAME already exists, removing it first"
         docker stop "$CONTAINER_NAME" 2>/dev/null || true
         docker rm "$CONTAINER_NAME" 2>/dev/null || true
@@ -244,8 +243,8 @@ fi
 cleanup_old_containers() {
     log "Cleaning up old containers..."
     # Remove any stopped containers with our app name pattern
-    docker ps -a -q -f "name=${CONTAINER_NAME}-[0-9]" | xargs -r docker rm 2>/dev/null || true
-    docker ps -a -q -f "name=${CONTAINER_NAME}-old" | xargs -r docker rm 2>/dev/null || true
+    docker ps -a --filter "name=${CONTAINER_NAME}-" --format "{{.ID}}" | xargs -r docker rm 2>/dev/null || true
+    docker ps -a --filter "name=${CONTAINER_NAME}-old" --format "{{.ID}}" | xargs -r docker rm 2>/dev/null || true
     
     log "Cleaning up old Docker images..."
     docker image prune -f > /dev/null 2>&1 || true
