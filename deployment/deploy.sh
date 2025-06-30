@@ -178,4 +178,4 @@ fi
 log "Cleaning up old Docker images..."
 docker image prune -f > /dev/null 2>&1 || true
 
-log "Deployment process completed."
+log "✅ Deployment process completed."
