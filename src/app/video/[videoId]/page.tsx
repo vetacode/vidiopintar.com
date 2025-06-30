@@ -6,8 +6,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronRight } from "lucide-react"
 import { ChatInterface } from "@/components/chat/chat-interface"
 import { SummarySection } from "@/components/video/summary-section"
+import { getCurrentUser } from "@/lib/auth"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
+  const user = await getCurrentUser();
   const { videoId } = params;
   let videoDetails = await fetchVideoDetails(videoId);
   let transcript = await fetchVideoTranscript(videoId);
