@@ -17,7 +17,7 @@ export function FormStartLearning() {
             if (videoUrl) {
                 const videoId = extractVideoId(videoUrl);
                 if (videoId) {
-                    // Store the video ID for redirect after login
+                    // Store the video ID for redirect after login/register
                     sessionStorage.setItem("pendingVideoId", videoId);
                 }
             }
