@@ -150,14 +150,14 @@ export async function getLatestMessages(limit = 6) {
     LIMIT ${limit}
   `);
 
-  return result.rows as Array<{
-    id: string;
-    content: string;
-    role: string;
-    createdAt: Date;
-    userVideoId: number;
-    videoTitle: string;
-    youtubeId: string;
-    userName: string;
-  }>;
+  return result.rows.map((row: any) => ({
+    id: row.id,
+    content: row.content,
+    role: row.role,
+    createdAt: new Date(row.createdAt),
+    userVideoId: row.userVideoId,
+    videoTitle: row.videoTitle,
+    youtubeId: row.youtubeId,
+    userName: row.userName,
+  }));
 }
