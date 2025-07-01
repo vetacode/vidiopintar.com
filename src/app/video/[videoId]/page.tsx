@@ -7,6 +7,7 @@ import { ChevronRight } from "lucide-react"
 import { ChatInterface } from "@/components/chat/chat-interface"
 import { SummarySection } from "@/components/video/summary-section"
 import { getCurrentUser } from "@/lib/auth"
+import { TipsAlert } from "@/components/chat/tips-alert"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
   const user = await getCurrentUser();
@@ -48,8 +49,8 @@ export default async function VideoPage({ params }: { params: { videoId: string 
 
             <VideoPlayer videoId={videoId} />
 
-            <div className="p-3">
-              <Tabs defaultValue="summary" className="w-full">
+            <div className="relative">
+              <Tabs defaultValue="summary" className="w-full p-3">
                 <TabsList>
                   <TabsTrigger
                     value="summary"
@@ -73,9 +74,9 @@ export default async function VideoPage({ params }: { params: { videoId: string 
                   <TranscriptView transcript={transcript} />
                 </TabsContent>
               </Tabs>
+              <TipsAlert videoId={videoId} />
             </div>
           </div>
-
           <div className="lg:col-span-3 flex flex-col h-full md:h-auto relative">
             {videoDetails.userVideo ? (
               <ChatInterface
