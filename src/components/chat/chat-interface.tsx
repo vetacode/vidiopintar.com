@@ -65,11 +65,11 @@ export function ChatInterface({
             <div className="flex flex-col gap-2">
               {quickStartQuestions.map((question, index) => (
                 isSharePage ? (
-                  <div
+                  <p
                     key={index}
                     className="text-sm text-left p-2 rounded bg-secondary border border-border/25 text-foreground/50 cursor-not-allowed">
                     {question}
-                  </div>
+                  </p>
                 ) : (
                   <form
                     key={index}
