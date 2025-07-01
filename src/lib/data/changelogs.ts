@@ -11,6 +11,19 @@ export interface ChangelogEntry {
 export const changelogs: ChangelogEntry[] = [
   {
     date: "2025-07-01",
+    version: "1.2.4",
+    type: "patch",
+    changes: [
+      {
+        category: "changed",
+        items: [
+          "Use alert dialog to config delete profile"
+        ]
+      }
+    ]
+  },
+  {
+    date: "2025-07-01",
     version: "1.2.3",
     type: "patch",
     changes: [
