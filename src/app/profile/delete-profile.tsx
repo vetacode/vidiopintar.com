@@ -5,16 +5,23 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export function DeleteProfile() {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDeleteProfile = async () => {
-    if (!confirm("Are you sure you want to delete your profile? This action cannot be undone.")) {
-      return;
-    }
-
     setIsDeleting(true);
     try {
       const response = await fetch("/api/user/delete", {
@@ -37,14 +44,31 @@ export function DeleteProfile() {
       <p className="text-sm text-red-700 dark:text-red-300 mb-4">
         Once you delete your profile, there is no going back. Please be certain.
       </p>
-      <Button
-        variant="destructive"
-        onClick={handleDeleteProfile}
-        disabled={isDeleting}
-      >
-        <Trash2 className="h-4 w-4 mr-2" />
-        {isDeleting ? "Deleting..." : "Delete Profile"}
-      </Button>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button
+            variant="destructive"
+            disabled={isDeleting}
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            {isDeleting ? "Deleting..." : "Delete Profile"}
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete your profile and remove all your data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteProfile}>
+              Delete Profile
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Card>
   );
 }

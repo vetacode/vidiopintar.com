@@ -57,7 +57,7 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
       
       <div className="flex-1">
         <div className="mb-4">
-          <Label htmlFor="username" className="text-sm font-medium mb-2 block">
+          <Label htmlFor="username" className="text-xs mb-2 block">
             Full Name
           </Label>
           {isEditingUsername ? (
@@ -104,7 +104,7 @@ export function ProfileHeader({ user }: ProfileHeaderProps) {
         </div>
 
         <div className="mb-4">
-          <Label className="text-sm font-medium mb-2 block">Email</Label>
+          <Label className="text-xs mb-2 block">Email</Label>
           <p className="text-lg">{user.email}</p>
         </div>
       </div>
