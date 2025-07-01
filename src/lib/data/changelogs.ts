@@ -11,6 +11,35 @@ export interface ChangelogEntry {
 export const changelogs: ChangelogEntry[] = [
   {
     date: "2025-07-01",
+    version: "1.2.3",
+    type: "patch",
+    changes: [
+      {
+        category: "fixed",
+        items: [
+          "Prevent submit quick question when in shared mode"
+        ]
+      }
+    ]
+  },
+  {
+    date: "2025-07-01",
+    version: "1.2.2",
+    type: "minor",
+    changes: [
+      {
+        category: "added",
+        items: [
+          "Manage profile page where users can view their latest messages",
+          "View latest shared chats in profile page",
+          "Delete profile permanently option",
+          "Update username functionality"
+        ]
+      }
+    ]
+  },
+  {
+    date: "2025-07-01",
     version: "1.2.1",
     type: "patch",
     changes: [
