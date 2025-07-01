@@ -6,8 +6,8 @@ const links = [
         href: '#',
     },
     {
-        title: 'Pricing',
-        href: '#',
+        title: 'Changelog',
+        href: '/changelogs',
     },
     {
         title: 'Blog',
@@ -15,10 +15,6 @@ const links = [
     },
     {
         title: 'Help',
-        href: '#',
-    },
-    {
-        title: 'About',
         href: '#',
     },
 ]
