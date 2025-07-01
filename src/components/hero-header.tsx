@@ -118,14 +118,24 @@ export const HeroHeader = () => {
                                         )}
                                     </>
                                 ) : (
-                                    <Button
-                                        onClick={handleLogout}
-                                        variant="outline"
-                                        size="sm"
-                                        className="flex items-center gap-2 cursor-pointer">
-                                        <LogOut className="h-4 w-4" />
-                                        <span>Logout</span>
-                                    </Button>
+                                    <div className="flex gap-2">
+                                        <a href="/profile">
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                className="cursor-pointer">
+                                                <span>Profile</span>
+                                            </Button>
+                                        </a>
+                                        <Button
+                                            onClick={handleLogout}
+                                            variant="outline"
+                                            size="sm"
+                                            className="flex items-center gap-2 cursor-pointer">
+                                            <LogOut className="h-4 w-4" />
+                                            <span>Logout</span>
+                                        </Button>
+                                    </div>
                                 )}
                             </div>
                         </div>

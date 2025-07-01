@@ -64,18 +64,26 @@ export function ChatInterface({
             </div>
             <div className="flex flex-col gap-2">
               {quickStartQuestions.map((question, index) => (
-                <form
-                  key={index}
-                  onSubmit={(e) => {
-                    handleSubmit(e as any);
-                  }}>
-                  <button
-                    type="submit"
-                    onClick={() => flushSync(() => setInput(question))}
-                    className="text-sm text-left p-2 rounded bg-secondary border border-border/25 text-foreground/85 cursor-pointer hover:border-accent-foreground/75">
+                isSharePage ? (
+                  <div
+                    key={index}
+                    className="text-sm text-left p-2 rounded bg-secondary border border-border/25 text-foreground/50 cursor-not-allowed">
                     {question}
-                  </button>
-                </form>
+                  </div>
+                ) : (
+                  <form
+                    key={index}
+                    onSubmit={(e) => {
+                      handleSubmit(e as any);
+                    }}>
+                    <button
+                      type="submit"
+                      onClick={() => flushSync(() => setInput(question))}
+                      className="text-sm text-left p-2 rounded bg-secondary border border-border/25 text-foreground/85 cursor-pointer hover:border-accent-foreground/75">
+                      {question}
+                    </button>
+                  </form>
+                )
               ))}
             </div>
           </div>

@@ -29,14 +29,14 @@ export function CopyButton({ content, copyMessage, label }: CopyButtonProps) {
       <div className="absolute inset-0 flex items-center justify-start p-1">
         <Check
           className={cn(
-            "h-4 w-4 transition-transform ease-in-out",
+            "size-3 transition-transform ease-in-out",
             isCopied ? "scale-100" : "scale-0"
           )}
         />
       </div>
       <Copy
         className={cn(
-          "h-4 w-4 transition-transform ease-in-out",
+          "size-3 transition-transform ease-in-out",
           isCopied ? "scale-0" : "scale-100"
         )}
       />
