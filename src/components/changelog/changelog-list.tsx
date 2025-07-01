@@ -24,7 +24,7 @@ const versionBadgeColors = {
 
 export function ChangelogList({ changelogs }: ChangelogListProps) {
   return (
-    <div className="relative">
+    <div className="relative max-w-xl">
       {changelogs.map((changelog, index) => (
         <div key={index} className="flex gap-x-6">
           {/* Line and dot */}

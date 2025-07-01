@@ -11,6 +11,20 @@ export interface ChangelogEntry {
 export const changelogs: ChangelogEntry[] = [
   {
     date: "2025-07-01",
+    version: "1.2.1",
+    type: "patch",
+    changes: [
+      {
+        category: "added",
+        items: [
+          "Tips alert showing how to convert YouTube URLs to VidioPintar chat links",
+          "Replace 'youtube.com' with 'vidiopintar.com' in any YouTube URL to instantly start chatting with that video"
+        ]
+      }
+    ]
+  },
+  {
+    date: "2025-07-01",
     version: "1.2.0",
     type: "minor",
     changes: [
