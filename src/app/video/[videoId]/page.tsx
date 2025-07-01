@@ -1,4 +1,4 @@
-import { fetchVideoDetails, fetchVideoTranscript, generateQuickStartQuestions, saveVideoUser } from "@/lib/youtube"
+import { fetchVideoDetails, fetchVideoTranscript, generateQuickStartQuestions } from "@/lib/youtube"
 import { VideoPlayer } from "@/components/video/video-player"
 import { getChatHistory } from "@/lib/storage"
 import { TranscriptView } from "@/components/video/transcript-view"

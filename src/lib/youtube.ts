@@ -11,7 +11,7 @@ import { UserVideoRepository } from "@/lib/db/repository";
 import { getCurrentUser } from "./auth";
 import { addSeconds, format } from "date-fns";
 
-export async function saveVideoUser(videoId: string, video: Video, segments: any[]) {
+async function saveVideoUser(videoId: string, video: Video, segments: any[]) {
   const user = await getCurrentUser();
   
   // First create/get the user video to have the ID

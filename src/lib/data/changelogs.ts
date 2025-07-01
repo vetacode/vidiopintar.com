@@ -18,7 +18,7 @@ export const changelogs: ChangelogEntry[] = [
         category: "added",
         items: [
           "Tips alert showing how to convert YouTube URLs to VidioPintar chat links",
-          "Replace 'youtube.com' with 'vidiopintar.com' in any YouTube URL to instantly start chatting with that video"
+          "Replace 'youtube.com' with 'vidiopintar.com' in any YouTube URL to start chatting with that video"
         ]
       }
     ]
