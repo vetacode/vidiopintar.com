@@ -28,10 +28,8 @@ export const changelogs: ChangelogEntry[] = [
       {
         category: "changed",
         items: [
-          "Use alert dialog to config delete profile",
           "Remove theme-toggle change to theme-switcher",
           "Improved rollout deployment script for better reliability",
-          "General code cleanup and organization"
         ]
       },
       {
@@ -39,8 +37,6 @@ export const changelogs: ChangelogEntry[] = [
         items: [
           "Prevent submit quick question when in shared mode",
           "Display of created_at timestamp for latest messages in admin page",
-          "Submit button functionality issues",
-          "Delete video button functionality"
         ]
       }
     ]
