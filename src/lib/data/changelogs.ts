@@ -26,7 +26,8 @@ export const changelogs: ChangelogEntry[] = [
       {
         category: "changed",
         items: [
-          "Use alert dialog to config delete profile"
+          "Use alert dialog to config delete profile",
+          "Remove theme-toggle change to theme-switcher"
         ]
       },
       {
