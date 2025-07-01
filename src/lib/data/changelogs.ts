@@ -12,32 +12,6 @@ export const changelogs: ChangelogEntry[] = [
   {
     date: "2025-07-01",
     version: "1.2.4",
-    type: "patch",
-    changes: [
-      {
-        category: "changed",
-        items: [
-          "Use alert dialog to config delete profile"
-        ]
-      }
-    ]
-  },
-  {
-    date: "2025-07-01",
-    version: "1.2.3",
-    type: "patch",
-    changes: [
-      {
-        category: "fixed",
-        items: [
-          "Prevent submit quick question when in shared mode"
-        ]
-      }
-    ]
-  },
-  {
-    date: "2025-07-01",
-    version: "1.2.2",
     type: "minor",
     changes: [
       {
@@ -47,6 +21,18 @@ export const changelogs: ChangelogEntry[] = [
           "View latest shared chats in profile page",
           "Delete profile permanently option",
           "Update username functionality"
+        ]
+      },
+      {
+        category: "changed",
+        items: [
+          "Use alert dialog to config delete profile"
+        ]
+      },
+      {
+        category: "fixed",
+        items: [
+          "Prevent submit quick question when in shared mode"
         ]
       }
     ]
