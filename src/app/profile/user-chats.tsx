@@ -61,7 +61,7 @@ export async function UserChats({ userId }: UserChatsProps) {
   return (
     <div className="grid">
       {chats.map((chat) => (
-        <Link key={chat.userVideoId} href={`/video?v=${chat.youtubeId}`}>
+        <Link key={chat.userVideoId} href={`/video/${chat.youtubeId}`}>
           <Card className="py-4 shadow-none border-none cursor-pointer">
             <div className="flex gap-4">
               <img 

@@ -36,7 +36,7 @@ export async function UserVideos({ userId }: UserVideosProps) {
   return (
     <div className="grid">
       {userVideosList.map((video) => (
-        <Link key={video.userVideoId} href={`/video?v=${video.youtubeId}`}>
+        <Link key={video.userVideoId} href={`/video/${video.youtubeId}`}>
           <Card className="py-4 cursor-pointer shadow-none border-none">
             <div className="flex gap-4 group">
               <img 
