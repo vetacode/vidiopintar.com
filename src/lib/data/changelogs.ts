@@ -19,6 +19,12 @@ export const changelogs: ChangelogEntry[] = [
         items: [
           "Terms of Service and Privacy Policy pages"
         ]
+      },
+      {
+        category: "changed",
+        items: [
+          "Refactor call to action component to use FormStartLearning"
+        ]
       }
     ]
   },
