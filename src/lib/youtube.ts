@@ -264,7 +264,7 @@ ${summary}
 
   const startTime = Date.now();
   const result = await generateObject({
-    model: openai('gpt-4.1-2025-04-14'),
+    model: openai('gpt-4o-mini-2024-07-18'),
     prompt: prompt,
     schema: z.object({
       questions: z.array(z.string()),
