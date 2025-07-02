@@ -17,6 +17,14 @@ const links = [
         title: 'Help',
         href: '#',
     },
+    {
+        title: 'Privacy',
+        href: '/privacy',
+    },
+    {
+        title: 'Terms',
+        href: '/terms',
+    },
 ]
 
 export function FooterSection() {
