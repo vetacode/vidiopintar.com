@@ -4,7 +4,20 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { TokenUsageChart } from "./token-usage-chart";
+import { TopUsers } from "./top-users";
 import { Filter, DollarSign, Zap, Activity } from "lucide-react";
+
+interface TopUser {
+  id: string;
+  name: string;
+  email: string;
+  image: string | null;
+  createdAt: Date;
+  messageCount: number;
+  videoCount: number;
+  lastActivity: Date | null;
+  totalTokens: number;
+}
 
 interface TokenUsageOverviewProps {
   tokenUsageData: {
@@ -25,9 +38,10 @@ interface TokenUsageOverviewProps {
     totalCost: string;
     requests: number;
   }>;
+  topUsers: TopUser[];
 }
 
-export function TokenUsageOverview({ tokenUsageData, modelUsage, operationUsage }: TokenUsageOverviewProps) {
+export function TokenUsageOverview({ tokenUsageData, modelUsage, operationUsage, topUsers }: TokenUsageOverviewProps) {
   const [period, setPeriod] = useState<"7d" | "1m" | "3m">("7d");
 
   const getPeriodLabel = (period: "7d" | "1m" | "3m") => {
@@ -118,37 +132,44 @@ export function TokenUsageOverview({ tokenUsageData, modelUsage, operationUsage 
         </Card>
       </div>
 
-      {/* Token Usage Chart */}
-      <Card className="shadow-none">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <div>
-            <CardTitle>Token Usage Over Time</CardTitle>
-            <CardDescription>
-              Token consumption, costs, and request patterns
-            </CardDescription>
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-2 px-2 py-1.5 cursor-pointer rounded-md hover:bg-accent text-sm border border-border">
-              <Filter className="size-4" />
-              {getPeriodLabel(period)}
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setPeriod("7d")}>
-                7 Days
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setPeriod("1m")}>
-                1 Month
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setPeriod("3m")}>
-                3 Months
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </CardHeader>
-        <CardContent>
-          <TokenUsageChart data={tokenUsageData[period]} />
-        </CardContent>
-      </Card>
+      {/* Token Usage Chart and Top Users */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <Card className="shadow-none">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>Token Usage Over Time</CardTitle>
+                <CardDescription>
+                  Token consumption, costs, and request patterns
+                </CardDescription>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center gap-2 px-2 py-1.5 cursor-pointer rounded-md hover:bg-accent text-sm border border-border">
+                  <Filter className="size-4" />
+                  {getPeriodLabel(period)}
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => setPeriod("7d")}>
+                    7 Days
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setPeriod("1m")}>
+                    1 Month
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setPeriod("3m")}>
+                    3 Months
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </CardHeader>
+            <CardContent>
+              <TokenUsageChart data={tokenUsageData[period]} />
+            </CardContent>
+          </Card>
+        </div>
+        <div>
+          <TopUsers users={topUsers} />
+        </div>
+      </div>
     </div>
   );
 }

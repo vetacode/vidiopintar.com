@@ -1,11 +1,12 @@
 import { requireAdmin } from "@/lib/auth-admin";
-import { getAdminMetrics, getUserGrowthData, getVideoAdditionsData, getTokenUsageData, getTokenUsageByModel, getTokenUsageByOperation, getLatestVideos, getLatestMessages } from "@/lib/admin-queries";
+import { getAdminMetrics, getUserGrowthData, getVideoAdditionsData, getTokenUsageData, getTokenUsageByModel, getTokenUsageByOperation, getLatestVideos, getLatestMessages, getTopUsers } from "@/lib/admin-queries";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TokenUsageOverview } from "@/components/admin/token-usage-overview";
 import { Users, Video, FileText, MessageSquare, DollarSign, Zap } from "lucide-react";
 import { AdminChartFilters } from "@/components/admin/admin-chart-filters";
 import { LatestVideos } from "@/components/admin/latest-videos";
 import { LatestMessages } from "@/components/admin/latest-messages";
+import { TopUsers } from "@/components/admin/top-users";
 
 export default async function AdminPage() {
   await requireAdmin();
@@ -27,6 +28,7 @@ export default async function AdminPage() {
 
   const latestVideos = await getLatestVideos(6);
   const latestMessages = await getLatestMessages(6);
+  const topUsers = await getTopUsers(6);
 
   return (
     <main className="bg-accent dark:bg-background">
@@ -149,7 +151,7 @@ export default async function AdminPage() {
           </Card>
         </div>
 
-        {/* Token Usage Overview */}
+        {/* Token Usage Overview and Top Users */}
         <TokenUsageOverview 
           tokenUsageData={{
             "7d": tokenUsage7d,
@@ -158,6 +160,7 @@ export default async function AdminPage() {
           }}
           modelUsage={modelUsage}
           operationUsage={operationUsage}
+          topUsers={topUsers}
         />
 
         {/* Latest Videos and Messages */}

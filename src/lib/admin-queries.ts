@@ -105,6 +105,43 @@ export async function getLatestVideos(limit = 5) {
   return result;
 }
 
+export async function getTopUsers(limit = 6) {
+  const result = await db.execute(sql`
+    SELECT 
+      u.id,
+      u.name,
+      u.email,
+      u.image,
+      u.created_at as "createdAt",
+      COUNT(DISTINCT m.id) as message_count,
+      COUNT(DISTINCT uv.id) as video_count,
+      MAX(m.created_at) as last_activity,
+      COALESCE(SUM(tu.total_tokens), 0) as total_tokens
+    FROM "user" u
+    LEFT JOIN user_videos uv ON u.id = uv.user_id
+    LEFT JOIN messages m ON uv.id = m.user_video_id AND m.role = 'user'
+    LEFT JOIN token_usage tu ON uv.id = tu.user_video_id
+    GROUP BY u.id, u.name, u.email, u.image, u.created_at
+    ORDER BY 
+      message_count DESC,
+      video_count DESC,
+      last_activity DESC
+    LIMIT ${limit}
+  `);
+
+  return result.rows.map((row: any) => ({
+    id: row.id,
+    name: row.name,
+    email: row.email,
+    image: row.image,
+    createdAt: new Date(row.createdAt),
+    messageCount: parseInt(row.message_count) || 0,
+    videoCount: parseInt(row.video_count) || 0,
+    lastActivity: row.last_activity ? new Date(row.last_activity) : null,
+    totalTokens: parseInt(row.total_tokens) || 0,
+  }));
+}
+
 export async function getLatestMessages(limit = 6) {
   // Using a CTE to get the latest 2 messages per user from the 3 most recent users
   const result = await db.execute(sql`
