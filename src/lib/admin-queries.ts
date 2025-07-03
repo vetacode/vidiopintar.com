@@ -119,8 +119,8 @@ export async function getTopUsers(limit = 6) {
       COALESCE(SUM(tu.total_tokens), 0) as total_tokens
     FROM "user" u
     LEFT JOIN user_videos uv ON u.id = uv.user_id
-    LEFT JOIN messages m ON uv.id = m.user_video_id AND m.role = 'user'
-    LEFT JOIN token_usage tu ON uv.id = tu.user_video_id
+    LEFT JOIN messages m ON uv.id = m.user_video_id AND m.role = 'user' AND DATE(m.created_at) = CURRENT_DATE
+    LEFT JOIN token_usage tu ON uv.id = tu.user_video_id AND DATE(tu.created_at) = CURRENT_DATE
     GROUP BY u.id, u.name, u.email, u.image, u.created_at
     ORDER BY 
       message_count DESC,
