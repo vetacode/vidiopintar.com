@@ -20,7 +20,8 @@ export const changelogs: ChangelogEntry[] = [
           "Language selector component for multi-language support",
           "Language preference in user profile settings",
           "Loading placeholder states for user preferences",
-          "Backend foundation to support summary with language preference"
+          "Backend foundation to support summary with language preference",
+          "Add API call to sync language changes to backend in LanguageSelector"
         ]
       },
       {
