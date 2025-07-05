@@ -13,6 +13,10 @@ const links = [
         title: 'Terms',
         href: '/terms',
     },
+    {
+        title: 'Github',
+        href: 'https://github.com/ahmadrosid/vidiopintar.comexpo',
+    },
 ]
 
 export function FooterSection() {

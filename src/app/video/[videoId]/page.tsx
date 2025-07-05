@@ -52,7 +52,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
         <div className="grid grid-cols-1 lg:grid-cols-7 h-screen">
           <div className="lg:col-span-4 h-full overflow-y-auto scrollbar-none relative">
             <div className="sticky top-0 z-50 bg-white dark:bg-black border-b">
-              <div className="flex items-center p-4 gap-2">
+              <div className="flex items-center p-2.5 gap-2">
                 <a href="/home" className="text-foreground hover:underline hover:text-melody transition-colors inline-flex gap-2 items-center">
                   Home
                 </a>
