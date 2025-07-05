@@ -17,18 +17,17 @@ export const changelogs: ChangelogEntry[] = [
       {
         category: "added",
         items: [
-          "Language selector component for multi-language support",
-          "Language preference in user profile settings",
-          "Loading placeholder states for user preferences",
-          "Backend foundation to support summary with language preference",
-          "Add API call to sync language changes to backend in LanguageSelector"
+          "Profile page with theme and language preferences",
+          "Language selector component with backend sync",
+          "Real testimonials data",
+          "GitHub link in navigation"
         ]
       },
       {
         category: "changed",
         items: [
-          "Profile page layout redesigned for better user experience",
-          "Integrated language selection in chat interface"
+          "Updated YouTube model name display",
+          "Improved UI padding and layout"
         ]
       }
     ]
