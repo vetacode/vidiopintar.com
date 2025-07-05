@@ -3,7 +3,6 @@ import { SharedChats } from "../shared-chats";
 
 export default async function SharedPage() {
   const user = await getCurrentUser();
-
   
   return (
     <div>

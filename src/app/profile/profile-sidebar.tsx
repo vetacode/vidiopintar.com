@@ -7,7 +7,8 @@ import {
   MessageSquare, 
   Share2, 
   Palette, 
-  Bell 
+  Bell,
+  BarChart3
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -27,6 +28,11 @@ const sidebarItems = [
     href: "/profile/shared",
     label: "Shared",
     icon: Share2,
+  },
+  {
+    href: "/profile/usage",
+    label: "Usage",
+    icon: BarChart3,
   },
 ];
 
