@@ -40,7 +40,7 @@ export function DeleteProfile() {
 
   return (
     <Card className="p-6 border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/20 shadow-none">
-      <h2 className="text-xl font-semibold mb-2 text-red-900 dark:text-red-100">Danger Zone</h2>
+      <h2 className="text-lg font-semibold mb-2 text-red-900 dark:text-red-100">Danger Zone</h2>
       <p className="text-sm text-red-700 dark:text-red-300 mb-4">
         Once you delete your profile, there is no going back. Please be certain.
       </p>

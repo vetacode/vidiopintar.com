@@ -1,8 +1,6 @@
 import { getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { ProfileContent } from "./profile-content";
-import { FooterSection } from "@/components/footer";
-import { HeroHeader } from "@/components/hero-header";
+import { ProfileSettings } from "./profile-settings";
 
 export default async function ProfilePage() {
   const user = await getCurrentUser();
@@ -11,11 +9,5 @@ export default async function ProfilePage() {
     redirect("/");
   }
 
-  return (
-    <>
-      <HeroHeader />
-      <ProfileContent user={user} />
-      <FooterSection />
-    </>
-  );
+  return <ProfileSettings user={user} />;
 }
