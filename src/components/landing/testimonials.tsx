@@ -49,6 +49,13 @@ Bonus: interface sleek and modern banget, well done!`
       "role": "Cluster HR Executive",
       "image": "/testimonials/lucky.jpeg",
       "quote": "Sebuah gebrakan yang keren bro, in needsnya jadi lebih mencakup kebutuhan pasar ✨ "
+    },
+    {
+      "name": "Muhammad Fatih Darmawan",
+      "role": "Driving Brand & Business Growth with SEO",
+      "image": "/testimonials/fatih-darmawan.jpeg",
+      "quote": `Thanks bro, sebelumnya saya manual, dari transcipt webpage trus lempar ke chatgpt.
+Udah nyobain, bermanfaat banget.`
     }
 ];
 
