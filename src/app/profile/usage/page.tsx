@@ -113,20 +113,20 @@ export default async function UsagePage() {
           <h2 className="text-lg font-medium mb-4">Your Stats</h2>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border">
-              <div className="text-2xl font-bold text-blue-600">{usageStats.videosProcessed}</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Videos Engaged</div>
+              <div className="text-2xl font-bold text-blue-600">{usageStats.videosProcessed}</div>
             </div>
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border">
-              <div className="text-2xl font-bold text-green-600">{usageStats.messagesSent}</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Conversations</div>
+              <div className="text-2xl font-bold text-green-600">{usageStats.messagesSent}</div>
             </div>
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border">
-              <div className="text-2xl font-bold text-purple-600">{usageStats.activeDays}</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Days Active</div>
+              <div className="text-2xl font-bold text-purple-600">{usageStats.activeDays}</div>
             </div>
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border">
-              <div className="text-2xl font-bold text-orange-600">{usageStats.accountAge}</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Member for</div>
+              <div className="text-2xl font-bold text-orange-600">{usageStats.accountAge}</div>
             </div>
           </div>
         </div>
