@@ -8,6 +8,7 @@ import { ChatInterface } from "@/components/chat/chat-interface"
 import { SummarySection } from "@/components/video/summary-section"
 import { getCurrentUser } from "@/lib/auth"
 import { TipsAlert } from "@/components/chat/tips-alert"
+import { LanguageSelector } from "@/components/language-selector"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
   const user = await getCurrentUser();
@@ -44,6 +45,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
                 </a>
                 <ChevronRight className="size-5 text-muted-foreground" />
                 <h1 className="font-semibold tracking-tight flex-1 truncate">{videoDetails.title}</h1>
+                <LanguageSelector />
               </div>
             </div>
 
