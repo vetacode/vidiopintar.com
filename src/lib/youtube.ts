@@ -278,8 +278,9 @@ ${summary}
 `;
 
   const startTime = Date.now();
+  const modelName = 'gpt-4o-mini-2024-07-18';
   const result = await generateObject({
-    model: openai('gpt-4o-mini-2024-07-18'),
+    model: openai(modelName),
     prompt: prompt,
     schema: z.object({
       questions: z.array(z.string()),
@@ -291,7 +292,7 @@ ${summary}
     const user = await getCurrentUser();
     await trackGenerateTextUsage(result, {
       userId: user.id,
-      model: 'gpt-4.1-2025-04-14',
+      model: modelName,
       provider: 'openai',
       operation: 'quick_start_questions',
       videoId,

@@ -41,7 +41,7 @@ export function LanguageSelector({ defaultLanguage = "en" }: LanguageSelectorPro
 
   return (
     <Select value={language} onValueChange={handleLanguageChange}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[180px] h-6! border-none shadow-none cursor-pointer" size="sm">
         <SelectValue placeholder="Select a language" />
       </SelectTrigger>
       <SelectContent>
