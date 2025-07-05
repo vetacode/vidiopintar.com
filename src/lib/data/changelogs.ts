@@ -19,7 +19,8 @@ export const changelogs: ChangelogEntry[] = [
         items: [
           "Language selector component for multi-language support",
           "Language preference in user profile settings",
-          "Loading placeholder states for user preferences"
+          "Loading placeholder states for user preferences",
+          "Backend foundation to support summary with language preference"
         ]
       },
       {

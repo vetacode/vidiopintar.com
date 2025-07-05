@@ -1,6 +1,5 @@
 "use client";
 
-import { useLocalStorage } from "usehooks-ts";
 import { Card } from "@/components/ui/card";
 import { useTheme } from "next-themes";
 import {
@@ -10,21 +9,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "sonner";
 import React, { useEffect, useState } from "react";
+import { LanguageSelector } from "@/components/language-selector";
 
-type Language = "en" | "id";
 type Theme = "light" | "dark" | "system";
 
-export function UserPreferences() {
-  const [language, setLanguage] = useLocalStorage("user-language","en");
-  const { theme, setTheme } = useTheme();
+interface UserPreferencesProps {
+  defaultLanguage?: 'en' | 'id';
+}
 
-  const handleLanguageChange = (language: Language) => {
-    setLanguage(language)
-    const languageName = language === "en" ? "English" : "Bahasa Indonesia";
-    toast.success(`Language changed to ${languageName}`);
-  };
+export function UserPreferences({ defaultLanguage }: UserPreferencesProps) {
+  const { theme, setTheme } = useTheme();
 
   const handleThemeChange = (theme: Theme) => {
     setTheme(theme);
@@ -59,17 +54,9 @@ export function UserPreferences() {
   return (
     <div className="space-y-6">
       <Card className="p-6 shadow-none">
-      <h3 className="text-lg font-semibold mb-4">Prefrences</h3>
+      <h3 className="text-lg font-semibold mb-4">Preferences</h3>
       <h4 className="text-md mb-4">Select Language</h4>
-        <Select value={language} onValueChange={handleLanguageChange}>
-          <SelectTrigger className="w-[200px]">
-            <SelectValue placeholder="Select a language" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="en">English</SelectItem>
-            <SelectItem value="id">Bahasa Indonesia</SelectItem>
-          </SelectContent>
-        </Select>
+        <LanguageSelector defaultLanguage={defaultLanguage} />
         <h4 className="text-md my-4">Select Theme</h4>
         <Select value={theme} onValueChange={handleThemeChange}>
           <SelectTrigger className="w-[200px]">

@@ -9,10 +9,23 @@ import { SummarySection } from "@/components/video/summary-section"
 import { getCurrentUser } from "@/lib/auth"
 import { TipsAlert } from "@/components/chat/tips-alert"
 import { LanguageSelector } from "@/components/language-selector"
+import { UserRepository } from "@/lib/db/repository"
 
 export default async function VideoPage({ params }: { params: { videoId: string } }) {
   const user = await getCurrentUser();
   const { videoId } = params;
+  
+  // Get user's language preference from database
+  let userLanguage: 'en' | 'id' = 'en';
+  try {
+    const savedLanguage = await UserRepository.getPreferredLanguage(user.id);
+    if (savedLanguage === 'en' || savedLanguage === 'id') {
+      userLanguage = savedLanguage;
+    }
+  } catch (error) {
+    console.log('Could not get user language preference, using default:', error);
+  }
+  
   let videoDetails = await fetchVideoDetails(videoId);
   let transcript = await fetchVideoTranscript(videoId);
   let messages: any[] = [];
@@ -45,7 +58,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
                 </a>
                 <ChevronRight className="size-5 text-muted-foreground" />
                 <h1 className="font-semibold tracking-tight flex-1 truncate">{videoDetails.title}</h1>
-                <LanguageSelector />
+                <LanguageSelector defaultLanguage={userLanguage} />
               </div>
             </div>
 

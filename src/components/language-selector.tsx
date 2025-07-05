@@ -12,12 +12,30 @@ import { toast } from "sonner";
 
 type Language = "en" | "id";
 
-export function LanguageSelector() {
-  const [language, setLanguage] = useLocalStorage<Language>("user-language", "en");
+interface LanguageSelectorProps {
+  defaultLanguage?: Language;
+}
 
-  const handleLanguageChange = (language: Language) => {
+export function LanguageSelector({ defaultLanguage = "en" }: LanguageSelectorProps) {
+  const [language, setLanguage] = useLocalStorage<Language>("user-language", defaultLanguage);
+
+  const handleLanguageChange = async (language: Language) => {
     setLanguage(language);
     const languageName = language === "en" ? "English" : "Bahasa Indonesia";
+    
+    // Sync to backend
+    try {
+      await fetch('/api/user/language', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ language }),
+      });
+    } catch (error) {
+      console.log('Failed to sync language preference to backend:', error);
+    }
+    
     toast.success(`Language changed to ${languageName}`);
   };
 

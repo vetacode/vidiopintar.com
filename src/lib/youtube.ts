@@ -1,9 +1,10 @@
 import { env } from "@/lib/env/server";
-import { VideoRepository, TranscriptRepository, Video } from "@/lib/db/repository";
+import { VideoRepository, TranscriptRepository, Video, UserRepository } from "@/lib/db/repository";
 import { openai } from '@ai-sdk/openai';
 import { generateObject } from 'ai';
 import { z } from 'zod';
 import { generateSummary } from "@/lib/ai/summary";
+import { getQuickStartPrompt } from "@/lib/ai/system-prompts";
 import { formatTime } from "@/lib/utils";
 import { trackGenerateTextUsage } from '@/lib/token-tracker';
 
@@ -34,7 +35,20 @@ async function saveVideoUser(videoId: string, video: Video, segments: any[]) {
 export async function generateUserVideoSummary(video: Video, segments: any[], userVideoId?: number) {
   const transcriptText = segments.map((seg: {text: string}) => seg.text);
   const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`;
-  const summary = await generateSummary(textToSummarize, video.youtubeId, userVideoId);
+  
+  // Get user's language preference from database
+  let userLanguage: 'en' | 'id' = 'en'; // Default to English
+  try {
+    const user = await getCurrentUser();
+    const savedLanguage = await UserRepository.getPreferredLanguage(user.id);
+    if (savedLanguage === 'en' || savedLanguage === 'id') {
+      userLanguage = savedLanguage;
+    }
+  } catch (error) {
+    console.log('Could not get user language preference, using default:', error);
+  }
+  
+  const summary = await generateSummary(textToSummarize, userLanguage, video.youtubeId, userVideoId);
 
   return summary;
 }
@@ -241,19 +255,20 @@ export async function fetchVideoTranscript(videoId: string) {
 }
 
 export async function generateQuickStartQuestions(summary: string, userVideoId?: number, videoId?: string) {
-  let prompt = `You are a helpful assistant that analyzes YouTube video transcript summaries and generates relevant questions to facilitate learning and discussion.
+  // Get user's language preference from database
+  let userLanguage: 'en' | 'id' = 'en'; // Default to English
+  try {
+    const user = await getCurrentUser();
+    const savedLanguage = await UserRepository.getPreferredLanguage(user.id);
+    if (savedLanguage === 'en' || savedLanguage === 'id') {
+      userLanguage = savedLanguage;
+    }
+  } catch (error) {
+    console.log('Could not get user language preference for quick start questions, using default:', error);
+  }
 
-When given a transcript summary, generate exactly 4 first-person questions that capture the feeling of discovering ideas in real-time.
-
-Your questions should:
-- Sound like someone thinking out loud while learning
-- React naturally to surprising or interesting points
-- Mix short reactions with longer wonderings
-- Feel genuinely engaged with the specific content
-
-Write questions as if you're having an internal dialogue - sometimes excited ("Oh, so I could..."), sometimes puzzled ("Wait, does this mean I..."), sometimes connecting dots ("This reminds me... could I..."). Match the energy and tone to what's being discussed.
-
-Format: Present only the 4 questions as a numbered list (1-4), without any additional text, explanation, or preamble.
+  const promptText = getQuickStartPrompt(userLanguage);
+  const prompt = `${promptText}
 
 Here is the transcript summary:
 

@@ -146,6 +146,38 @@ export function getSystemPrompt(language: Language, params: SystemPromptParams):
   }
 }
 
+function generateEnglishQuickStartPrompt(): string {
+  return `You are a helpful assistant that analyzes YouTube video transcript summaries and generates relevant questions to facilitate learning and discussion.
+
+When given a transcript summary, generate exactly 4 first-person questions that capture the feeling of discovering ideas in real-time.
+
+Your questions should:
+- Sound like someone thinking out loud while learning
+- React naturally to surprising or interesting points
+- Mix short reactions with longer wonderings
+- Feel genuinely engaged with the specific content
+
+Write questions as if you're having an internal dialogue - sometimes excited ("Oh, so I could..."), sometimes puzzled ("Wait, does this mean I..."), sometimes connecting dots ("This reminds me... could I..."). Match the energy and tone to what's being discussed.
+
+Format: Present only the 4 questions as a numbered list (1-4), without any additional text, explanation, or preamble.`;
+}
+
+function generateIndonesianQuickStartPrompt(): string {
+  return `Kamu adalah asisten yang membantu menganalisis ringkasan transkrip video YouTube dan membuat pertanyaan relevan untuk memfasilitasi pembelajaran dan diskusi.
+
+Ketika diberikan ringkasan transkrip, buat tepat 4 pertanyaan orang pertama yang menangkap perasaan menemukan ide secara real-time.
+
+Pertanyaan kamu harus:
+- Terdengar seperti seseorang yang sedang berpikir keras sambil belajar
+- Bereaksi secara natural terhadap poin yang mengejutkan atau menarik
+- Campur reaksi pendek dengan renungan yang lebih panjang
+- Benar-benar terlibat dengan konten spesifik
+
+Tulis pertanyaan seolah kamu sedang berdialog internal - kadang excited ("Oh, jadi aku bisa..."), kadang bingung ("Tunggu, ini berarti aku..."), kadang menghubungkan titik-titik ("Ini mengingatkan aku... bisakah aku..."). Sesuaikan energi dan nada dengan apa yang sedang dibahas.
+
+Format: Sajikan hanya 4 pertanyaan sebagai daftar bernomor (1-4), tanpa teks tambahan, penjelasan, atau pembukaan.`;
+}
+
 export function getSummaryPrompt(language: Language): string {
   switch (language) {
     case 'id':
@@ -153,5 +185,15 @@ export function getSummaryPrompt(language: Language): string {
     case 'en':
     default:
       return generateEnglishSummaryPrompt();
+  }
+}
+
+export function getQuickStartPrompt(language: Language): string {
+  switch (language) {
+    case 'id':
+      return generateIndonesianQuickStartPrompt();
+    case 'en':
+    default:
+      return generateEnglishQuickStartPrompt();
   }
 }

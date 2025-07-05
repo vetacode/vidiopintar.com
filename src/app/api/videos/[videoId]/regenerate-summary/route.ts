@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { UserVideoRepository, TranscriptRepository } from "@/lib/db/repository"
+import { UserVideoRepository, TranscriptRepository, UserRepository } from "@/lib/db/repository"
 import { getCurrentUser } from "@/lib/auth"
 import { generateSummary } from "@/lib/ai/summary"
 
@@ -28,11 +28,22 @@ export async function POST(request: NextRequest, { params }: { params: { videoId
       return NextResponse.json({ error: "No transcript available for this video" }, { status: 400 })
     }
 
+    // Get user's language preference
+    let userLanguage: 'en' | 'id' = 'en'; // Default to English
+    try {
+      const savedLanguage = await UserRepository.getPreferredLanguage(user.id);
+      if (savedLanguage === 'en' || savedLanguage === 'id') {
+        userLanguage = savedLanguage;
+      }
+    } catch (error) {
+      console.log('Could not get user language preference for summary regeneration, using default:', error);
+    }
+
     // Generate summary from existing transcript
     const transcriptText = dbSegments.map((seg) => seg.text).join(" ")
 
     const textToSummarize = `${video.title}\n${video.description ?? ""}\n${transcriptText}`
-    const summary = await generateSummary(textToSummarize)
+    const summary = await generateSummary(textToSummarize, userLanguage, video.youtubeId, userVideo.id)
 
     // Update user_video with new summary
     await UserVideoRepository.updateSummary(userVideo.id, summary)

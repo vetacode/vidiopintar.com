@@ -6,7 +6,7 @@ export const user = pgTable("user", {
     email: text('email').notNull().unique(),
     emailVerified: boolean('email_verified').$defaultFn(() => false).notNull(),
     image: text('image'),
-    preferredLanguage: text('preferred_language').$defaultFn(() => 'en').notNull(),
+    preferredLanguage: text('preferred_language').default('en').notNull(),
     createdAt: timestamp('created_at').$defaultFn(() => new Date()).notNull(),
     updatedAt: timestamp('updated_at').$defaultFn(() => new Date()).notNull()
 });

@@ -13,9 +13,10 @@ interface ProfileSettingsProps {
     email: string;
     image?: string | null;
   };
+  userLanguage: 'en' | 'id';
 }
 
-export function ProfileSettings({ user }: ProfileSettingsProps) {
+export function ProfileSettings({ user, userLanguage }: ProfileSettingsProps) {
   const profileName = user.name;
   const username = user.email.split("@")[0];
 
@@ -55,7 +56,7 @@ export function ProfileSettings({ user }: ProfileSettingsProps) {
         </CardContent>
       </Card>
 
-      <UserPreferences />
+      <UserPreferences defaultLanguage={userLanguage} />
 
       <DeleteProfile />
     </div>
