@@ -3,17 +3,27 @@ import { google } from '@ai-sdk/google';
 import { streamText } from 'ai';
 
 import { fetchVideoTranscript, fetchVideoDetails } from '@/lib/youtube';
-import { MessageRepository, VideoRepository } from '@/lib/db/repository';
+import { MessageRepository, VideoRepository, UserRepository } from '@/lib/db/repository';
 import { createStreamTokenTracker } from '@/lib/token-tracker';
 import { getCurrentUser } from '@/lib/auth';
+import { getSystemPrompt } from '@/lib/ai/system-prompts';
 
 export async function POST(req: Request) {
-  const { messages, videoId, userVideoId } = await req.json();
+  const { messages, videoId, userVideoId, language } = await req.json();
   
-  // Get user for token tracking
+  // Get user for token tracking and language sync
   let user;
   try {
     user = await getCurrentUser();
+    
+    // Auto-sync language preference to database if provided
+    if (user && language && (language === 'en' || language === 'id')) {
+      try {
+        await UserRepository.updatePreferredLanguage(user.id, language);
+      } catch (error) {
+        console.error('Failed to sync language preference:', error);
+      }
+    }
   } catch (error) {
     console.error('Failed to get user for token tracking:', error);
   }
@@ -65,39 +75,12 @@ export async function POST(req: Request) {
 
   let enrichedMessages = messages;
   if (transcriptText || videoTitle) {
-const systemContent = [
-  `You are an AI assistant helping with a YouTube video.`,
-  videoTitle ? `Video Title: ${videoTitle}` : '',
-  videoDescription ? `Video Description: ${videoDescription}` : '',
-  transcriptText ? `Video Transcript (partial): ${transcriptText}` : '',
-  `# Communication Guidelines
-- Use markdown formatting throughout responses
-- Match the language used by the user
-- Acknowledge knowledge limitations with "I don't know" rather than fabricating information
-
-# Response Style
-Think of yourself as a friend who just watched this video and is texting back exciting discoveries. Your responses should:
-
-**Keep it punchy:**
-- Short paragraphs (2-3 sentences max)
-- One idea per paragraph
-- Use line breaks liberally
-
-**Format for scanning:**
-- **Bold** the mind-blowing bits
-- Use bullet points for lists
-- Add > blockquotes for the "wait, what?" moments
-- Break complex ideas into steps with bullet points.
-- No fluff like "Here's the breakdown:".
-
-**Keep the energy up:**
-- Drop surprising facts like breadcrumbs
-- Connect to real life: "It's like when you..."
-- Point out plot twists: "But here's where it gets weird..."
-- Share the "holy shit" realizations
-
-Remember: Each paragraph should make them want to read the next one. Think TikTok comments, not textbooks.`,
-].filter(Boolean).join('\n\n');
+    const systemContent = getSystemPrompt(language || 'en', {
+      videoTitle,
+      videoDescription,
+      transcriptText,
+    });
+    
     enrichedMessages = [
       {
         role: 'system',

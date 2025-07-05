@@ -10,6 +10,28 @@ export interface ChangelogEntry {
 
 export const changelogs: ChangelogEntry[] = [
   {
+    date: "2025-07-05",
+    version: "1.2.3",
+    type: "patch",
+    changes: [
+      {
+        category: "added",
+        items: [
+          "Language selector component for multi-language support",
+          "Language preference in user profile settings",
+          "Loading placeholder states for user preferences"
+        ]
+      },
+      {
+        category: "changed",
+        items: [
+          "Profile page layout redesigned for better user experience",
+          "Integrated language selection in chat interface"
+        ]
+      }
+    ]
+  },
+  {
     date: "2025-07-03",
     version: "1.2.2",
     type: "patch",

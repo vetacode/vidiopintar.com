@@ -1,8 +1,13 @@
 import { db } from "@/lib/db/index"
 import { and, desc, eq, InferInsertModel, InferSelectModel } from "drizzle-orm"
 import { messages, sharedVideos, transcriptSegments, userVideos, videos } from "./schema"
+import { user } from "./schema/auth"
 
 export { TokenUsageRepository } from "./repository/token-usage"
+
+// Types for users
+export type User = InferSelectModel<typeof user>
+export type NewUser = InferInsertModel<typeof user>
 
 // Types for user_videos
 export type UserVideo = InferSelectModel<typeof userVideos>
@@ -279,5 +284,32 @@ export const SharedVideoRepository = {
       .where(and(eq(sharedVideos.youtubeId, youtubeId), eq(sharedVideos.ownerId, ownerId)))
 
     return result.length > 0
+  },
+}
+
+export const UserRepository = {
+  // Get a user by ID
+  async getById(id: string): Promise<User | undefined> {
+    const result = await db.select().from(user).where(eq(user.id, id))
+    return result[0]
+  },
+
+  // Update user's preferred language
+  async updatePreferredLanguage(userId: string, language: 'en' | 'id'): Promise<User | undefined> {
+    const result = await db
+      .update(user)
+      .set({ preferredLanguage: language, updatedAt: new Date() })
+      .where(eq(user.id, userId))
+      .returning()
+    return result[0]
+  },
+
+  // Get user's preferred language
+  async getPreferredLanguage(userId: string): Promise<string | undefined> {
+    const result = await db
+      .select({ preferredLanguage: user.preferredLanguage })
+      .from(user)
+      .where(eq(user.id, userId))
+    return result[0]?.preferredLanguage
   },
 }
