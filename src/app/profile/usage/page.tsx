@@ -106,7 +106,7 @@ export default async function UsagePage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold mb-8">Usage</h1>
+      <h1 className="font-semibold mb-8">Usage</h1>
       <div className="space-y-8">
         {/* Core Activity Metrics */}
         <div>
