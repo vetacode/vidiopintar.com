@@ -9,14 +9,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 type Language = "en" | "id";
 
 interface LanguageSelectorProps {
   defaultLanguage?: Language;
+  className?: string;
 }
 
-export function LanguageSelector({ defaultLanguage = "en" }: LanguageSelectorProps) {
+export function LanguageSelector({ defaultLanguage = "en", className }: LanguageSelectorProps) {
   const [language, setLanguage] = useLocalStorage<Language>("user-language", defaultLanguage);
 
   const handleLanguageChange = async (language: Language) => {
@@ -41,7 +43,7 @@ export function LanguageSelector({ defaultLanguage = "en" }: LanguageSelectorPro
 
   return (
     <Select value={language} onValueChange={handleLanguageChange}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className={cn("w-[180px]", className)}>
         <SelectValue placeholder="Select a language" />
       </SelectTrigger>
       <SelectContent>

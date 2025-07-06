@@ -58,7 +58,7 @@ export function UserPreferences({ defaultLanguage }: UserPreferencesProps) {
         <div className="space-y-6">
           <div>
             <h4 className="text-sm md:text-base mb-3">Select Language</h4>
-            <LanguageSelector defaultLanguage={defaultLanguage} />
+            <LanguageSelector className="w-full" defaultLanguage={defaultLanguage} />
           </div>
           <div>
             <h4 className="text-sm md:text-base mb-3">Select Theme</h4>
