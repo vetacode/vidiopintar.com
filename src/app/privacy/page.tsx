@@ -9,7 +9,7 @@ export default function PrivacyPolicy() {
       <main className="bg-background">
         <div className="relative isolate">
           <div className="px-6 py-24 sm:px-6 sm:py-32 lg:px-8">
-            <div className="mx-auto max-w-4xl">
+            <div className="mx-auto max-w-5xl px-6">
               <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl mb-8">
                 Privacy Policy
               </h1>

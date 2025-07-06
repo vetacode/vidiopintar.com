@@ -13,7 +13,7 @@ interface ProfileContentProps {
 export function ProfileContent({ children }: ProfileContentProps) {
   return (
     <main className="relative min-h-screen overflow-hidden pt-24">
-      <div className="relative z-10 max-w-4xl mx-auto">
+      <div className="relative z-10 max-w-5xl px-6 mx-auto">
         <div className="flex relative">
           <div className="sticky top-24">
             <ProfileSidebar />

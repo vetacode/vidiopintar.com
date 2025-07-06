@@ -42,7 +42,7 @@ export function HeroSection() {
                 </div>
                 <section>
                     <div className="relative mx-auto max-w-6xl px-6 pt-32 lg:pb-16 lg:pt-48">
-                        <div className="relative z-10 mx-auto max-w-4xl text-center">
+                        <div className="relative z-10 mx-auto max-w-5xl px-6 text-center">
                             <TextEffect
                                 preset="fade-in-blur"
                                 speedSegment={0.3}

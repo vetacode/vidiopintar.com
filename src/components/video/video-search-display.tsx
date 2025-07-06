@@ -11,7 +11,7 @@ export function VideoSearchDisplay() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto w-full mb-8">
+    <div className="max-w-5xl px-6 mx-auto w-full mb-8">
       <h2 className="text-xl font-semibold text-left mb-6 tracking-tighter">Found {results.length} videos</h2>
       <VideoSearchResults results={results} />
     </div>

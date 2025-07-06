@@ -9,7 +9,7 @@ export function Features() {
                     <p>Get instant "aha moments" from videos you already love watching</p>
                 </div>
 
-                <div className="relative mx-auto grid max-w-4xl divide-x divide-y border *:p-12 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="relative mx-auto grid max-w-5xl px-6 divide-x divide-y border *:p-12 sm:grid-cols-2 lg:grid-cols-3">
                     <div className="space-y-3">
                         <div className="flex items-center gap-2">
                             <Zap className="size-4" />

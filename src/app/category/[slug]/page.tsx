@@ -1,110 +1,59 @@
+"use client";
+
 import { getCategoryBySlug } from "@/lib/data/categories";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { HeroHeader } from "@/components/hero-header";
 import { FooterSection } from "@/components/footer";
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { useState, useEffect } from "react";
+import { VideoSearchResults } from "@/components/video/video-search-results";
+import { searchVideos } from "@/lib/services/api";
+import { RuntimeClient } from "@/lib/services/RuntimeClient";
 
-interface Video {
-  id: string;
-  title: string;
-  thumbnail: string;
-  channelTitle: string;
-  publishedAt: string;
-  description: string;
-}
-
-async function fetchVideos(searchQuery: string): Promise<Video[]> {
-  try {
-    const response = await fetch(`https://api.ahmadrosid.com/youtube/search?q=${encodeURIComponent(searchQuery)}`);
-
-    if (!response.ok) {
-      throw new Error('Failed to fetch videos');
-    }
-
-    const result = await response.json();
-    const videos = result.data || [];
-
-    return videos.map((item: any) => ({
-      id: item.id,
-      title: item.title,
-      thumbnail: item.thumbnails?.[0]?.url || '',
-      channelTitle: item.author?.name || '',
-      publishedAt: item.published || '',
-      description: item.description || ''
-    }));
-  } catch (error) {
-    console.error('Error fetching videos:', error);
-    return [];
-  }
-}
-
-function VideoCard({ video }: { video: Video }) {
-  return (
-    <Card className=" dark:border-white/10 overflow-hidden rounded-2xl shadow-none">
-      <CardContent className="p-0 relative">
-        <Link href={`/video/${video.id}`}>
-          <img
-            src={video.thumbnail}
-            alt={video.title}
-            className="object-cover w-full h-40"
-          />
-        </Link>
-      </CardContent>
-      <CardHeader className="p-4">
-        <CardTitle className="text-lg truncate hover:underline">
-          <Link href={`/video/${video.id}`}>
-            {video.title}
-          </Link>
-        </CardTitle>
-        <CardDescription>
-          <div className="flex items-center gap-2">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Link href={`/video/${video.id}`}>
-                  <Button variant="outline" className="rounded-xl">
-                    <svg className="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
-                  </Button>
-                </Link>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Click to chat with video</p>
-              </TooltipContent>
-            </Tooltip>
-            <p className="text-sm text-muted-foreground line-clamp-2">
-              {video.channelTitle}
-            </p>
-        </div>
-        </CardDescription>
-      </CardHeader>
-    </Card>
-  );
-}
-
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
+export default function CategoryPage({ params }: { params: { slug: string } }) {
+  const [videos, setVideos] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  
   const category = getCategoryBySlug(params.slug);
 
   if (!category) {
     notFound();
   }
 
-  const videos = await fetchVideos(category.searchQuery);
+  useEffect(() => {
+    async function loadVideos() {
+      setIsLoading(true);
+      try {
+        if (!category?.searchQuery) {
+          return;
+        }
+        const result = await RuntimeClient.runPromise(searchVideos(category.searchQuery));
+        setVideos(result.data.map(item => ({
+          ...item,
+          thumbnails: [...item.thumbnails],
+          duration: { ...item.duration },
+          author: { ...item.author }
+        })));
+      } catch (error) {
+        console.error('Search failed:', error);
+        setVideos([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadVideos();
+  }, [category.searchQuery]);
 
   return (
     <>
       <HeroHeader />
-      <main className="relative min-h-screen p-6 overflow-hidden">
-        <div className="relative z-10 max-w-4xl mx-auto mt-24">
+      <main className="relative min-h-screen overflow-hidden">
+        <div className="relative z-10 max-w-5xl px-6 mx-auto mt-24">
           {/* Hero Section with Background Image */}
           <div className="relative h-64 overflow-hidden rounded-2xl mb-8">
             <img
               src={category.image}
               alt={category.label}
-              className="w-full h-fullobject-cover"
+              className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black/45">
               <div className="flex flex-col justify-center items-center h-full p-8">
@@ -119,13 +68,15 @@ export default async function CategoryPage({ params }: { params: { slug: string 
           </div>
 
           {/* Video Cards Section */}
-          <div className="max-w-4xl mx-auto w-full mb-8">
-            {videos.length > 0 ? (
-              <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-                {videos.map((video) => (
-                  <VideoCard key={video.id} video={video} />
-                ))}
+          <div className="w-full mb-8">
+            {isLoading ? (
+              <div className="text-center py-12">
+                <p className="text-gray-500 dark:text-gray-400 text-lg">
+                  Loading videos...
+                </p>
               </div>
+            ) : videos.length > 0 ? (
+              <VideoSearchResults results={videos} />
             ) : (
               <div className="text-center py-12">
                 <p className="text-gray-500 dark:text-gray-400 text-lg">
