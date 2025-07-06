@@ -36,11 +36,16 @@ const sidebarItems = [
   },
 ];
 
-export function ProfileSidebar() {
+interface ProfileSidebarProps {
+  onItemClick?: () => void;
+}
+
+export function ProfileSidebar({ onItemClick }: ProfileSidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 pr-8">
+    <aside className="w-full lg:w-64 p-4 lg:p-0 lg:pr-8">
+      <h2 className="text-lg font-semibold mb-4 px-3 lg:hidden">Menu</h2>
       <nav className="space-y-1">
         {sidebarItems.map((item) => {
           const isActive = pathname === item.href;
@@ -48,6 +53,7 @@ export function ProfileSidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onItemClick}
               className={cn(
                 "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
                 isActive
