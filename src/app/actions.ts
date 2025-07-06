@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { UserVideoRepository } from "@/lib/db/repository";
+import { getCurrentUser } from "@/lib/auth";
 import { extractVideoId } from "@/lib/utils";
 
 export async function handleVideoSubmit(formData: FormData) {
@@ -31,7 +32,25 @@ export async function handleDeleteVideo(prevState: any, formData: FormData): Pro
   }
 
   const id = parseInt(validatedFields.data.id, 10);
+  
   try {
+    // Get current user
+    const user = await getCurrentUser();
+    if (!user) {
+      return { success: false, errors: ["You must be logged in to delete a video"] };
+    }
+
+    // Check if the user owns this video
+    const userVideo = await UserVideoRepository.getById(id);
+    if (!userVideo) {
+      return { success: false, errors: ["Video not found"] };
+    }
+
+    if (userVideo.userId !== user.id) {
+      return { success: false, errors: ["You don't have permission to delete this video"] };
+    }
+
+    // Delete the video
     await UserVideoRepository.delete(id);
     revalidatePath('/home', 'page');
     return { success: true, errors: undefined };
