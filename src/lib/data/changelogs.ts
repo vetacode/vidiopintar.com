@@ -10,6 +10,28 @@ export interface ChangelogEntry {
 
 export const changelogs: ChangelogEntry[] = [
   {
+    date: "2025-07-06",
+    version: "1.2.4",
+    type: "patch",
+    changes: [
+      {
+        category: "added",
+        items: [
+          "Testimonial from Muhammad Fatih Darmawan"
+        ]
+      },
+      {
+        category: "changed",
+        items: [
+          "Profile page is now responsive and mobile friendly",
+          "Improved header navigation style",
+          "Removed duplicate code related to search video",
+          "Removed unnecessary class names"
+        ]
+      }
+    ]
+  },
+  {
     date: "2025-07-05",
     version: "1.2.3",
     type: "patch",
