@@ -11,6 +11,19 @@ export interface ChangelogEntry {
 export const changelogs: ChangelogEntry[] = [
   {
     date: "2025-07-06",
+    version: "1.2.5",
+    type: "patch",
+    changes: [
+      {
+        category: "fixed",
+        items: [
+          "Security vulnerability - ensures users can only delete their own videos"
+        ]
+      }
+    ]
+  },
+  {
+    date: "2025-07-06",
     version: "1.2.4",
     type: "patch",
     changes: [
