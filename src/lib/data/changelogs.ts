@@ -26,7 +26,6 @@ export const changelogs: ChangelogEntry[] = [
           "Profile page is now responsive and mobile friendly",
           "Improved header navigation style",
           "Removed duplicate code related to search video",
-          "Removed unnecessary class names"
         ]
       }
     ]

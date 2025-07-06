@@ -9,24 +9,20 @@ import { getCurrentUser } from '@/lib/auth';
 import { getSystemPrompt } from '@/lib/ai/system-prompts';
 
 export async function POST(req: Request) {
-  const { messages, videoId, userVideoId, language } = await req.json();
-  
-  // Get user for token tracking and language sync
-  let user;
   try {
-    user = await getCurrentUser();
+    const { messages, videoId, userVideoId, language } = await req.json();
     
-    // Auto-sync language preference to database if provided
-    if (user && language && (language === 'en' || language === 'id')) {
-      try {
-        await UserRepository.updatePreferredLanguage(user.id, language);
-      } catch (error) {
-        console.error('Failed to sync language preference:', error);
-      }
+    // Get user for token tracking - required for chat functionality
+    const user = await getCurrentUser();
+    if (!user) {
+      return new Response(
+        JSON.stringify({ error: 'Authentication required' }), 
+        { 
+          status: 401,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
     }
-  } catch (error) {
-    console.error('Failed to get user for token tracking:', error);
-  }
 
   let transcriptText = '';
   let videoTitle = '';
@@ -90,40 +86,52 @@ export async function POST(req: Request) {
     ];
   }
 
-  const tokenTracker = user ? createStreamTokenTracker({
-    userId: user.id,
-    model: 'gpt-4o-mini-2024-07-18',
-    provider: 'openai',
-    operation: 'chat',
-    videoId,
-    userVideoId,
-  }) : null;
+    const tokenTracker = createStreamTokenTracker({
+      userId: user.id,
+      model: 'gpt-4o-mini-2024-07-18',
+      provider: 'openai',
+      operation: 'chat',
+      videoId,
+      userVideoId,
+    });
 
-  const result = streamText({
-    model: openai('gpt-4o-mini-2024-07-18'),
-    // model: google('gemini-2.0-flash-001'),
-    messages: enrichedMessages,
-    onFinish: async (data) => {
-      // Save assistant messages
-      data.steps.forEach(async (item) => {
-        try {
-          await MessageRepository.create({
-            userVideoId,
-            content: item.text,
-            role: 'assistant',
-            timestamp: Math.floor(Date.now() / 1000),
-          });
-        } catch (err) {
-          console.error('Failed to save assistant message:', err);
-        }
-      });
-      
-      // Track token usage
-      if (tokenTracker) {
+    const result = streamText({
+      model: openai('gpt-4o-mini-2024-07-18'),
+      // model: google('gemini-2.0-flash-001'),
+      messages: enrichedMessages,
+      onFinish: async (data) => {
+        // Save assistant messages
+        data.steps.forEach(async (item) => {
+          try {
+            await MessageRepository.create({
+              userVideoId,
+              content: item.text,
+              role: 'assistant',
+              timestamp: Math.floor(Date.now() / 1000),
+            });
+          } catch (err) {
+            console.error('Failed to save assistant message:', err);
+          }
+        });
+        
+        // Track token usage
         await tokenTracker.onFinish(data);
+      },
+      onError: (error) => {
+        console.error('Streaming error:', error);
       }
-    }
-  });
+    });
 
-  return result.toDataStreamResponse();
+    return result.toDataStreamResponse();
+  } catch (error) {
+    console.error('Chat API error:', error);
+    
+    return new Response(
+      JSON.stringify({ error: 'Failed to process chat request' }), 
+      { 
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    );
+  }
 }
