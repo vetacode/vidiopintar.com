@@ -64,6 +64,17 @@ Udah nyobain, bermanfaat banget.`
       "quote": `Ini keren banget sih. Bisa chit chat bahas isi videonya rupanya 🤭
 Pernah coba site serupa untuk ngerangkum video ytube juga. Tapi nggak ada chitchat session gini 🤣 kadang yang di rangkum ada beberapa poin gatau dia dapatnya dari mana 🤔😅`
     },
+    {
+      "name": "Fizu - sadarutuh.id",
+      "role": "Content Creator | Personal Growth",
+      "image": "/testimonials/sadarutuh.jpeg",
+      "quote": `vidiopintar.com keren sih ini. 🎉
+Ngebantu banget, buat kalo mau dijadiin action plan, setelah nonton Youtube. Apalagi kalo dari materi-materi yang memang kadang bingung, action apa yang bisa dilakukan setelah nonton videonya.
+
+Kalo bingung pun, tanya jawab seputar vidieonya di kolom kirinya. Terobosan yang baru buat summary video yang durasinya panjang, tapi cuman mau ambil poin-poinnya.
+
+Kalo kesulitan tinggal tanyakan dengan berikan penjelasan yang lebih mudah.  `
+    },
 ];
 
 const shuffleArray = (array: Testimonial[]): Testimonial[] => {
