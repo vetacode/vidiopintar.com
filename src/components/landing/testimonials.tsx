@@ -56,7 +56,14 @@ Bonus: interface sleek and modern banget, well done!`
       "image": "/testimonials/fatih-darmawan.jpeg",
       "quote": `Thanks bro, sebelumnya saya manual, dari transcipt webpage trus lempar ke chatgpt.
 Udah nyobain, bermanfaat banget.`
-    }
+    },
+    {
+      "name": "Amik Dwiokta",
+      "role": "Content Creator",
+      "image": "/testimonials/ibunyaboemi.jpeg",
+      "quote": `Ini keren banget sih. Bisa chit chat bahas isi videonya rupanya 🤭
+Pernah coba site serupa untuk ngerangkum video ytube juga. Tapi nggak ada chitchat session gini 🤣 kadang yang di rangkum ada beberapa poin gatau dia dapatnya dari mana 🤔😅`
+    },
 ];
 
 const shuffleArray = (array: Testimonial[]): Testimonial[] => {
