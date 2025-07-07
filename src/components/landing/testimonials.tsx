@@ -111,7 +111,7 @@ export function WallOfLoveSection() {
 
                                         <span className="text-muted-foreground block text-sm tracking-wide">{role}</span>
 
-                                        <blockquote className="mt-3 prose">
+                                        <blockquote className="mt-3 prose dark:prose-invert">
                                             <Markdown>{quote}</Markdown>
                                         </blockquote>
                                     </div>
