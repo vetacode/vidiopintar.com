@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { VideoListWithFilter } from "@/components/video/video-list-with-filter";
 import { categories } from "@/lib/data/categories";
 import { HeroHeader } from "@/components/hero-header";
-import { FooterSection} from "@/components/footer";
+import { FooterSection } from "@/components/footer";
 import { getCurrentUser } from "@/lib/auth";
 import { VideoSearchProvider } from "@/contexts/video-search-context";
 import { VideoSearchDisplay } from "@/components/video/video-search-display";
@@ -33,33 +33,33 @@ export default async function Home() {
   return (
     <VideoSearchProvider>
       <HeroHeader />
-      <main className="relative min-h-screen p-6 overflow-hidden">
+      <main className="relative min-h-screen overflow-hidden">
         <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="my-8 p-6">
-          <div className="text-center mb-6 mt-8">
-            <h1 className="text-4xl font-bold tracking-tighter">Vidiopintar</h1>
-            <p className="tracking-tight">What do you want to learn today?</p>
+          <div className="my-8 p-6">
+            <div className="text-center mb-6 mt-8">
+              <h1 className="text-4xl font-bold tracking-tighter">Vidiopintar</h1>
+              <p className="tracking-tight">What do you want to learn today?</p>
+            </div>
+            <VideoInputSection />
           </div>
-          <VideoInputSection />
-        </div>
-        <VideoSearchDisplay />
-        <div className="max-w-5xl px-6 mx-auto w-full mb-8">
-          <h2 className="text-xl font-semibold text-left mb-6 tracking-tighter">Choose topics</h2>
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-            {categories.map((category, idx) => (
-              <CategoryCard 
-                key={idx} 
-                image={category.image} 
-                label={category.label} 
-                slug={category.slug}
-              />
-            ))}
+          <VideoSearchDisplay />
+          <div className="max-w-5xl px-6 mx-auto w-full mb-8">
+            <h2 className="text-xl font-semibold text-left mb-6 tracking-tighter">Choose topics</h2>
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+              {categories.map((category, idx) => (
+                <CategoryCard
+                  key={idx}
+                  image={category.image}
+                  label={category.label}
+                  slug={category.slug}
+                />
+              ))}
+            </div>
           </div>
+          <VideoListWithFilter videos={videos} />
         </div>
-        <VideoListWithFilter videos={videos} />
-      </div>
-    </main>
-    <FooterSection />
+      </main>
+      <FooterSection />
     </VideoSearchProvider>
   );
 }
