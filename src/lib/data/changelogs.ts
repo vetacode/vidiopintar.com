@@ -15,6 +15,12 @@ export const changelogs: ChangelogEntry[] = [
     type: "patch",
     changes: [
       {
+        category: "added",
+        items: [
+          "Add youtube to threads generator tools"
+        ]
+      },
+      {
         category: "changed",
         items: [
           "Changed YouTube search route to use POST method for better security",
