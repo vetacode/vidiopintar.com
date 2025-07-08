@@ -1,12 +1,12 @@
 import { NextRequest } from 'next/server';
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const query = request.nextUrl.searchParams.get('q');
+    const { query } = await request.json();
     
     if (!query) {
       return Response.json(
-        { error: 'Query parameter "q" is required' },
+        { error: 'Query is required in request body' },
         { status: 400 }
       );
     }

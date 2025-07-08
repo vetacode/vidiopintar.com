@@ -42,18 +42,6 @@ export class Api extends Effect.Service<Api>()("Api", {
                         Effect.flatMap(HttpClientResponse.schemaBodyJson(res))
                     );
 
-        const get = <ARes, IRes, RRes>({
-            url,
-            res,
-        }: {
-            url: string;
-            res: Schema.Schema<ARes, IRes, RRes>;
-        }) =>
-            HttpClientRequest.get(url).pipe(
-                client.execute,
-                Effect.flatMap(HttpClientResponse.schemaBodyJson(res))
-            );
-
         return {
             createShareVideo: Effect.fn("createShareVideo")(post({
                 url: "/share",
@@ -65,11 +53,11 @@ export class Api extends Effect.Service<Api>()("Api", {
                 req: ClearMessagesRequest,
                 res: ClearMessagesResponse,
             })),
-            searchVideos: Effect.fn("searchVideos")((query: string) =>
-                get({
-                    url: `/youtube/search?q=${encodeURIComponent(query)}`,
-                    res: VideoSearchResponse,
-                })),
+            searchVideos: Effect.fn("searchVideos")(post({
+                url: "/youtube/search",
+                req: Schema.Struct({ query: Schema.String }),
+                res: VideoSearchResponse,
+            })),
         };
     }),
 }) { }
@@ -92,5 +80,5 @@ export const searchVideos = (
     query: string
 ) => Effect.gen(function* () {
     const api = yield* Api;
-    return yield* api.searchVideos(query);
+    return yield* api.searchVideos({ query });
 });
