@@ -10,6 +10,22 @@ export interface ChangelogEntry {
 
 export const changelogs: ChangelogEntry[] = [
   {
+    date: "2025-07-08",
+    version: "1.2.7",
+    type: "patch",
+    changes: [
+      {
+        category: "changed",
+        items: [
+          "Changed YouTube search route to use POST method for better security",
+          "Refactored and improved YouTube search route implementation",
+          "Implemented API proxy for YouTube video search functionality",
+          "Improved styling and spacing consistency on home page"
+        ]
+      }
+    ]
+  },
+  {
     date: "2025-07-07",
     version: "1.2.6",
     type: "patch",
