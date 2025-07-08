@@ -75,6 +75,12 @@ Kalo bingung pun, tanya jawab seputar vidieonya di kolom kirinya. Terobosan yang
 
 Kalo kesulitan tinggal tanyakan dengan berikan penjelasan yang lebih mudah.  `
     },
+    {
+      "name": "Ari Kurniawan - idearik",
+      "role": "Content Creator",
+      "image": "/testimonials/idearik.jpeg",
+      "quote": `Saya salah satu penggunanya. Oke banget buat dapetin summary dari konten panjang kayak podcast.`
+    },
 ];
 
 const shuffleArray = (array: Testimonial[]): Testimonial[] => {
