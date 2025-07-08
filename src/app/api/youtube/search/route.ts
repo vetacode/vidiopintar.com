@@ -2,8 +2,7 @@ import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const query = searchParams.get('q');
+    const query = request.nextUrl.searchParams.get('q');
     
     if (!query) {
       return Response.json(
