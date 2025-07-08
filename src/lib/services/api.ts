@@ -25,11 +25,6 @@ export class Api extends Effect.Service<Api>()("Api", {
             HttpClient.retryTransient(Schedule.exponential("100 millis"))
         );
 
-        const externalClient = baseClient.pipe(
-            HttpClient.mapRequest(HttpClientRequest.acceptJson),
-            HttpClient.retryTransient(Schedule.exponential("100 millis"))
-        );
-
         const post =
             <AReq, IReq, RReq, ARes, IRes, RRes>({
                 url,
@@ -47,7 +42,7 @@ export class Api extends Effect.Service<Api>()("Api", {
                         Effect.flatMap(HttpClientResponse.schemaBodyJson(res))
                     );
 
-        const externalGet = <ARes, IRes, RRes>({
+        const get = <ARes, IRes, RRes>({
             url,
             res,
         }: {
@@ -55,7 +50,7 @@ export class Api extends Effect.Service<Api>()("Api", {
             res: Schema.Schema<ARes, IRes, RRes>;
         }) =>
             HttpClientRequest.get(url).pipe(
-                externalClient.execute,
+                client.execute,
                 Effect.flatMap(HttpClientResponse.schemaBodyJson(res))
             );
 
@@ -71,10 +66,8 @@ export class Api extends Effect.Service<Api>()("Api", {
                 res: ClearMessagesResponse,
             })),
             searchVideos: Effect.fn("searchVideos")((query: string) =>
-                externalGet({
-                    url: `https://api.ahmadrosid.com/youtube/search?q=${encodeURIComponent(
-                        query
-                    )}`,
+                get({
+                    url: `/youtube/search?q=${encodeURIComponent(query)}`,
                     res: VideoSearchResponse,
                 })),
         };
