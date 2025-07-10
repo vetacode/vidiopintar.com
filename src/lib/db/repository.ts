@@ -206,8 +206,6 @@ export const TranscriptRepository = {
     videoId: string,
     segments: Array<{ start: string; end: string; text: string; isChapterStart: boolean }>
   ) {
-    console.log(segments)
-
     await db.delete(transcriptSegments).where(eq(transcriptSegments.videoId, videoId))
     if (segments.length > 0) {
       await db.insert(transcriptSegments).values(
