@@ -133,43 +133,36 @@ export function TokenUsageOverview({ tokenUsageData, modelUsage, operationUsage,
       </div>
 
       {/* Token Usage Chart and Top Users */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
-          <Card className="shadow-none">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <div>
-                <CardTitle>Token Usage Over Time</CardTitle>
-                <CardDescription>
-                  Token consumption, costs, and request patterns
-                </CardDescription>
-              </div>
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center gap-2 px-2 py-1.5 cursor-pointer rounded-md hover:bg-accent text-sm border border-border">
-                  <Filter className="size-4" />
-                  {getPeriodLabel(period)}
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem onClick={() => setPeriod("7d")}>
-                    7 Days
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setPeriod("1m")}>
-                    1 Month
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setPeriod("3m")}>
-                    3 Months
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </CardHeader>
-            <CardContent>
-              <TokenUsageChart data={tokenUsageData[period]} />
-            </CardContent>
-          </Card>
-        </div>
-        <div>
-          <TopUsers users={topUsers} />
-        </div>
-      </div>
+      <Card className="shadow-none">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Token Usage Over Time</CardTitle>
+            <CardDescription>
+              Token consumption, costs, and request patterns
+            </CardDescription>
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="flex items-center gap-2 px-2 py-1.5 cursor-pointer rounded-md hover:bg-accent text-sm border border-border">
+              <Filter className="size-4" />
+              {getPeriodLabel(period)}
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setPeriod("7d")}>
+                7 Days
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setPeriod("1m")}>
+                1 Month
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setPeriod("3m")}>
+                3 Months
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </CardHeader>
+        <CardContent>
+          <TokenUsageChart data={tokenUsageData[period]} />
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -6,7 +6,8 @@ import { Users, Video, FileText, MessageSquare, DollarSign, Zap } from "lucide-r
 import { AdminChartFilters } from "@/components/admin/admin-chart-filters";
 import { LatestVideos } from "@/components/admin/latest-videos";
 import { LatestMessages } from "@/components/admin/latest-messages";
-import { TopUsers } from "@/components/admin/top-users";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils"
 
 export default async function AdminPage() {
   await requireAdmin();
@@ -36,6 +37,11 @@ export default async function AdminPage() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
           <p className="text-muted-foreground">Overview of vidiopintar.com metrics</p>
+
+          <div className="flex pt-4 px-1">
+            <a href="/admin" className={cn(buttonVariants({ variant: "link", className: "px-0 pr-4" }))}>Dashboard</a>
+            <a href="/admin/users" className={cn(buttonVariants({ variant: "link", className: "px-0 pr-4" }))}>Users</a>
+          </div>
         </div>
 
         {/* Metrics Cards */}
