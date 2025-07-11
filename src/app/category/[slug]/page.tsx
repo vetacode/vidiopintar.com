@@ -30,7 +30,6 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
         setVideos(result.data.map(item => ({
           ...item,
           thumbnails: [...item.thumbnails],
-          duration: { ...item.duration },
           author: { ...item.author }
         })));
       } catch (error) {
