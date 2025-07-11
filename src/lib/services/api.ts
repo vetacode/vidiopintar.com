@@ -11,6 +11,7 @@ import {
     ClearMessagesRequest,
     ClearMessagesResponse,
     VideoSearchResponse,
+    VideoCommentsResponse,
 } from "@/lib/services/schema";
 
 export class Api extends Effect.Service<Api>()("Api", {
@@ -87,6 +88,14 @@ export class Api extends Effect.Service<Api>()("Api", {
                     }))
                 }),
             })),
+            getComments: Effect.fn("getComments")(post({
+                url: "/youtube/comments",
+                req: Schema.Struct({ 
+                    videoId: Schema.optional(Schema.String),
+                    videoUrl: Schema.optional(Schema.String)
+                }),
+                res: VideoCommentsResponse,
+            })),
         };
     }),
 }) { }
@@ -118,4 +127,12 @@ export const generateThreads = (
 ) => Effect.gen(function* () {
     const api = yield* Api;
     return yield* api.generateThreads({ youtubeUrl, language });
+});
+
+export const getComments = (
+    videoId?: string,
+    videoUrl?: string
+) => Effect.gen(function* () {
+    const api = yield* Api;
+    return yield* api.getComments({ videoId, videoUrl });
 });

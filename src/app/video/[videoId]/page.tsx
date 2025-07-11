@@ -2,6 +2,7 @@ import { fetchVideoDetails, fetchVideoTranscript, generateQuickStartQuestions } 
 import { VideoPlayer } from "@/components/video/video-player"
 import { getChatHistory } from "@/lib/storage"
 import { TranscriptView } from "@/components/video/transcript-view"
+import { CommentsView } from "@/components/video/comments-view"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronRight } from "lucide-react"
 import { ChatInterface } from "@/components/chat/chat-interface"
@@ -81,12 +82,22 @@ export default async function VideoPage({ params }: { params: { videoId: string 
                       Transcript
                     </span>
                   </TabsTrigger>
+                  <TabsTrigger
+                    value="comments"
+                  >
+                    <span className="flex items-center gap-2">
+                      Top comments
+                    </span>
+                  </TabsTrigger>
                 </TabsList>
                 <TabsContent value="summary" className="h-full overflow-y-auto p-0 m-0">
                   <SummarySection videoId={videoId} initialSummary={videoDetails.userVideo?.summary ?? ""} />
                 </TabsContent>
                 <TabsContent value="transcript" className="h-full overflow-y-auto p-0 m-0">
                   <TranscriptView transcript={transcript} />
+                </TabsContent>
+                <TabsContent value="comments" className="h-full overflow-y-auto p-0 m-0">
+                  <CommentsView videoId={videoId} />
                 </TabsContent>
               </Tabs>
               <TipsAlert videoId={videoId} />

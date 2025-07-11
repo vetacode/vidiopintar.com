@@ -42,3 +42,16 @@ export class VideoSearchItem extends Schema.Class<VideoSearchItem>("VideoSearchI
 export class VideoSearchResponse extends Schema.Class<VideoSearchResponse>("VideoSearchResponse")({
     data: Schema.Array(VideoSearchItem),
 }) { }
+
+export class VideoComment extends Schema.Class<VideoComment>("VideoComment")({
+    author: Schema.String,
+    text: Schema.String,
+    like_count: Schema.Number,
+    reply_count: Schema.Number,
+    published_time: Schema.String,
+    comment_id: Schema.String,
+}) { }
+
+export class VideoCommentsResponse extends Schema.Class<VideoCommentsResponse>("VideoCommentsResponse")({
+    results: Schema.Array(VideoComment),
+}) { }
