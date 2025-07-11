@@ -16,10 +16,7 @@ interface VideoResult {
   }>;
   published: string;
   view_count: string;
-  duration: {
-    text: string;
-    seconds: number;
-  };
+  duration: string;
   author: {
     id: string;
     name: string;
@@ -58,7 +55,7 @@ export function VideoSearchResults({ results }: VideoSearchResultsProps) {
               className="w-full h-full object-cover"
             />
             <div className="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-              {video.duration.text}
+              {video.duration}
             </div>
           </div>
           <div className="p-4 space-y-2">

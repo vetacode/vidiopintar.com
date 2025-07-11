@@ -21,7 +21,6 @@ export function VideoSearchForm() {
       setResults(result.data.map(item => ({
         ...item,
         thumbnails: [...item.thumbnails],
-        duration: { ...item.duration },
         author: { ...item.author }
       })));
     } catch (error) {

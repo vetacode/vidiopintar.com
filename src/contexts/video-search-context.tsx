@@ -13,10 +13,7 @@ interface VideoResult {
   }>;
   published: string;
   view_count: string;
-  duration: {
-    text: string;
-    seconds: number;
-  };
+  duration: string;
   author: {
     id: string;
     name: string;
