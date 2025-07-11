@@ -36,6 +36,11 @@ export default function Loading() {
                       Transcript
                     </span>
                   </TabsTrigger>
+                  <TabsTrigger value="transcript">
+                    <span className="flex items-center gap-2">
+                      Top comments
+                    </span>
+                  </TabsTrigger>
                 </TabsList>
                 <TabsContent value="summary" className="h-full overflow-y-auto p-0 m-0">
                   <div className="p-4 space-y-4">
