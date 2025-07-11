@@ -1,6 +1,14 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import { useVideo } from "@/hooks/use-video"
+
+declare global {
+  interface Window {
+    YT: any
+    onYouTubeIframeAPIReady: () => void
+  }
+}
 
 interface VideoPlayerProps {
   videoId: string
@@ -8,24 +16,61 @@ interface VideoPlayerProps {
 
 export function VideoPlayer({ videoId }: VideoPlayerProps) {
   const [isLoading, setIsLoading] = useState(true)
-  const iframeRef = useRef<HTMLIFrameElement>(null)
+  const playerRef = useRef<HTMLDivElement>(null)
+  const { setPlayer, setReady, setCurrentTime } = useVideo()
 
   useEffect(() => {
-    const handleIframeLoad = () => {
-      setIsLoading(false)
-    }
-
-    const iframe = iframeRef.current
-    if (iframe) {
-      iframe.addEventListener("load", handleIframeLoad)
-    }
-
-    return () => {
-      if (iframe) {
-        iframe.removeEventListener("load", handleIframeLoad)
+    const loadYouTubeAPI = () => {
+      if (window.YT && window.YT.Player) {
+        initializePlayer()
+        return
       }
+
+      const tag = document.createElement('script')
+      tag.src = 'https://www.youtube.com/iframe_api'
+      const firstScriptTag = document.getElementsByTagName('script')[0]
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag)
+
+      window.onYouTubeIframeAPIReady = initializePlayer
     }
-  }, [videoId])
+
+    const initializePlayer = () => {
+      if (!playerRef.current) return
+
+      const player = new window.YT.Player(playerRef.current, {
+        videoId: videoId,
+        playerVars: {
+          enablejsapi: 1,
+          origin: window.location.origin,
+        },
+        events: {
+          onReady: (event: any) => {
+            setPlayer(event.target)
+            setReady(true)
+            setIsLoading(false)
+          },
+          onStateChange: (event: any) => {
+            if (event.data === window.YT.PlayerState.PLAYING) {
+              startTimeTracking(event.target)
+            }
+          },
+        },
+      })
+    }
+
+    const startTimeTracking = (player: any) => {
+      const updateTime = () => {
+        if (player && player.getCurrentTime) {
+          setCurrentTime(player.getCurrentTime())
+        }
+      }
+
+      const interval = setInterval(updateTime, 1000)
+      return () => clearInterval(interval)
+    }
+
+    loadYouTubeAPI()
+  }, [videoId, setPlayer, setReady, setCurrentTime])
 
   return (
     <div className="relative w-full aspect-video bg-black overflow-hidden">
@@ -34,14 +79,7 @@ export function VideoPlayer({ videoId }: VideoPlayerProps) {
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-spotify"></div>
         </div>
       )}
-      <iframe
-        ref={iframeRef}
-        src={`https://www.youtube.com/embed/${videoId}`}
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-        className="absolute top-0 left-0 w-full h-full"
-      ></iframe>
+      <div ref={playerRef} className="w-full h-full" />
     </div>
   )
 }
