@@ -19,7 +19,7 @@ const links = [
     },
     {
         title: 'Github',
-        href: 'https://github.com/ahmadrosid/vidiopintar.comexpo',
+        href: 'https://github.com/ahmadrosid/vidiopintar.com',
     },
 ]
 
