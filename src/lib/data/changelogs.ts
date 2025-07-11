@@ -10,6 +10,31 @@ export interface ChangelogEntry {
 
 export const changelogs: ChangelogEntry[] = [
   {
+    date: "2025-07-10",
+    version: "1.2.8",
+    type: "patch",
+    changes: [
+      {
+        category: "added",
+        items: [
+          "Admin dashboard page for understanding users"
+        ]
+      },
+      {
+        category: "changed",
+        items: [
+          "Code cleanup and maintenance"
+        ]
+      },
+      {
+        category: "removed",
+        items: [
+          "Transcript debug code"
+        ]
+      }
+    ]
+  },
+  {
     date: "2025-07-08",
     version: "1.2.7",
     type: "patch",
