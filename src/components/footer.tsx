@@ -2,10 +2,6 @@ import { ThemeSwitcher } from './ui/theme-switcher'
 
 const links = [
     {
-        title: 'Tools',
-        href: '/thread-generator',
-    },
-    {
         title: 'Changelog',
         href: '/changelogs',
     },
