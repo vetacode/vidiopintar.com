@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server';
+import { env } from '@/lib/env/server';
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,10 +17,11 @@ export async function POST(request: NextRequest) {
     if (videoId) params.append('videoId', videoId);
 
     const response = await fetch(
-      `https://api.ahmadrosid.com/youtube/comments?${params.toString()}`,
+      `${env.API_BASE_URL}/youtube/comments?${params.toString()}`,
       {
         headers: {
           'Accept': 'application/json',
+          'X-API-Key': env.API_X_HEADER_API_KEY,
         },
       }
     );

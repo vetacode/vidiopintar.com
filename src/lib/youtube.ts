@@ -56,7 +56,11 @@ export async function generateUserVideoSummary(video: Video, segments: any[], us
 async function getVideoDetailFromApi(videoId: string) {
   const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
   const encodedUrl = encodeURIComponent(videoUrl)
-  const response = await fetch(`${env.API_BASE_URL}/youtube/video?videoUrl=${encodedUrl}`)
+  const response = await fetch(`${env.API_BASE_URL}/youtube/video?videoUrl=${encodedUrl}`, {
+    headers: {
+      'X-API-Key': env.API_X_HEADER_API_KEY,
+    },
+  })
   
   if (!response.ok) {
     throw new Error(`Failed to fetch video details: ${response.status} ${response.statusText}`)
@@ -105,7 +109,11 @@ export async function fetchVideoDetails(videoId: string) {
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
     const encodedUrl = encodeURIComponent(videoUrl);
     
-    const response = await fetch(`${env.API_BASE_URL}/youtube/video?videoUrl=${encodedUrl}`);
+    const response = await fetch(`${env.API_BASE_URL}/youtube/video?videoUrl=${encodedUrl}`, {
+      headers: {
+        'X-API-Key': env.API_X_HEADER_API_KEY,
+      },
+    });
     
     if (!response.ok) {
       throw new Error(`Failed to fetch video details: ${response.status} ${response.statusText}`);
@@ -179,7 +187,11 @@ export async function fetchVideoTranscript(videoId: string) {
 
     const videoUrl = `https://www.youtube.com/watch?v=${videoId}`
     const encodedUrl = encodeURIComponent(videoUrl)
-    const response = await fetch(`${env.API_BASE_URL}/youtube/transcript?videoUrl=${encodedUrl}`)
+    const response = await fetch(`${env.API_BASE_URL}/youtube/transcript?videoUrl=${encodedUrl}`, {
+      headers: {
+        'X-API-Key': env.API_X_HEADER_API_KEY,
+      },
+    })
     
     if (!response.ok) {
       throw new Error(`Failed to fetch transcript: ${response.status} ${response.statusText}`)
