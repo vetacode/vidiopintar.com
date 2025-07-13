@@ -5,40 +5,25 @@ import React from 'react';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { authClient } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { usePathname } from 'next/navigation';
 
 export const HeroHeader = () => {
     const [isScrolled, setIsScrolled] = React.useState(false);
+    const [mounted, setMounted] = React.useState(false);
     const pathname = usePathname();
     const isHome = pathname === '/';
     const router = useRouter();
-    const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+    const { data: session, isPending } = useSession();
+    const isAuthenticated = !!session?.user && !isPending;
 
     React.useEffect(() => {
-        const auth = localStorage.getItem('isAuthenticated');
-        try {
-            const parsed = auth ? JSON.parse(auth) : null;
-            setIsAuthenticated(parsed?.authenticated === true);
-        } catch {
-            setIsAuthenticated(false);
-        }
-
-        // Listen for changes in localStorage from other tabs/windows
-        const handleStorage = (event: StorageEvent) => {
-            if (event.key === 'isAuthenticated') {
-                setIsAuthenticated(event.newValue === 'true');
-            }
-        };
-        window.addEventListener('storage', handleStorage);
-        return () => window.removeEventListener('storage', handleStorage);
+        setMounted(true);
     }, []);
 
     const handleLogout = async () => {
         await authClient.signOut();
-        localStorage.setItem('isAuthenticated', JSON.stringify({ authenticated: false }));
-        setIsAuthenticated(false);
         router.push("/");
     };
 
@@ -70,7 +55,7 @@ export const HeroHeader = () => {
                         </Link>
 
                         <div className="flex items-center gap-6">
-                                {isHome ? (
+                                {mounted && isHome ? (
                                     <>
                                         {isAuthenticated ? (
                                             <Link href="/home">
@@ -108,7 +93,7 @@ export const HeroHeader = () => {
                                             </>
                                         )}
                                     </>
-                                ) : (
+                                ) : mounted ? (
                                     <div className="flex gap-2">
                                         <Link href="/profile">
                                             <Button
@@ -127,7 +112,7 @@ export const HeroHeader = () => {
                                             <span>Logout</span>
                                         </Button>
                                     </div>
-                                )}
+                                ) : null}
                         </div>
                     </div>
                 </div>
