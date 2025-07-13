@@ -4,6 +4,17 @@ import { useState, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FeedbackCard } from "@/components/admin/feedback-card";
 import { FeedbackFilters } from "@/components/admin/feedback-filters";
+import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface FeedbackItem {
   id: number;
@@ -17,15 +28,45 @@ interface FeedbackItem {
 
 interface FeedbackListProps {
   feedback: FeedbackItem[];
+  onFeedbackDeleted?: (id: number) => void;
 }
 
-export function FeedbackList({ feedback }: FeedbackListProps) {
+export function FeedbackList({ feedback, onFeedbackDeleted }: FeedbackListProps) {
   const [filters, setFilters] = useState({
     type: null as string | null,
     rating: null as string | null,
     search: "",
     sortBy: "newest"
   });
+  const [feedbackToDelete, setFeedbackToDelete] = useState<FeedbackItem | null>(null);
+
+  const handleDeleteClick = (id: number) => {
+    const feedbackItem = feedback.find(item => item.id === id);
+    if (feedbackItem) {
+      setFeedbackToDelete(feedbackItem);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!feedbackToDelete) return;
+
+    try {
+      const response = await fetch(`/api/feedback?id=${feedbackToDelete.id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete feedback');
+      }
+
+      toast.success("Feedback deleted successfully");
+      onFeedbackDeleted?.(feedbackToDelete.id);
+      setFeedbackToDelete(null);
+    } catch (error) {
+      toast.error("Failed to delete feedback. Please try again.");
+      setFeedbackToDelete(null);
+    }
+  };
 
   const filteredAndSortedFeedback = useMemo(() => {
     let result = [...feedback];
@@ -103,7 +144,7 @@ export function FeedbackList({ feedback }: FeedbackListProps) {
         ) : (
           <div className="space-y-4">
             {filteredAndSortedFeedback.slice(0, 50).map((item) => (
-              <FeedbackCard key={item.id} feedback={item} />
+              <FeedbackCard key={item.id} feedback={item} onDelete={handleDeleteClick} />
             ))}
             {filteredAndSortedFeedback.length > 50 && (
               <div className="text-center py-4 text-muted-foreground text-sm">
@@ -113,6 +154,28 @@ export function FeedbackList({ feedback }: FeedbackListProps) {
           </div>
         )}
       </CardContent>
+
+      <AlertDialog open={!!feedbackToDelete} onOpenChange={() => setFeedbackToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Feedback</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this {feedbackToDelete?.type.replace('_', ' ')} feedback? 
+              {feedbackToDelete?.comment && " The user's comment will be permanently removed."}
+              This action is permanent.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirmDelete}
+              className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
+            >
+              Delete Feedback
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Card>
   );
 }

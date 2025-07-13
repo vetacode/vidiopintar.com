@@ -75,3 +75,35 @@ export async function GET() {
     return Response.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const user = await getCurrentUser();
+    if (!user) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const feedbackId = searchParams.get('id');
+
+    if (!feedbackId) {
+      return Response.json({ error: 'Feedback ID is required' }, { status: 400 });
+    }
+
+    const id = parseInt(feedbackId);
+    if (isNaN(id)) {
+      return Response.json({ error: 'Invalid feedback ID' }, { status: 400 });
+    }
+
+    // Delete the feedback
+    await FeedbackRepository.delete(id);
+
+    return Response.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting feedback:', error);
+    if (error instanceof Error && error.message === 'Feedback not found') {
+      return Response.json({ error: 'Feedback not found' }, { status: 404 });
+    }
+    return Response.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
