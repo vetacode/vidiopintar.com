@@ -1,5 +1,5 @@
 import { db } from "@/lib/db/index"
-import { and, desc, eq, InferInsertModel, InferSelectModel } from "drizzle-orm"
+import { and, desc, eq, InferInsertModel, InferSelectModel, sql } from "drizzle-orm"
 import { feedback, messages, sharedVideos, transcriptSegments, userVideos, videos } from "./schema"
 import { user } from "./schema/auth"
 
@@ -342,5 +342,23 @@ export const FeedbackRepository = {
       .from(feedback)
       .where(eq(feedback.type, type))
       .orderBy(desc(feedback.createdAt))
+  },
+
+  // Check if user has already provided feedback for a specific message
+  async existsByUserAndMessage(userId: string, messageId: string): Promise<boolean> {
+    const result = await db
+      .select({ id: feedback.id })
+      .from(feedback)
+      .where(
+        and(
+          eq(feedback.userId, userId),
+          eq(feedback.type, 'chat_response'),
+          // Use SQL to extract messageId from metadata JSON
+          sql`${feedback.metadata}->>'messageId' = ${messageId}`
+        )
+      )
+      .limit(1)
+    
+    return result.length > 0
   },
 }

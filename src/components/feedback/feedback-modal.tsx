@@ -13,6 +13,11 @@ interface FeedbackModalProps {
   isOpen: boolean
   onClose: () => void
   onSubmit?: (rating: FeedbackRating, comment?: string) => Promise<void>
+  context?: {
+    type: 'chat_response' | 'video' | 'platform'
+    title?: string
+    description?: string
+  }
 }
 
 const ratingOptions = [
@@ -21,7 +26,7 @@ const ratingOptions = [
   { value: 'love_it' as const, emoji: '🧡', label: 'Love it' },
 ]
 
-export function FeedbackModal({ isOpen, onClose, onSubmit }: FeedbackModalProps) {
+export function FeedbackModal({ isOpen, onClose, onSubmit, context }: FeedbackModalProps) {
   const [selectedRating, setSelectedRating] = useState<FeedbackRating | null>(null)
   const [comment, setComment] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -80,7 +85,12 @@ export function FeedbackModal({ isOpen, onClose, onSubmit }: FeedbackModalProps)
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader className="relative">
-          <h2 className="text-lg font-semibold">Rate your experience</h2>
+          <h2 className="text-lg font-semibold">
+            {context?.type === 'chat_response' ? 'Rate this response' : 'Rate your experience'}
+          </h2>
+          {context?.title && (
+            <p className="text-sm text-muted-foreground mt-1">{context.title}</p>
+          )}
         </DialogHeader>
 
         <div className="space-y-6">
@@ -101,7 +111,11 @@ export function FeedbackModal({ isOpen, onClose, onSubmit }: FeedbackModalProps)
           </div>
 
           <Textarea
-            placeholder="Tell us more (optional)"
+            placeholder={
+              context?.type === 'chat_response' 
+                ? "What could be improved in this response? (optional)" 
+                : "Tell us more (optional)"
+            }
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             className="min-h-[100px] resize-none"
