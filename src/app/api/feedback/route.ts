@@ -26,6 +26,20 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: 'Invalid feedback type' }, { status: 400 });
     }
 
+    // Check for duplicate feedback on chat responses
+    if (type === 'chat_response' && metadata?.messageId) {
+      const existingFeedback = await FeedbackRepository.existsByUserAndMessage(
+        user.id, 
+        metadata.messageId
+      );
+      
+      if (existingFeedback) {
+        return Response.json({ 
+          error: 'Feedback already submitted for this message' 
+        }, { status: 409 }); // 409 Conflict
+      }
+    }
+
     // Create feedback
     const feedback = await FeedbackRepository.create({
       userId: user.id,

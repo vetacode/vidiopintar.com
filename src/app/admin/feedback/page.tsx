@@ -2,8 +2,8 @@ import { requireAdmin } from "@/lib/auth-admin";
 import { FeedbackRepository } from "@/lib/db/repository";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageCircle, TrendingUp, Users, Star } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { AdminNavigation } from "@/components/admin/admin-navigation";
+import { FeedbackList } from "@/components/admin/feedback-list";
 
 interface FeedbackWithUser {
   id: number;
@@ -41,32 +41,6 @@ async function getFeedbackStats() {
   return { stats, feedback: allFeedback };
 }
 
-function getRatingEmoji(rating: string) {
-  switch (rating) {
-    case 'love_it': return '🧡';
-    case 'decent': return '😐';
-    case 'bad': return '😞';
-    default: return '❓';
-  }
-}
-
-function getRatingColor(rating: string) {
-  switch (rating) {
-    case 'love_it': return 'bg-green-100 text-green-800 border-green-200';
-    case 'decent': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-    case 'bad': return 'bg-red-100 text-red-800 border-red-200';
-    default: return 'bg-gray-100 text-gray-800 border-gray-200';
-  }
-}
-
-function getTypeColor(type: string) {
-  switch (type) {
-    case 'platform': return 'bg-blue-100 text-blue-800 border-blue-200';
-    case 'video': return 'bg-purple-100 text-purple-800 border-purple-200';
-    case 'chat_response': return 'bg-indigo-100 text-indigo-800 border-indigo-200';
-    default: return 'bg-gray-100 text-gray-800 border-gray-200';
-  }
-}
 
 export default async function AdminFeedbackPage() {
   await requireAdmin();
@@ -240,62 +214,8 @@ export default async function AdminFeedbackPage() {
           </Card>
         </div>
 
-        {/* Recent Feedback */}
-        <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle className="text-lg">Recent Feedback</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {feedback.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">
-                No feedback received yet
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {feedback.slice(0, 20).map((item) => (
-                  <div key={item.id} className="border rounded-lg p-4 space-y-3">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-3">
-                        <span className="text-xl">{getRatingEmoji(item.rating)}</span>
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-2">
-                            <Badge variant="outline" className={getRatingColor(item.rating)}>
-                              {item.rating.replace('_', ' ')}
-                            </Badge>
-                            <Badge variant="outline" className={getTypeColor(item.type)}>
-                              {item.type.replace('_', ' ')}
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-muted-foreground">
-                            User ID: {item.userId.slice(0, 8)}... • {new Date(item.createdAt).toLocaleDateString()}
-                          </p>
-                        </div>
-                      </div>
-                      <p className="text-xs text-muted-foreground">
-                        {new Date(item.createdAt).toLocaleTimeString()}
-                      </p>
-                    </div>
-                    {item.comment && (
-                      <div className="pl-8">
-                        <p className="text-sm bg-muted p-3 rounded-md">{item.comment}</p>
-                      </div>
-                    )}
-                    {item.metadata && (
-                      <div className="pl-8">
-                        <details className="text-xs text-muted-foreground">
-                          <summary className="cursor-pointer hover:text-foreground">Metadata</summary>
-                          <pre className="mt-2 bg-muted p-2 rounded text-xs overflow-auto">
-                            {JSON.stringify(item.metadata, null, 2)}
-                          </pre>
-                        </details>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
+        {/* Feedback List */}
+        <FeedbackList feedback={feedback} />
       </div>
     </main>
   );
