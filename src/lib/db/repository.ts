@@ -361,4 +361,12 @@ export const FeedbackRepository = {
     
     return result.length > 0
   },
+
+  // Delete feedback by ID
+  async delete(id: number): Promise<void> {
+    const result = await db.delete(feedback).where(eq(feedback.id, id))
+    if (result.rowCount === 0) {
+      throw new Error("Feedback not found")
+    }
+  },
 }

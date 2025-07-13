@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Video, Monitor, ExternalLink, Play } from "lucide-react";
+import { MessageCircle, Video, Monitor, ExternalLink, Play, Trash2 } from "lucide-react";
 
 interface FeedbackItem {
   id: number;
@@ -14,6 +14,7 @@ interface FeedbackItem {
 
 interface FeedbackCardProps {
   feedback: FeedbackItem;
+  onDelete?: (id: number) => void;
 }
 
 function getRatingEmoji(rating: string) {
@@ -50,7 +51,7 @@ function formatTimeAgo(date: Date) {
   return date.toLocaleDateString();
 }
 
-function ChatResponseCard({ feedback }: { feedback: FeedbackItem }) {
+function ChatResponseCard({ feedback, onDelete }: { feedback: FeedbackItem; onDelete?: (id: number) => void }) {
   const videoTitle = feedback.metadata?.videoTitle || feedback.metadata?.videoId || "Unknown Video";
   const videoId = feedback.metadata?.videoId;
   const messageContent = feedback.metadata?.messageContent || "";
@@ -67,7 +68,19 @@ function ChatResponseCard({ feedback }: { feedback: FeedbackItem }) {
           </div>
           <div className="text-sm text-gray-600 mt-1">Video: {videoTitle}</div>
         </div>
-        <span className="text-xs text-gray-400">{formatTimeAgo(feedback.createdAt)}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-gray-400">{formatTimeAgo(feedback.createdAt)}</span>
+          {onDelete && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onDelete(feedback.id)}
+              className="h-6 w-6 p-0 text-red-500 hover:text-red-600 hover:bg-red-50"
+            >
+              <Trash2 className="h-3 w-3" />
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* AI Response Content - The core message that was rated */}
@@ -110,7 +123,7 @@ function ChatResponseCard({ feedback }: { feedback: FeedbackItem }) {
   );
 }
 
-function VideoCard({ feedback }: { feedback: FeedbackItem }) {
+function VideoCard({ feedback, onDelete }: { feedback: FeedbackItem; onDelete?: (id: number) => void }) {
   const videoTitle = feedback.metadata?.videoTitle || "Unknown Video";
   const videoId = feedback.metadata?.videoId;
 
@@ -125,7 +138,19 @@ function VideoCard({ feedback }: { feedback: FeedbackItem }) {
           </div>
           <div className="text-sm text-gray-600 mt-1">{videoTitle}</div>
         </div>
-        <span className="text-xs text-gray-400">{formatTimeAgo(feedback.createdAt)}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-gray-400">{formatTimeAgo(feedback.createdAt)}</span>
+          {onDelete && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onDelete(feedback.id)}
+              className="h-6 w-6 p-0 text-red-500 hover:text-red-600 hover:bg-red-50"
+            >
+              <Trash2 className="h-3 w-3" />
+            </Button>
+          )}
+        </div>
       </div>
 
       {feedback.comment && (
@@ -150,7 +175,7 @@ function VideoCard({ feedback }: { feedback: FeedbackItem }) {
   );
 }
 
-function PlatformCard({ feedback }: { feedback: FeedbackItem }) {
+function PlatformCard({ feedback, onDelete }: { feedback: FeedbackItem; onDelete?: (id: number) => void }) {
   const page = feedback.metadata?.page || "Platform";
 
   return (
@@ -163,7 +188,19 @@ function PlatformCard({ feedback }: { feedback: FeedbackItem }) {
             <span className="text-xs text-gray-500">• {page}</span>
           </div>
         </div>
-        <span className="text-xs text-gray-400">{formatTimeAgo(feedback.createdAt)}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-gray-400">{formatTimeAgo(feedback.createdAt)}</span>
+          {onDelete && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => onDelete(feedback.id)}
+              className="h-6 w-6 p-0 text-red-500 hover:text-red-600 hover:bg-red-50"
+            >
+              <Trash2 className="h-3 w-3" />
+            </Button>
+          )}
+        </div>
       </div>
 
       {feedback.comment && (
@@ -175,14 +212,14 @@ function PlatformCard({ feedback }: { feedback: FeedbackItem }) {
   );
 }
 
-export function FeedbackCard({ feedback }: FeedbackCardProps) {
+export function FeedbackCard({ feedback, onDelete }: FeedbackCardProps) {
   switch (feedback.type) {
     case 'chat_response':
-      return <ChatResponseCard feedback={feedback} />;
+      return <ChatResponseCard feedback={feedback} onDelete={onDelete} />;
     case 'video':
-      return <VideoCard feedback={feedback} />;
+      return <VideoCard feedback={feedback} onDelete={onDelete} />;
     case 'platform':
-      return <PlatformCard feedback={feedback} />;
+      return <PlatformCard feedback={feedback} onDelete={onDelete} />;
     default:
       // Fallback to original design for unknown types
       return (
@@ -204,9 +241,21 @@ export function FeedbackCard({ feedback }: FeedbackCardProps) {
                 </p>
               </div>
             </div>
-            <p className="text-xs text-muted-foreground">
-              {new Date(feedback.createdAt).toLocaleTimeString()}
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="text-xs text-muted-foreground">
+                {new Date(feedback.createdAt).toLocaleTimeString()}
+              </p>
+              {onDelete && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => onDelete(feedback.id)}
+                  className="h-6 w-6 p-0 text-red-500 hover:text-red-600 hover:bg-red-50"
+                >
+                  <Trash2 className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
           </div>
           {feedback.comment && (
             <div className="pl-8">
