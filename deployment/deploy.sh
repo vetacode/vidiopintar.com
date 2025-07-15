@@ -13,7 +13,7 @@ PORT_A="5000"
 PORT_B="5001"
 INTERNAL_PORT="3000"
 LOG_FILE="/var/log/vidiopintar-deploy.log"
-MAX_HEALTH_RETRIES=10
+MAX_HEALTH_RETRIES=5
 HEALTH_CHECK_INTERVAL=3
 
 # Colors for output
