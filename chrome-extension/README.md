@@ -5,7 +5,6 @@ A Chrome extension that redirects YouTube watch URLs to vidiopintar.com for a be
 ## Features
 
 - 🎯 One-click redirect from YouTube to VidioPintar
-- 📱 Popup interface with current video status
 - 🔄 Automatic video ID extraction and URL conversion
 - ✨ Visual indicator when on YouTube video pages
 
@@ -19,12 +18,6 @@ A Chrome extension that redirects YouTube watch URLs to vidiopintar.com for a be
 
 ## Usage
 
-### Method 1: Extension Popup
-1. Navigate to any YouTube video (e.g., `youtube.com/watch?v=VIDEO_ID`)
-2. Click the VidioPintar extension icon in your toolbar
-3. Click "Watch on VidioPintar" button
-
-### Method 2: Content Script Button
 1. Navigate to any YouTube video page
 2. Look for the "🎯 Watch on VidioPintar" button on the page
 3. Click the button to redirect
@@ -34,8 +27,6 @@ A Chrome extension that redirects YouTube watch URLs to vidiopintar.com for a be
 - `manifest.json` - Extension configuration
 - `background.js` - Service worker for tab management
 - `content.js` - Script injected into YouTube pages
-- `popup.html` - Extension popup interface
-- `popup.js` - Popup functionality
 - `icon16.png`, `icon48.png`, `icon128.png` - Extension icons (placeholders)
 
 ## Development
