@@ -25,13 +25,13 @@ print_error() {
 }
 
 # Check if .env file exists
-if [ ! -f .env ]; then
-    print_error ".env file not found!"
+if [ ! -f ../.env ]; then
+    print_error "../.env file not found!"
     exit 1
 fi
 
 # Load environment variables
-export $(grep -v '^#' .env | xargs)
+export $(grep -v '^#' ../.env | xargs)
 
 # Validate required environment variables
 if [ -z "$DB_USER" ] || [ -z "$DB_PASSWORD" ] || [ -z "$DB_HOST" ] || [ -z "$DB_PORT" ] || [ -z "$DB_NAME" ]; then
@@ -41,7 +41,7 @@ if [ -z "$DB_USER" ] || [ -z "$DB_PASSWORD" ] || [ -z "$DB_HOST" ] || [ -z "$DB_
 fi
 
 # Check backup directory
-BACKUP_DIR="./backup/data"
+BACKUP_DIR="./data"
 if [ ! -d "$BACKUP_DIR" ]; then
     print_error "Backup directory not found: $BACKUP_DIR"
     exit 1
