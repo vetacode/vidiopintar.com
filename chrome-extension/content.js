@@ -30,8 +30,6 @@ function addRedirectButton() {
       border-left-color: oklab(0.141 0.00136333 -0.00481054 / 0.35);
       border-right-color: oklab(0.141 0.00136333 -0.00481054 / 0.35);
       border: 1px;
-      width: 250px;
-      margin: 10px 0 auto 280px;
       background-image: linear-gradient(oklab(0.210296 0.00161923 -0.00565296 / 0.85) 0%, rgb(24, 24, 27) 100%)
     `;
 
