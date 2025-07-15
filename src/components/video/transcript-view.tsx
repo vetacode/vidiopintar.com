@@ -26,7 +26,6 @@ interface TranscriptViewProps {
 export function TranscriptView({ transcript }: TranscriptViewProps) {
   const [searchQuery, setSearchQuery] = useState("")
   const [isCopied, setIsCopied] = useState(false)
-  const [filteredSegments, setFilteredSegments] = useState(transcript.segments)
   const { seekAndPlay } = useVideo()
 
   const parseTimeToSeconds = (time: string | number): number => {
@@ -57,14 +56,15 @@ export function TranscriptView({ transcript }: TranscriptViewProps) {
     }), [transcript.segments]
   )
 
+  const filteredSegments = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return transcript.segments
+    }
+    return searcher.search(searchQuery)
+  }, [searchQuery, searcher, transcript.segments])
+
   const handleSearchChange = (value: string) => {
     setSearchQuery(value)
-    if (value.trim()) {
-      const results = searcher.search(value)
-      setFilteredSegments(results)
-    } else {
-      setFilteredSegments(transcript.segments)
-    }
   }
 
   return (

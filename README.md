@@ -53,10 +53,10 @@ docker run -d --name vidiopintar-dev -p 5000:3000 --env-file .env vidiopintar-ap
 docker pull ghcr.io/ahmadrosid/vidiopintar.com:latest
 
 # Run the container
-docker run -d --name vidiopintar-dev --add-host=host.docker.internal:host-gateway -p 5000:3000 --env-file .env ghcr.io/ahmadrosid/vidiopintar.com:latest
+docker run -d --name vidiopintar-app --network host -p 5000:3000 --env-file .env ghcr.io/ahmadrosid/vidiopintar.com:latest
 
 # Remove docker container
-docker stop vidiopintar-dev && docker rm vidiopintar-dev
+docker stop vidiopintar-app && docker rm vidiopintar-app
 ```
 
 ### Docker Environment Notes
