@@ -21,7 +21,9 @@ export function VideoSearchForm() {
       setResults(result.data.map(item => ({
         ...item,
         thumbnails: [...item.thumbnails],
-        author: { ...item.author }
+        author: { ...item.author },
+        published: item.published || '',
+        duration: item.duration || ''
       })));
     } catch (error) {
       console.error("Search failed:", error);
