@@ -21,6 +21,9 @@ if (env.NODE_ENV === 'production') {
     ssl: {
       rejectUnauthorized: false,
     },
+    connectionTimeoutMillis: 5000,
+    idleTimeoutMillis: 10000,
+    max: 10,
   });
 } else {
   // In development, we can reuse the same pool
@@ -28,6 +31,9 @@ if (env.NODE_ENV === 'production') {
     global.pg = new Pool({
       connectionString: databaseUrl,
       ssl: false, // Disable SSL for local development
+      connectionTimeoutMillis: 5000,
+      idleTimeoutMillis: 10000,
+      max: 10,
     });
   }
   pool = global.pg;
