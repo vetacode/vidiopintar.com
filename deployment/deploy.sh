@@ -125,6 +125,7 @@ docker run -d \
     --name "$TARGET_CONTAINER" \
     --restart unless-stopped \
     -p "$TARGET_PORT:$INTERNAL_PORT" \
+    --add-host=host.docker.internal:host-gateway \
     --env-file .env \
     "$IMAGE_NAME"
 
