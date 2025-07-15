@@ -125,7 +125,6 @@ docker run -d \
     --name "$TARGET_CONTAINER" \
     --restart unless-stopped \
     -p "$TARGET_PORT:$INTERNAL_PORT" \
-    --network host \
     --env-file .env \
     "$IMAGE_NAME"
 
