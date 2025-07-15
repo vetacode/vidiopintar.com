@@ -83,7 +83,6 @@ load_environment() {
     print_info "  Host: $DB_HOST"
     print_info "  User: $DB_USER"
     print_info "  Database: $DB_NAME"
-    print_info "  Password: $DB_PASSWORD"
     print_info "  Port: ${DB_PORT:-5432}"
 }
 
