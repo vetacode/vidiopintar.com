@@ -6,8 +6,7 @@ import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { authClient, useSession } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from "next/navigation";
 
 export const HeroHeader = () => {
     const [isScrolled, setIsScrolled] = React.useState(false);
@@ -55,45 +54,25 @@ export const HeroHeader = () => {
                         </Link>
 
                         <div className="flex items-center gap-6">
-                                {mounted && isHome ? (
-                                    <>
-                                        {isAuthenticated ? (
-                                            <Link href="/home">
-                                                <Button
-                                                    variant="outline"
-                                                    size="sm"
-                                                    className="flex items-center gap-2 cursor-pointer">
-                                                    <span>Home</span>
-                                                </Button>
-                                            </Link>
-                                        ) : (
-                                            <>
-                                                <Link href="/login">
-                                                    <Button
-                                                        variant="outline"
-                                                        size="sm"
-                                                        className={cn(isScrolled && 'lg:hidden')}>
-                                                        <span>Login</span>
-                                                    </Button>
-                                                </Link>
-                                                <Link href="/register">
-                                                    <Button
-                                                        size="sm"
-                                                        className={cn(isScrolled && 'lg:hidden')}>
-                                                        <span>Sign Up</span>
-                                                    </Button>
-                                                </Link>
-                                                <Link href="/home">
-                                                    <Button
-                                                        size="sm"
-                                                        className={cn(!isScrolled && 'hidden')}>
-                                                        <span>Get started</span>
-                                                    </Button>
-                                                </Link>
-                                            </>
-                                        )}
-                                    </>
-                                ) : mounted ? (
+                            {mounted && isHome ? (
+                                <>
+                                    {isAuthenticated ? (
+                                        <Link href="/home">
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                className="flex items-center gap-2 cursor-pointer">
+                                                <span>Home</span>
+                                            </Button>
+                                        </Link>
+                                    ) : (
+                                        <GuestMenus isScrolled={isScrolled}/>
+                                    )}
+                                </>
+                            ) : mounted ? (
+                                !isAuthenticated ? (
+                                    <GuestMenus isScrolled={isScrolled}/>
+                                ) : (
                                     <div className="flex gap-2">
                                         <Link href="/profile">
                                             <Button
@@ -112,7 +91,8 @@ export const HeroHeader = () => {
                                             <span>Logout</span>
                                         </Button>
                                     </div>
-                                ) : null}
+                                )
+                            ) : null}
                         </div>
                     </div>
                 </div>
@@ -120,3 +100,32 @@ export const HeroHeader = () => {
         </header>
     );
 };
+
+const GuestMenus = ({isScrolled}: { isScrolled: boolean }) => {
+    return (
+        <>
+            <Link href="/login">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    className={cn(isScrolled && 'lg:hidden')}>
+                    <span>Login</span>
+                </Button>
+            </Link>
+            <Link href="/register">
+                <Button
+                    size="sm"
+                    className={cn(isScrolled && 'lg:hidden')}>
+                    <span>Sign Up</span>
+                </Button>
+            </Link>
+            <Link href="/home">
+                <Button
+                    size="sm"
+                    className={cn(!isScrolled && 'hidden')}>
+                    <span>Get started</span>
+                </Button>
+            </Link>
+        </>
+    )
+}
