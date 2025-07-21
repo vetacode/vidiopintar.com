@@ -32,6 +32,38 @@ export default async function VideoPage({ params }: { params: { videoId: string 
   let messages: any[] = [];
   let quickStartQuestions: string[] = [];
 
+  // If transcript is not available, show error state
+  if (transcript.error) {
+    return (
+      <main className="flex flex-col min-h-screen bg-melody-gradient relative">
+        <div className="relative z-10">
+          <div className="min-h-screen flex items-center justify-center p-4">
+            <div className="max-w-md mx-auto text-center space-y-6">
+              <div className="space-y-3">
+                <h1 className="text-2xl font-bold text-foreground">Video Not Supported</h1>
+                <p className="text-muted-foreground leading-relaxed">
+                  {transcript.errorMessage || "This video doesn't have a transcript available, which is required for our chat functionality."}
+                </p>
+              </div>
+              
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  Please try a different video that has captions or subtitles enabled. Note that we don't support live streaming YouTube videos.
+                </p>
+                <a 
+                  href="/home" 
+                  className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+                >
+                  Back to Home
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    )
+  }
+
   if (!videoDetails.userVideo) {
     videoDetails.userVideo = transcript.userVideo;
   } else {

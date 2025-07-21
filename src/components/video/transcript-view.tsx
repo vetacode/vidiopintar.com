@@ -20,6 +20,8 @@ interface TranscriptSegment {
 interface TranscriptViewProps {
   transcript: {
     segments: TranscriptSegment[]
+    error?: boolean
+    errorMessage?: string
   }
 }
 
@@ -27,6 +29,20 @@ export function TranscriptView({ transcript }: TranscriptViewProps) {
   const [searchQuery, setSearchQuery] = useState("")
   const [isCopied, setIsCopied] = useState(false)
   const { seekAndPlay } = useVideo()
+
+  // Handle empty transcript state (backup for any edge cases)
+  if (transcript.segments.length === 0) {
+    return (
+      <div className="p-8 text-center text-muted-foreground space-y-3">
+        <div className="max-w-md mx-auto">
+          <h3 className="font-medium text-foreground mb-2">No Transcript Available</h3>
+          <p className="text-sm leading-relaxed">
+            This video doesn't have transcript segments to display.
+          </p>
+        </div>
+      </div>
+    )
+  }
 
   const parseTimeToSeconds = (time: string | number): number => {
     if (typeof time === 'number') return time
