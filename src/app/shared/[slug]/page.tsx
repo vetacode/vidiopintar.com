@@ -61,7 +61,7 @@ export default async function SharedVideoPage({ params }: SharedVideoPageProps) 
   return (
     <main className="flex flex-col min-h-screen bg-melody-gradient relative">
       <div className="relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-7 h-screen">
+        <div className="grid grid-cols-1 lg:grid-cols-7 min-h-screen">
           <div className="lg:col-span-4 h-full overflow-y-auto scrollbar-none relative">
             <div className="sticky top-0 z-50 bg-white dark:bg-black border-b">
               <div className="flex items-center p-4 gap-2">
