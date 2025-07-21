@@ -15,7 +15,7 @@ function normalizeYouTubeUrl(url: string): string {
   return url;
 }
 
-export async function handleVideoSubmit(formData: FormData): Promise<{ success: boolean, errors?: string[], videoId?: string }> {
+export async function handleVideoSubmit(prevState: any, formData: FormData): Promise<{ success: boolean, errors?: string[], videoId?: string }> {
   const videoUrl = formData.get("videoUrl") as string;
   if (!videoUrl) {
     return { success: false, errors: ["Video URL is required"] };

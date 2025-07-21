@@ -43,7 +43,7 @@ export function FormStartLearning() {
             return;
         }
         
-        const result = await handleVideoSubmit(formData);
+        const result = await handleVideoSubmit({}, formData);
         if (result && !result.success && result.errors) {
             result.errors.forEach(error => {
                 toast.error(error);
