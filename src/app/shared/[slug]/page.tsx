@@ -14,12 +14,13 @@ import { ChevronRight } from "lucide-react";
 import { env } from "@/lib/env/server";
 
 interface SharedVideoPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export async function generateMetadata({ params }: SharedVideoPageProps): Promise<Metadata> {
+export async function generateMetadata(props: SharedVideoPageProps): Promise<Metadata> {
+  const params = await props.params;
   const { slug } = params;
 
   const sharedVideo = await SharedVideoRepository.getBySlugWithDetails(slug);
@@ -41,10 +42,11 @@ export async function generateMetadata({ params }: SharedVideoPageProps): Promis
   };
 }
 
-export default async function SharedVideoPage({ params }: SharedVideoPageProps) {
+export default async function SharedVideoPage(props: SharedVideoPageProps) {
+  const params = await props.params;
   const { slug } = params;
 
-  const session = await auth.api.getSession({ headers: headers() });
+  const session = await auth.api.getSession({ headers: await headers() });
   const isLoggedIn = !!session?.user;
   const shareChatUrl = `${env.BETTER_AUTH_URL}/shared/${slug}`;
   const sharedVideo = await SharedVideoRepository.getBySlugWithDetails(slug);

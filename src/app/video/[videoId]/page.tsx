@@ -12,10 +12,11 @@ import { TipsAlert } from "@/components/chat/tips-alert"
 import { LanguageSelector } from "@/components/language-selector"
 import { UserRepository } from "@/lib/db/repository"
 
-export default async function VideoPage({ params }: { params: { videoId: string } }) {
+export default async function VideoPage(props: { params: Promise<{ videoId: string }> }) {
+  const params = await props.params;
   const user = await getCurrentUser();
   const { videoId } = params;
-  
+
   // Get user's language preference from database
   let userLanguage: 'en' | 'id' = 'en';
   try {
@@ -26,7 +27,7 @@ export default async function VideoPage({ params }: { params: { videoId: string 
   } catch (error) {
     console.log('Could not get user language preference, using default:', error);
   }
-  
+
   let videoDetails = await fetchVideoDetails(videoId);
   let transcript = await fetchVideoTranscript(videoId);
   let messages: any[] = [];

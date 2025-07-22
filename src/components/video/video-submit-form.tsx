@@ -1,8 +1,8 @@
 "use client";
 
 import { handleVideoSubmit } from "@/app/actions"
-import { useState, useEffect } from "react";
-import { useFormStatus, useFormState } from "react-dom";
+import { useState, useEffect, useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import { PromptInput, PromptInputTextarea, PromptInputActions } from "@/components/ui/prompt-input";
@@ -20,7 +20,7 @@ function SubmitButton() {
 
 export function VideoSubmitForm() {
   const [input, setInput] = useState("")
-  const [state, formAction] = useFormState(handleVideoSubmit, { success: false, errors: undefined });
+  const [state, formAction] = useActionState(handleVideoSubmit, { success: false, errors: undefined });
   
   useEffect(() => {
     if (state.errors && state.errors.length > 0) {

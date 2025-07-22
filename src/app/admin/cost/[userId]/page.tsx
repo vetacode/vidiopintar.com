@@ -8,14 +8,15 @@ import { Markdown } from "@/components/ui/markdown";
 import Link from "next/link";
 
 interface UserDetailPageProps {
-  params: {
+  params: Promise<{
     userId: string;
-  };
+  }>;
 }
 
-export default async function UserDetailPage({ params }: UserDetailPageProps) {
+export default async function UserDetailPage(props: UserDetailPageProps) {
+  const params = await props.params;
   await requireAdmin();
-  
+
   const { user, videos, conversations } = await getUserActivityDetails(params.userId);
 
   return (
