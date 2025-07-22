@@ -96,18 +96,14 @@ export async function DELETE(request: NextRequest) {
       return Response.json({ error: 'Invalid feedback ID' }, { status: 400 });
     }
 
-    // Check if feedback exists and verify ownership (unless admin)
+    if (!isUserAdmin(user)) {
+      return Response.json({ error: 'Forbidden: Only admins can delete feedback' }, { status: 403 });
+    }
+
     const existingFeedback = await FeedbackRepository.getById(id);
     if (!existingFeedback) {
       return Response.json({ error: 'Feedback not found' }, { status: 404 });
     }
-
-    // Allow deletion if user is admin OR owns the feedback
-    if (!isUserAdmin(user) && existingFeedback.userId !== user.id) {
-      return Response.json({ error: 'Forbidden: You can only delete your own feedback' }, { status: 403 });
-    }
-
-    // Delete the feedback
     await FeedbackRepository.delete(id);
 
     return Response.json({ success: true });
