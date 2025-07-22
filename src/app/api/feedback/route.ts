@@ -1,4 +1,5 @@
 import { getCurrentUser } from '@/lib/auth';
+import { isUserAdmin } from '@/lib/auth-admin';
 import { FeedbackRepository } from '@/lib/db/repository';
 import { NextRequest } from 'next/server';
 
@@ -93,6 +94,17 @@ export async function DELETE(request: NextRequest) {
     const id = parseInt(feedbackId);
     if (isNaN(id)) {
       return Response.json({ error: 'Invalid feedback ID' }, { status: 400 });
+    }
+
+    // Check if feedback exists and verify ownership (unless admin)
+    const existingFeedback = await FeedbackRepository.getById(id);
+    if (!existingFeedback) {
+      return Response.json({ error: 'Feedback not found' }, { status: 404 });
+    }
+
+    // Allow deletion if user is admin OR owns the feedback
+    if (!isUserAdmin(user) && existingFeedback.userId !== user.id) {
+      return Response.json({ error: 'Forbidden: You can only delete your own feedback' }, { status: 403 });
     }
 
     // Delete the feedback

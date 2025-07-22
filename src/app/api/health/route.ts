@@ -19,15 +19,7 @@ export async function GET() {
     return NextResponse.json(
       { 
         status: 'error', 
-        message: 'Database connection failed',
-        error: error instanceof Error ? error.message : 'Unknown error',
-        dbConfig: {
-          host: process.env.DB_HOST,
-          port: process.env.DB_PORT,
-          user: process.env.DB_USER,
-          database: process.env.DB_NAME,
-          nodeEnv: process.env.NODE_ENV
-        }
+        message: 'Database connection failed'
       },
       { status: 500 }
     );
