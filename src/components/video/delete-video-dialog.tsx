@@ -16,13 +16,15 @@ import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
 function DeleteButton() {
     const { pending } = useFormStatus();
+    const t = useTranslations('video');
     
     return (
         <Button type="submit" disabled={pending} className="cursor-pointer">
-            {pending ? <Loader className="size-4 animate-spin" /> : "Yes, delete!"}
+            {pending ? <Loader className="size-4 animate-spin" /> : t('deleteConfirm')}
         </Button>
     );
 }
@@ -30,6 +32,8 @@ function DeleteButton() {
 export function DeleteVideoDialog() {
     const { isOpen, closeDialog, id } = useDeleteVideoDialogStore()
     const [state, formAction] = useActionState(handleDeleteVideo, { success: false, errors: undefined });
+    const t = useTranslations('video');
+    const tCommon = useTranslations('common');
 
     useEffect(() => {
         if (state.success) {
@@ -43,20 +47,22 @@ export function DeleteVideoDialog() {
                 <form key={id} action={formAction}>
                     <input type="hidden" value={id} name="id" />
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Delete video?</AlertDialogTitle>
-                        <AlertDialogDescription className="mb-4 space-y-4">
-                            <p>This will permanently remove this video.</p>
-                            {state.errors && (
+                        <AlertDialogTitle>{t('deleteTitle')}</AlertDialogTitle>
+                        <AlertDialogDescription className="mb-4">
+                            {t('deleteDescription')}
+                        </AlertDialogDescription>
+                        {state.errors && (
+                            <div className="mt-4">
                                 <ul className="p-2 bg-red-100 rounded list-inside">
                                     {state.errors.map(error => (
                                         <li key={error} className="text-red-500 ">{error}</li>
                                     ))}
                                 </ul>
-                            )}
-                        </AlertDialogDescription>
+                            </div>
+                        )}
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
+                        <AlertDialogCancel type="button">{tCommon('cancel')}</AlertDialogCancel>
                         <AlertDialogAction asChild>
                             <DeleteButton />
                         </AlertDialogAction>

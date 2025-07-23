@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import React, { useEffect, useState } from "react";
 import { LanguageSelector } from "@/components/language-selector";
+import { useTranslations } from 'next-intl';
 
 type Theme = "light" | "dark" | "system";
 
@@ -20,6 +21,7 @@ interface UserPreferencesProps {
 
 export function UserPreferences({ defaultLanguage }: UserPreferencesProps) {
   const { theme, setTheme } = useTheme();
+  const t = useTranslations('profile');
 
   const handleThemeChange = (theme: Theme) => {
     setTheme(theme);
@@ -54,28 +56,28 @@ export function UserPreferences({ defaultLanguage }: UserPreferencesProps) {
   return (
     <div className="space-y-6">
       <Card className="p-4 md:p-6 shadow-none">
-        <h3 className="text-lg font-semibold mb-4">Preferences</h3>
+        <h3 className="text-lg font-semibold mb-4">{t('preferences')}</h3>
         <div className="space-y-6">
           <div>
-            <h4 className="text-sm md:text-base mb-3">Select Language</h4>
+            <h4 className="text-sm md:text-base mb-3">{t('selectLanguage')}</h4>
             <LanguageSelector className="w-full" />
           </div>
           <div>
-            <h4 className="text-sm md:text-base mb-3">Select Theme</h4>
+            <h4 className="text-sm md:text-base mb-3">{t('selectTheme')}</h4>
             <Select value={theme} onValueChange={handleThemeChange}>
               <SelectTrigger className="w-full sm:w-[200px]">
-                <SelectValue placeholder="Select a theme" />
+                <SelectValue placeholder={t('selectThemePlaceholder')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">Light</SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
-                <SelectItem value="system">System</SelectItem>
+                <SelectItem value="light">{t('light')}</SelectItem>
+                <SelectItem value="dark">{t('dark')}</SelectItem>
+                <SelectItem value="system">{t('system')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
         <div className="text-xs md:text-sm text-gray-500 mt-6">
-          <p>Your preferences are saved locally and will persist across sessions.</p>
+          <p>{t('preferencesNote')}</p>
         </div>
       </Card>
     </div>

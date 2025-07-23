@@ -105,7 +105,14 @@
     "chat": "Chat dengan Video",
     "enterYouTubeUrl": "Masukkan URL YouTube",
     "processing": "Memproses video...",
-    "generateSummary": "Buat Ringkasan"
+    "generateSummary": "Buat Ringkasan",
+    "deleteTitle": "Hapus video?",
+    "deleteDescription": "Aksi ini akan menghapus video ini secara permanen.",
+    "deleteConfirm": "Ya, hapus!",
+    "submitUrl": "Paste URL",
+    "searchVideos": "Cari video",
+    "searchPlaceholder": "Cari video...",
+    "search": "Cari"
   },
   "auth": {
     "loginTitle": "Masuk ke akun kamu",
@@ -122,5 +129,27 @@
     "signIn": "Masuk",
     "signInWith": "Google",
     "failedSignIn": "Gagal masuk dengan Google"
+  },
+  "profile": {
+    "title": "Profil",
+    "preferences": "Preferensi",
+    "selectLanguage": "Pilih Bahasa",
+    "selectTheme": "Pilih Tema",
+    "light": "Terang",
+    "dark": "Gelap",
+    "system": "Sistem",
+    "selectThemePlaceholder": "Pilih tema",
+    "preferencesNote": "Preferensi kamu disimpan secara lokal dan akan tersimpan di seluruh sesi.",
+    "helpUsImprove": "Bantu kami berkembang",
+    "helpUsImproveDesc": "Bagikan pengalaman kamu untuk membantu kami membuat platform yang lebih baik",
+    "giveFeedback": "Berikan masukan",
+    "feedbackSuccess": "Terima kasih atas masukan kamu!",
+    "dangerZone": "Area Berbahaya",
+    "dangerZoneDesc": "Setelah kamu menghapus profil, tidak ada jalan untuk kembali. Pastikan kamu yakin.",
+    "deleteProfile": "Hapus Profil",
+    "deleting": "Menghapus...",
+    "deleteConfirmTitle": "Apakah kamu benar-benar yakin?",
+    "deleteConfirmDesc": "Ini akan menghapus profil kamu secara permanen dan menghapus semua data kamu dari server kami.",
+    "cancel": "Batal"
   }
 }

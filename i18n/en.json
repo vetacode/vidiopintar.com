@@ -105,7 +105,14 @@
     "chat": "Chat with Video",
     "enterYouTubeUrl": "Enter YouTube URL",
     "processing": "Processing video...",
-    "generateSummary": "Generate Summary"
+    "generateSummary": "Generate Summary",
+    "deleteTitle": "Delete video?",
+    "deleteDescription": "This will permanently remove this video.",
+    "deleteConfirm": "Yes, delete!",
+    "submitUrl": "Submit URL",
+    "searchVideos": "Search videos",
+    "searchPlaceholder": "Search for videos...",
+    "search": "Search"
   },
   "auth": {
     "loginTitle": "Sign in to your account",
@@ -122,5 +129,27 @@
     "signIn": "Sign In",
     "signInWith": "Google",
     "failedSignIn": "Failed to sign in with Google"
+  },
+  "profile": {
+    "title": "Profile",
+    "preferences": "Preferences",
+    "selectLanguage": "Select Language",
+    "selectTheme": "Select Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "selectThemePlaceholder": "Select a theme",
+    "preferencesNote": "Your preferences are saved locally and will persist across sessions.",
+    "helpUsImprove": "Help us improve",
+    "helpUsImproveDesc": "Share your experience to help us make the platform better",
+    "giveFeedback": "Give feedback",
+    "feedbackSuccess": "Thank you for your feedback!",
+    "dangerZone": "Danger Zone",
+    "dangerZoneDesc": "Once you delete your profile, there is no going back. Please be certain.",
+    "deleteProfile": "Delete Profile",
+    "deleting": "Deleting...",
+    "deleteConfirmTitle": "Are you absolutely sure?",
+    "deleteConfirmDesc": "This will permanently delete your profile and remove all your data from our servers.",
+    "cancel": "Cancel"
   }
 }
