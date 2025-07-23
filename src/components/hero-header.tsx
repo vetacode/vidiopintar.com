@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { authClient, useSession } from "@/lib/auth-client";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from 'next-intl';
+import { LanguageSelector } from '@/components/language-selector';
 
 export const HeroHeader = () => {
     const [isScrolled, setIsScrolled] = React.useState(false);
@@ -56,6 +57,7 @@ export const HeroHeader = () => {
                         </Link>
 
                         <div className="flex items-center gap-6">
+                            <LanguageSelector iconOnly />
                             {mounted && isHome ? (
                                 <>
                                     {isAuthenticated ? (

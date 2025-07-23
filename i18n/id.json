@@ -12,11 +12,11 @@
   },
   "hero": {
     "title": "Jangan Hanya Menonton YouTube — Belajarlah Darinya",
-    "subtitle": "Dapatkan momen \"aha\" instan dari video YouTube apa pun. Dapatkan wawasan kunci, hubungkan titik-titik, dan bantu Anda membangun pengetahuan nyata — bukan hanya waktu menonton."
+    "subtitle": "Dapatkan momen \"aha\" instan dari video YouTube apa pun. Dapatkan wawasan kunci, hubungkan titik-titik, dan bantu kamu membangun pengetahuan nyata — bukan hanya waktu menonton."
   },
   "features": {
-    "title": "Teman belajar YouTube Anda",
-    "subtitle": "Dapatkan momen \"aha\" instan dari video yang sudah Anda sukai",
+    "title": "Teman belajar YouTube kamu",
+    "subtitle": "Dapatkan momen \"aha\" instan dari video yang sudah kamu sukai",
     "items": {
       "fast": {
         "title": "Cepaaat",
@@ -24,11 +24,11 @@
       },
       "smart": {
         "title": "Pintar",
-        "description": "AI mengekstrak emas dari setiap video, menghubungkan ide yang mungkin Anda lewatkan."
+        "description": "AI mengekstrak emas dari setiap video, menghubungkan ide yang mungkin kamu lewatkan."
       },
       "personal": {
         "title": "Personal",
-        "description": "Wawasan Anda, cara Anda. Bangun basis pengetahuan personal dari video yang Anda sukai."
+        "description": "Wawasan kamu, cara kamu. Bangun basis pengetahuan personal dari video yang kamu sukai."
       },
       "interactive": {
         "title": "Interaktif",
@@ -36,7 +36,7 @@
       },
       "progress": {
         "title": "Kemajuan",
-        "description": "Lihat pengetahuan Anda berkembang. Lacak pemahaman nyata, bukan hanya waktu menonton."
+        "description": "Lihat pengetahuan kamu berkembang. Lacak pemahaman nyata, bukan hanya waktu menonton."
       },
       "effortless": {
         "title": "Mudah",
@@ -73,6 +73,30 @@
     "error": "Error",
     "success": "Berhasil"
   },
+  "home": {
+    "title": "Vidiopintar",
+    "subtitle": "Apa yang ingin kamu pelajari hari ini?",
+    "chooseTopics": "Pilih topik"
+  },
+  "topicMarquee": {
+    "title": "Pelajari topik apa pun dari YouTube",
+    "topics": {
+      "computerScience": "Ilmu Komputer",
+      "math": "Matematika",
+      "business": "Bisnis",
+      "personalDevelopment": "Pengembangan Diri",
+      "productivity": "Produktivitas",
+      "contentCreation": "Pembuatan Konten",
+      "publicSpeaking": "Public Speaking",
+      "music": "Musik"
+    }
+  },
+  "heroForm": {
+    "placeholder": "Paste URL YouTube",
+    "startLearning": "Mulai belajar",
+    "videoUrlRequired": "URL video diperlukan",
+    "invalidYouTubeUrl": "URL YouTube tidak valid. Periksa URL dan coba lagi."
+  },
   "video": {
     "title": "Video",
     "summary": "Ringkasan",
@@ -84,13 +108,19 @@
     "generateSummary": "Buat Ringkasan"
   },
   "auth": {
-    "loginTitle": "Masuk ke akun Anda",
-    "registerTitle": "Buat akun",
+    "loginTitle": "Masuk ke akun kamu",
+    "loginSubtitle": "Selamat datang! Masuk untuk melanjutkan",
+    "registerTitle": "Buat Akun Baru",
+    "registerSubtitle": "Selamat datang! Buat akun untuk memulai",
     "email": "Email",
     "password": "Kata sandi",
     "confirmPassword": "Konfirmasi kata sandi",
     "forgotPassword": "Lupa kata sandi?",
     "noAccount": "Belum punya akun?",
-    "hasAccount": "Sudah punya akun?"
+    "hasAccount": "Sudah punya akun?",
+    "createAccount": "Buat akun",
+    "signIn": "Masuk",
+    "signInWith": "Google",
+    "failedSignIn": "Gagal masuk dengan Google"
   }
 }

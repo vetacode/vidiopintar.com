@@ -7,6 +7,7 @@ import { HeroHeader } from "@/components/hero-header";
 import { FooterSection } from "@/components/footer";
 import { getCurrentUser } from "@/lib/auth";
 import { VideoSearchDisplay } from "@/components/video/video-search-display";
+import { getTranslations } from 'next-intl/server';
 
 import Link from "next/link";
 
@@ -29,6 +30,8 @@ function CategoryCard({ image, label, slug }: { image: string; label: string; sl
 export default async function Home() {
   const user = await getCurrentUser()
   const videos = await VideoRepository.getAllForUserWithDetails(user.id);
+  const t = await getTranslations('home');
+  
   return (
     <>
       <HeroHeader />
@@ -36,14 +39,14 @@ export default async function Home() {
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="my-8 p-6">
             <div className="text-center mb-6 mt-8">
-              <h1 className="text-4xl font-bold tracking-tighter">Vidiopintar</h1>
-              <p className="tracking-tight">What do you want to learn today?</p>
+              <h1 className="text-4xl font-bold tracking-tighter">{t('title')}</h1>
+              <p className="tracking-tight">{t('subtitle')}</p>
             </div>
             <VideoInputSection />
           </div>
           <VideoSearchDisplay />
           <div className="max-w-5xl px-6 mx-auto w-full mb-8">
-            <h2 className="text-xl font-semibold text-left mb-6 tracking-tighter">Choose topics</h2>
+            <h2 className="text-xl font-semibold text-left mb-6 tracking-tighter">{t('chooseTopics')}</h2>
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
               {categories.map((category, idx) => (
                 <CategoryCard

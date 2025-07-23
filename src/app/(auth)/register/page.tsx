@@ -1,8 +1,10 @@
 import { AuthForm } from '@/components/auth-form'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
 
-export default function RegisterPage() {
+export default async function RegisterPage() {
+    const t = await getTranslations('auth');
     return (
         <section className="flex min-h-screen bg-zinc-50 px-4 py-16 md:py-32 dark:bg-transparent">
             <form
@@ -15,8 +17,8 @@ export default function RegisterPage() {
                             aria-label="go home">
                             Vidiopintar
                         </Link>
-                        <h1 className="mb-1 mt-4 text-xl font-semibold">Create a new Account</h1>
-                        <p>Welcome! Create an account to get started</p>
+                        <h1 className="mb-1 mt-4 text-xl font-semibold">{t('registerTitle')}</h1>
+                        <p>{t('registerSubtitle')}</p>
                     </div>
 
                     <AuthForm />
@@ -48,12 +50,12 @@ export default function RegisterPage() {
                 </div>
 
                 <p className="text-accent-foreground text-left px-6 text-sm">
-                    Have an account ?
+                    {t('hasAccount')}
                     <Button
                         asChild
                         variant="link"
                         className="px-2">
-                        <Link href="/login">Sign In</Link>
+                        <Link href="/login">{t('signIn')}</Link>
                     </Button>
                 </p>
             </form>

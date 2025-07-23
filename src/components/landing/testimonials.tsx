@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Card, CardContent } from '@/components/ui/card'
 import { Markdown } from '../ui/markdown'
+import { useTranslations } from 'next-intl'
 
 type Testimonial = {
     name: string
@@ -95,13 +96,15 @@ const shuffleArray = (array: Testimonial[]): Testimonial[] => {
 const shuffledTestimonials = shuffleArray(testimonials)
 
 export function WallOfLoveSection() {
+    const t = useTranslations('testimonials');
+    
     return (
         <section>
             <div className="py-16 md:py-32">
                 <div className="mx-auto max-w-6xl px-6">
                     <div className="text-center">
-                        <h2 className="text-title text-3xl font-semibold text-balance">From watch time to "aha moments"</h2>
-                        <p className="text-body mt-6">See how people are extracting real insights and building knowledge from the videos they love.</p>
+                        <h2 className="text-title text-3xl font-semibold text-balance">{t('title')}</h2>
+                        <p className="text-body mt-6">{t('subtitle')}</p>
                     </div>
                     <div className="mt-8 columns-1 gap-4 space-y-4 md:mt-12 md:columns-2 lg:columns-3">
                         {shuffledTestimonials.map(({ name, role, quote, image }, index) => (
@@ -109,7 +112,7 @@ export function WallOfLoveSection() {
                                 <CardContent className="grid grid-cols-[auto_1fr] gap-3 pt-6">
                                     <Avatar className="size-9">
                                         <AvatarImage alt={name} src={image} loading="lazy" width="120" height="120" />
-                                        <AvatarFallback>ST</AvatarFallback>
+                                        <AvatarFallback>{t('avatarFallback')}</AvatarFallback>
                                     </Avatar>
 
                                     <div>

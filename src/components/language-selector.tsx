@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
+import { Languages } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -16,6 +17,7 @@ type Language = "en" | "id";
 
 interface LanguageSelectorProps {
   className?: string;
+  iconOnly?: boolean;
 }
 
 const languageNames = {
@@ -25,7 +27,7 @@ const languageNames = {
 
 const locales: Language[] = ['en', 'id'];
 
-export function LanguageSelector({ className }: LanguageSelectorProps) {
+export function LanguageSelector({ className, iconOnly = false }: LanguageSelectorProps) {
   const router = useRouter();
   const locale = useLocale();
 
@@ -55,8 +57,17 @@ export function LanguageSelector({ className }: LanguageSelectorProps) {
 
   return (
     <Select value={locale} onValueChange={handleLanguageChange}>
-      <SelectTrigger className={cn("w-[180px]", className)}>
-        <SelectValue placeholder="Select a language" />
+      <SelectTrigger 
+        className={cn(
+          iconOnly ? "w-[40px] h-[40px] border-none bg-transparent shadow-none hover:bg-accent p-0 justify-center [&>svg:last-child]:hidden" : "w-[180px]", 
+          className
+        )}
+      >
+        {iconOnly ? (
+          <Languages className="h-4 w-4" />
+        ) : (
+          <SelectValue placeholder="Select a language" />
+        )}
       </SelectTrigger>
       <SelectContent>
         {locales.map((loc) => (

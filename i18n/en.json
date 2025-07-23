@@ -73,6 +73,30 @@
     "error": "Error",
     "success": "Success"
   },
+  "home": {
+    "title": "Vidiopintar",
+    "subtitle": "What do you want to learn today?",
+    "chooseTopics": "Choose topics"
+  },
+  "topicMarquee": {
+    "title": "Learn any topic from YouTube",
+    "topics": {
+      "computerScience": "Computer Science",
+      "math": "Math",
+      "business": "Business",
+      "personalDevelopment": "Personal Development",
+      "productivity": "Productivity",
+      "contentCreation": "Content Creation",
+      "publicSpeaking": "Public Speaking",
+      "music": "Music"
+    }
+  },
+  "heroForm": {
+    "placeholder": "Paste YouTube URL",
+    "startLearning": "Start learning",
+    "videoUrlRequired": "Video URL is required",
+    "invalidYouTubeUrl": "Invalid YouTube URL. Please check the URL and try again."
+  },
   "video": {
     "title": "Video",
     "summary": "Summary",
@@ -84,13 +108,19 @@
     "generateSummary": "Generate Summary"
   },
   "auth": {
-    "loginTitle": "Login to your account",
-    "registerTitle": "Create an account",
+    "loginTitle": "Sign in to your account",
+    "loginSubtitle": "Welcome back! Sign in to continue",
+    "registerTitle": "Create a new Account",
+    "registerSubtitle": "Welcome! Create an account to get started",
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "forgotPassword": "Forgot password?",
     "noAccount": "Don't have an account?",
-    "hasAccount": "Already have an account?"
+    "hasAccount": "Have an account?",
+    "createAccount": "Create account",
+    "signIn": "Sign In",
+    "signInWith": "Google",
+    "failedSignIn": "Failed to sign in with Google"
   }
 }
