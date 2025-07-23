@@ -54,7 +54,7 @@ export function ProfileSettings({ user, userLanguage }: ProfileSettingsProps) {
         </CardContent>
       </Card>
 
-      <UserPreferences defaultLanguage={userLanguage} />
+      <UserPreferences />
 
       <ProfileFeedback />
 

@@ -1,0 +1,96 @@
+{
+  "greeting": "Halo dari Lingo.dev",
+  "navigation": {
+    "home": "Beranda",
+    "profile": "Profil",
+    "admin": "Admin",
+    "login": "Masuk",
+    "register": "Daftar",
+    "logout": "Keluar",
+    "signUp": "Daftar",
+    "getStarted": "Mulai Sekarang"
+  },
+  "hero": {
+    "title": "Jangan Hanya Menonton YouTube — Belajarlah Darinya",
+    "subtitle": "Dapatkan momen \"aha\" instan dari video YouTube apa pun. Dapatkan wawasan kunci, hubungkan titik-titik, dan bantu Anda membangun pengetahuan nyata — bukan hanya waktu menonton."
+  },
+  "features": {
+    "title": "Teman belajar YouTube Anda",
+    "subtitle": "Dapatkan momen \"aha\" instan dari video yang sudah Anda sukai",
+    "items": {
+      "fast": {
+        "title": "Cepaaat",
+        "description": "Dapatkan wawasan kunci dengan instan. Tidak perlu menonton ulang untuk menemukan nugget emas itu."
+      },
+      "smart": {
+        "title": "Pintar",
+        "description": "AI mengekstrak emas dari setiap video, menghubungkan ide yang mungkin Anda lewatkan."
+      },
+      "personal": {
+        "title": "Personal",
+        "description": "Wawasan Anda, cara Anda. Bangun basis pengetahuan personal dari video yang Anda sukai."
+      },
+      "interactive": {
+        "title": "Interaktif",
+        "description": "Ubah menonton pasif menjadi pembelajaran aktif dengan alat pemahaman instan."
+      },
+      "progress": {
+        "title": "Kemajuan",
+        "description": "Lihat pengetahuan Anda berkembang. Lacak pemahaman nyata, bukan hanya waktu menonton."
+      },
+      "effortless": {
+        "title": "Mudah",
+        "description": "Dari YouTube ke momen \"aha\" dalam hitungan detik. Pembelajaran jadi sangat sederhana."
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Dari waktu menonton ke momen \"aha\"",
+    "subtitle": "Lihat bagaimana orang mengekstrak wawasan nyata dan membangun pengetahuan dari video yang mereka sukai.",
+    "avatarFallback": "ST"
+  },
+  "callToAction": {
+    "title": "Mulai Belajar",
+    "subtitle": "Pelajari Topik Apa Pun, Satu Video dalam Satu Waktu."
+  },
+  "footer": {
+    "brand": "Vidiopintar",
+    "links": {
+      "changelog": "Changelog",
+      "privacy": "Privasi",
+      "terms": "Syarat & Ketentuan",
+      "github": "Github"
+    },
+    "copyright": "© {{year}} Vidiopintar, Semua hak dilindungi"
+  },
+  "common": {
+    "submit": "Kirim",
+    "cancel": "Batal",
+    "save": "Simpan",
+    "delete": "Hapus",
+    "edit": "Edit",
+    "loading": "Memuat...",
+    "error": "Error",
+    "success": "Berhasil"
+  },
+  "video": {
+    "title": "Video",
+    "summary": "Ringkasan",
+    "transcript": "Transkrip",
+    "comments": "Komentar",
+    "chat": "Chat dengan Video",
+    "enterYouTubeUrl": "Masukkan URL YouTube",
+    "processing": "Memproses video...",
+    "generateSummary": "Buat Ringkasan"
+  },
+  "auth": {
+    "loginTitle": "Masuk ke akun Anda",
+    "registerTitle": "Buat akun",
+    "email": "Email",
+    "password": "Kata sandi",
+    "confirmPassword": "Konfirmasi kata sandi",
+    "forgotPassword": "Lupa kata sandi?",
+    "noAccount": "Belum punya akun?",
+    "hasAccount": "Sudah punya akun?"
+  }
+}

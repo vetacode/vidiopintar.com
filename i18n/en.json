@@ -1,3 +1,96 @@
 {
-	"greeting": "Hello from Lingo.dev"
+  "greeting": "Hello from Lingo.dev",
+  "navigation": {
+    "home": "Home",
+    "profile": "Profile",
+    "admin": "Admin",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "signUp": "Sign Up",
+    "getStarted": "Get started"
+  },
+  "hero": {
+    "title": "Don't Just Watch YouTube — Learn From It",
+    "subtitle": "Get instant \"aha moments\" from any YouTube video. Get key insights, connects the dots, and helps you build real knowledge — not just watch time."
+  },
+  "features": {
+    "title": "Your YouTube learning companion",
+    "subtitle": "Get instant \"aha moments\" from videos you already love watching",
+    "items": {
+      "fast": {
+        "title": "Faaast",
+        "description": "Get key insights instantly. No more rewatching to find that one golden nugget."
+      },
+      "smart": {
+        "title": "Smart",
+        "description": "AI extracts the gold from every video, connecting ideas you might have missed."
+      },
+      "personal": {
+        "title": "Personal",
+        "description": "Your insights, your way. Build a personal knowledge base from videos you love."
+      },
+      "interactive": {
+        "title": "Interactive",
+        "description": "Turn passive viewing into active learning with instant comprehension tools."
+      },
+      "progress": {
+        "title": "Progress",
+        "description": "See your knowledge grow. Track real understanding, not just watch time."
+      },
+      "effortless": {
+        "title": "Effortless",
+        "description": "From YouTube to \"aha moments\" in seconds. Learning made ridiculously simple."
+      }
+    }
+  },
+  "testimonials": {
+    "title": "From watch time to \"aha moments\"",
+    "subtitle": "See how people are extracting real insights and building knowledge from the videos they love.",
+    "avatarFallback": "ST"
+  },
+  "callToAction": {
+    "title": "Start Learning",
+    "subtitle": "Learn Any Topic, One Video at a Time."
+  },
+  "footer": {
+    "brand": "Vidiopintar",
+    "links": {
+      "changelog": "Changelog",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "github": "Github"
+    },
+    "copyright": "© {{year}} Vidiopintar, All rights reserved"
+  },
+  "common": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "video": {
+    "title": "Video",
+    "summary": "Summary",
+    "transcript": "Transcript",
+    "comments": "Comments",
+    "chat": "Chat with Video",
+    "enterYouTubeUrl": "Enter YouTube URL",
+    "processing": "Processing video...",
+    "generateSummary": "Generate Summary"
+  },
+  "auth": {
+    "loginTitle": "Login to your account",
+    "registerTitle": "Create an account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?"
+  }
 }

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { authClient, useSession } from "@/lib/auth-client";
 import { usePathname, useRouter } from "next/navigation";
+import { useTranslations } from 'next-intl';
 
 export const HeroHeader = () => {
     const [isScrolled, setIsScrolled] = React.useState(false);
@@ -16,6 +17,7 @@ export const HeroHeader = () => {
     const router = useRouter();
     const { data: session, isPending } = useSession();
     const isAuthenticated = !!session?.user && !isPending;
+    const t = useTranslations('navigation');
 
     React.useEffect(() => {
         setMounted(true);
@@ -62,16 +64,16 @@ export const HeroHeader = () => {
                                                 variant="outline"
                                                 size="sm"
                                                 className="flex items-center gap-2 cursor-pointer">
-                                                <span>Home</span>
+                                                <span>{t('home')}</span>
                                             </Button>
                                         </Link>
                                     ) : (
-                                        <GuestMenus isScrolled={isScrolled}/>
+                                        <GuestMenus isScrolled={isScrolled} t={t}/>
                                     )}
                                 </>
                             ) : mounted ? (
                                 !isAuthenticated ? (
-                                    <GuestMenus isScrolled={isScrolled}/>
+                                    <GuestMenus isScrolled={isScrolled} t={t}/>
                                 ) : (
                                     <div className="flex gap-2">
                                         <Link href="/profile">
@@ -79,7 +81,7 @@ export const HeroHeader = () => {
                                                 variant="ghost"
                                                 size="sm"
                                                 className="cursor-pointer">
-                                                <span>Profile</span>
+                                                <span>{t('profile')}</span>
                                             </Button>
                                         </Link>
                                         <Button
@@ -88,7 +90,7 @@ export const HeroHeader = () => {
                                             size="sm"
                                             className="flex items-center gap-2 cursor-pointer">
                                             <LogOut className="h-4 w-4" />
-                                            <span>Logout</span>
+                                            <span>{t('logout')}</span>
                                         </Button>
                                     </div>
                                 )
@@ -101,7 +103,7 @@ export const HeroHeader = () => {
     );
 };
 
-const GuestMenus = ({isScrolled}: { isScrolled: boolean }) => {
+const GuestMenus = ({isScrolled, t}: { isScrolled: boolean, t: (key: string) => string }) => {
     return (
         <>
             <Link href="/login">
@@ -109,21 +111,21 @@ const GuestMenus = ({isScrolled}: { isScrolled: boolean }) => {
                     variant="outline"
                     size="sm"
                     className={cn(isScrolled && 'lg:hidden')}>
-                    <span>Login</span>
+                    <span>{t('login')}</span>
                 </Button>
             </Link>
             <Link href="/register">
                 <Button
                     size="sm"
                     className={cn(isScrolled && 'lg:hidden')}>
-                    <span>Sign Up</span>
+                    <span>{t('signUp')}</span>
                 </Button>
             </Link>
             <Link href="/home">
                 <Button
                     size="sm"
                     className={cn(!isScrolled && 'hidden')}>
-                    <span>Get started</span>
+                    <span>{t('getStarted')}</span>
                 </Button>
             </Link>
         </>

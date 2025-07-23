@@ -92,7 +92,7 @@ export default async function VideoPage(props: { params: Promise<{ videoId: stri
                 </a>
                 <ChevronRight className="size-5 text-muted-foreground" />
                 <h1 className="font-semibold tracking-tight flex-1 truncate">{videoDetails.title}</h1>
-                <LanguageSelector defaultLanguage={userLanguage} />
+                <LanguageSelector />
               </div>
             </div>
 
