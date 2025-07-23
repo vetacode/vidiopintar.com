@@ -5,6 +5,7 @@ import { Search } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { VideoList } from "@/components/video/video-list"
 import { Button } from "@/components/ui/button"
+import { useTranslations } from 'next-intl'
 
 type Video = {
     userVideoId: number;
@@ -20,6 +21,7 @@ interface VideoListWithFilterProps {
 }
 
 export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
+    const t = useTranslations('video');
     const maxChannels = 7;
     const [selectedChannel, setSelectedChannel] = useState<string | null>(null)
     const [searchQuery, setSearchQuery] = useState('')
@@ -68,7 +70,7 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
     if (!videos || videos.length === 0) {
         return (
             <div className="max-w-5xl px-6 mx-auto w-full">
-                <h2 className="text-xl font-semibold tracking-tighter mb-6">Your recent videos</h2>
+                <h2 className="text-xl font-semibold tracking-tighter mb-6">{t('videoList.title')}</h2>
                 <VideoList videos={[]} />
             </div>
         )
@@ -76,13 +78,13 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
 
     return (
         <div className="max-w-5xl px-6 mx-auto w-full">
-            <h2 className="text-xl font-semibold tracking-tighter mb-6">Your recent videos</h2>
+            <h2 className="text-xl font-semibold tracking-tighter mb-6">{t('videoList.title')}</h2>
 
             <div className="flex flex-wrap items-center gap-3 mb-8 overflow-x-auto py-2">
                 <div className="relative">
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                     <Input
-                        placeholder="Search..."
+                        placeholder={t('videoList.searchPlaceholder')}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="pl-10 ml-0.5 w-64 rounded-full"
@@ -94,7 +96,7 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
                     onClick={() => setSelectedChannel(null)}
                     className="rounded-full px-4 py-2 text-sm whitespace-nowrap"
                 >
-                    All Channels
+                    {t('videoList.allChannels')}
                 </Button>
                 {displayedChannels.map((channel) => (
                     <Button
@@ -115,7 +117,7 @@ export function VideoListWithFilter({ videos }: VideoListWithFilterProps) {
                         onClick={() => setShowAllChannels(!showAllChannels)}
                         className="rounded-full px-4 py-2 text-sm whitespace-nowrap"
                     >
-                        {showAllChannels ? 'Show Less' : `+${uniqueChannels.length - maxChannels} More`}
+                        {showAllChannels ? t('videoList.showLess') : `+${uniqueChannels.length - maxChannels} ${t('videoList.more')}`}
                     </Button>
                 )}
             </div>

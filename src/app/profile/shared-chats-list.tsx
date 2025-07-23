@@ -5,7 +5,8 @@ import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { CopyButton } from "@/components/ui/copy-button";
-import { ExternalLink } from "lucide-react"
+import { ExternalLink } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
 interface SharedChatsListProps {
   items: Array<{
@@ -18,6 +19,8 @@ interface SharedChatsListProps {
 }
 
 export function SharedChatsList({ items }: SharedChatsListProps) {
+  const t = useTranslations('profile');
+  
   return (
     <div className="grid">
       {items.map((item) => (
@@ -31,19 +34,19 @@ export function SharedChatsList({ items }: SharedChatsListProps) {
             <div className="flex-1">
               <h3 className="font-semibold line-clamp-2 mb-1">{item.title}</h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Shared {formatDistanceToNow(new Date(item.createdAt))} ago
+                {t('sharedChats.shared')} {formatDistanceToNow(new Date(item.createdAt))} {t('sharedChats.ago')}
               </p>
               <div className="mt-2 flex gap-2">
                 <Link href={`/shared/${item.slug}`}>
                   <Button size="sm" variant="ghost" className="text-xs p-1 h-fit">
                     <ExternalLink className="size-3 mr-1" />
-                    View
+                    {t('sharedChats.view')}
                   </Button>
                 </Link>
                 <CopyButton
                   content={`${window.location.origin}/share/${item.slug}`}
-                  copyMessage="Link copied to clipboard"
-                  label="Copy Link"
+                  copyMessage={t('sharedChats.linkCopied')}
+                  label={t('sharedChats.copyLink')}
                 />
               </div>
             </div>

@@ -5,12 +5,15 @@ import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { Markdown } from "@/components/ui/markdown";
+import { getTranslations } from 'next-intl/server';
 
 interface UserChatsProps {
   userId: string;
 }
 
 export async function UserChats({ userId }: UserChatsProps) {
+  const t = await getTranslations('profile');
+  
   // Get latest message for each user video
   const chats = await db
     .select({
@@ -53,7 +56,7 @@ export async function UserChats({ userId }: UserChatsProps) {
   if (chats.length === 0) {
     return (
       <div className="text-center py-12 text-gray-500">
-        <p>You haven't started any chats yet</p>
+        <p>{t('userChats.empty')}</p>
       </div>
     );
   }
@@ -75,7 +78,7 @@ export async function UserChats({ userId }: UserChatsProps) {
                   {chat.lastMessage}
                 </Markdown>
                 <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                  {formatDistanceToNow(new Date(chat.lastMessageTime))} ago
+                  {formatDistanceToNow(new Date(chat.lastMessageTime))} {t('userChats.ago')}
                 </p>
               </div>
             </div>

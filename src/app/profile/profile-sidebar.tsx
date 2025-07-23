@@ -12,26 +12,27 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from 'next-intl';
 
-const sidebarItems = [
+const getSidebarItems = (t: any) => [
   {
     href: "/profile",
-    label: "Profile",
+    label: t('profileSidebar.profile'),
     icon: User,
   },
   {
     href: "/profile/chat",
-    label: "Chats",
+    label: t('profileSidebar.chats'),
     icon: MessageSquare,
   },
   {
     href: "/profile/shared",
-    label: "Shared",
+    label: t('profileSidebar.shared'),
     icon: Share2,
   },
   {
     href: "/profile/usage",
-    label: "Usage",
+    label: t('profileSidebar.usage'),
     icon: BarChart3,
   },
 ];
@@ -42,10 +43,12 @@ interface ProfileSidebarProps {
 
 export function ProfileSidebar({ onItemClick }: ProfileSidebarProps) {
   const pathname = usePathname();
+  const t = useTranslations('profile');
+  const sidebarItems = getSidebarItems(t);
 
   return (
     <aside className="w-full lg:w-64 p-4 lg:p-0 lg:pr-8">
-      <h2 className="text-lg font-semibold mb-4 px-3 lg:hidden">Menu</h2>
+      <h2 className="text-lg font-semibold mb-4 px-3 lg:hidden">{t('profileSidebar.menu')}</h2>
       <nav className="space-y-1">
         {sidebarItems.map((item) => {
           const isActive = pathname === item.href;

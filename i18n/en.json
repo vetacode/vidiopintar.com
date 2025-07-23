@@ -112,7 +112,14 @@
     "submitUrl": "Submit URL",
     "searchVideos": "Search videos",
     "searchPlaceholder": "Search for videos...",
-    "search": "Search"
+    "search": "Search",
+    "videoList": {
+      "title": "Your recent videos",
+      "searchPlaceholder": "Search...",
+      "allChannels": "All Channels",
+      "showLess": "Show Less",
+      "more": "More"
+    }
   },
   "auth": {
     "loginTitle": "Sign in to your account",
@@ -150,6 +157,26 @@
     "deleting": "Deleting...",
     "deleteConfirmTitle": "Are you absolutely sure?",
     "deleteConfirmDesc": "This will permanently delete your profile and remove all your data from our servers.",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "profileSidebar": {
+      "menu": "Menu",
+      "profile": "Profile",
+      "chats": "Chats",
+      "shared": "Shared",
+      "usage": "Usage"
+    },
+    "sharedChats": {
+      "title": "Shared Chats",
+      "empty": "You haven't shared any chats yet",
+      "shared": "Shared",
+      "ago": "ago",
+      "view": "View",
+      "copyLink": "Copy Link",
+      "linkCopied": "Link copied to clipboard"
+    },
+    "userChats": {
+      "empty": "You haven't started any chats yet",
+      "ago": "ago"
+    }
   }
 }

@@ -112,7 +112,14 @@
     "submitUrl": "Paste URL",
     "searchVideos": "Cari video",
     "searchPlaceholder": "Cari video...",
-    "search": "Cari"
+    "search": "Cari",
+    "videoList": {
+      "title": "Video terbaru kamu",
+      "searchPlaceholder": "Cari...",
+      "allChannels": "Semua Channel",
+      "showLess": "Tampilkan Lebih Sedikit",
+      "more": "Lainnya"
+    }
   },
   "auth": {
     "loginTitle": "Masuk ke akun kamu",
@@ -150,6 +157,26 @@
     "deleting": "Menghapus...",
     "deleteConfirmTitle": "Apakah kamu benar-benar yakin?",
     "deleteConfirmDesc": "Ini akan menghapus profil kamu secara permanen dan menghapus semua data kamu dari server kami.",
-    "cancel": "Batal"
+    "cancel": "Batal",
+    "profileSidebar": {
+      "menu": "Menu",
+      "profile": "Profil",
+      "chats": "Chat",
+      "shared": "Dibagikan",
+      "usage": "Penggunaan"
+    },
+    "sharedChats": {
+      "title": "Chat yang Dibagikan",
+      "empty": "Kamu belum membagikan chat apapun",
+      "shared": "Dibagikan",
+      "ago": "yang lalu",
+      "view": "Lihat",
+      "copyLink": "Salin Link",
+      "linkCopied": "Link disalin ke clipboard"
+    },
+    "userChats": {
+      "empty": "Kamu belum memulai chat apapun",
+      "ago": "yang lalu"
+    }
   }
 }
