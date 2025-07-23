@@ -12,6 +12,5 @@
         "i18n/[locale].json"
       ]
     }
-  },
-  "$schema": "https://lingo.dev/schema/i18n.json"
+  }
 }
