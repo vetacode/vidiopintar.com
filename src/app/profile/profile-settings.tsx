@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DeleteProfile } from "./delete-profile";
 import { UserPreferences } from "./user-preferences";
 import { ProfileFeedback } from "./profile-feedback";
+import { useTranslations } from 'next-intl';
 
 interface ProfileSettingsProps {
   user: {
@@ -20,6 +21,7 @@ interface ProfileSettingsProps {
 export function ProfileSettings({ user, userLanguage }: ProfileSettingsProps) {
   const profileName = user.name;
   const username = user.email.split("@")[0];
+  const t = useTranslations('profile');
 
   const getInitials = () => {
     return user.name
@@ -33,7 +35,7 @@ export function ProfileSettings({ user, userLanguage }: ProfileSettingsProps) {
     <div className="space-y-6 md:space-y-8">
       <Card className="shadow-none pt-4 md:pt-6">
         <CardContent className="px-4 md:px-6">
-          <h1 className="text-lg font-semibold mb-6 md:mb-8">Profile</h1>
+          <h1 className="text-lg font-semibold mb-6 md:mb-8">{t('title')}</h1>
 
           <div className="flex flex-col sm:flex-row gap-4">
             {/* Profile picture section */}
@@ -54,7 +56,7 @@ export function ProfileSettings({ user, userLanguage }: ProfileSettingsProps) {
         </CardContent>
       </Card>
 
-      <UserPreferences defaultLanguage={userLanguage} />
+      <UserPreferences />
 
       <ProfileFeedback />
 

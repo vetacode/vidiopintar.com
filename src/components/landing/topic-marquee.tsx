@@ -1,13 +1,16 @@
 import { InfiniteSlider } from '@/components/motion-primitives/infinite-slider'
 import { ProgressiveBlur } from '@/components/motion-primitives/progressive-blur'
+import { useTranslations } from 'next-intl'
 
 export const TopicMarquee = () => {
+    const t = useTranslations('topicMarquee');
+    
     return (
         <section className="bg-background pb-16 md:pb-32">
             <div className="group relative m-auto max-w-6xl px-6">
                 <div className="flex flex-col items-center md:flex-row">
                     <div className="inline md:max-w-44 md:border-r md:pr-6">
-                        <p className="text-end text-sm">Learn any topic from YouTube</p>
+                        <p className="text-end text-sm">{t('title')}</p>
                     </div>
                     <div className="relative py-6 md:w-[calc(100%-11rem)]">
                         <InfiniteSlider
@@ -15,30 +18,30 @@ export const TopicMarquee = () => {
                             speed={40}
                             gap={112}>
                             <div className="flex">
-                                Computer Science
+                                {t('topics.computerScience')}
                             </div>
 
                             <div className="flex">
-                                Math
+                                {t('topics.math')}
                             </div>
                             <div className="flex">
-                                Business
+                                {t('topics.business')}
                             </div>
                             <div className="flex">
-                                Personal Development
+                                {t('topics.personalDevelopment')}
                             </div>
                             <div className="flex">
-                                Productivity
+                                {t('topics.productivity')}
                             </div>
                             <div className="flex">
-                                Content Creation
+                                {t('topics.contentCreation')}
                             </div>
                             <div className="flex">
-                                Public Speaking
+                                {t('topics.publicSpeaking')}
                             </div>
 
                             <div className="flex">
-                                Music
+                                {t('topics.music')}
                             </div>
                         </InfiniteSlider>
 

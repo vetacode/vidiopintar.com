@@ -1,0 +1,181 @@
+{
+  "navigation": {
+    "home": "Beranda",
+    "profile": "Profil",
+    "admin": "Admin",
+    "login": "Masuk",
+    "register": "Daftar",
+    "logout": "Keluar",
+    "signUp": "Daftar",
+    "getStarted": "Mulai Sekarang"
+  },
+  "hero": {
+    "title": "Jangan Hanya Menonton YouTube — Belajarlah Darinya",
+    "subtitle": "Dapatkan momen \"aha\" instan dari video YouTube apa pun. Dapatkan wawasan kunci, hubungkan titik-titik, dan bantu kamu membangun pengetahuan nyata — bukan hanya waktu menonton."
+  },
+  "features": {
+    "title": "Teman belajar YouTube kamu",
+    "subtitle": "Dapatkan momen \"aha\" instan dari video yang sudah kamu sukai",
+    "items": {
+      "fast": {
+        "title": "Cepaaat",
+        "description": "Dapatkan wawasan kunci dengan instan. Tidak perlu menonton ulang untuk menemukan nugget emas itu."
+      },
+      "smart": {
+        "title": "Pintar",
+        "description": "AI mengekstrak emas dari setiap video, menghubungkan ide yang mungkin kamu lewatkan."
+      },
+      "personal": {
+        "title": "Personal",
+        "description": "Wawasan kamu, cara kamu. Bangun basis pengetahuan personal dari video yang kamu sukai."
+      },
+      "interactive": {
+        "title": "Interaktif",
+        "description": "Ubah menonton pasif menjadi pembelajaran aktif dengan alat pemahaman instan."
+      },
+      "progress": {
+        "title": "Kemajuan",
+        "description": "Lihat pengetahuan kamu berkembang. Lacak pemahaman nyata, bukan hanya waktu menonton."
+      },
+      "effortless": {
+        "title": "Mudah",
+        "description": "Dari YouTube ke momen \"aha\" dalam hitungan detik. Pembelajaran jadi sangat sederhana."
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Dari waktu menonton ke momen \"aha\"",
+    "subtitle": "Lihat bagaimana orang mengekstrak wawasan nyata dan membangun pengetahuan dari video yang mereka sukai.",
+    "avatarFallback": "ST"
+  },
+  "callToAction": {
+    "title": "Mulai Belajar",
+    "subtitle": "Pelajari Topik Apa Pun, Satu Video dalam Satu Waktu."
+  },
+  "footer": {
+    "brand": "Vidiopintar",
+    "links": {
+      "changelog": "Changelog",
+      "privacy": "Privasi",
+      "terms": "Syarat & Ketentuan",
+      "github": "Github"
+    },
+    "copyright": "© {{year}} Vidiopintar, Semua hak dilindungi"
+  },
+  "common": {
+    "submit": "Kirim",
+    "cancel": "Batal",
+    "save": "Simpan",
+    "delete": "Hapus",
+    "edit": "Edit",
+    "loading": "Memuat...",
+    "error": "Error",
+    "success": "Berhasil"
+  },
+  "home": {
+    "title": "Vidiopintar",
+    "subtitle": "Apa yang ingin kamu pelajari hari ini?",
+    "chooseTopics": "Pilih topik"
+  },
+  "topicMarquee": {
+    "title": "Pelajari topik apa pun dari YouTube",
+    "topics": {
+      "computerScience": "Ilmu Komputer",
+      "math": "Matematika",
+      "business": "Bisnis",
+      "personalDevelopment": "Pengembangan Diri",
+      "productivity": "Produktivitas",
+      "contentCreation": "Pembuatan Konten",
+      "publicSpeaking": "Public Speaking",
+      "music": "Musik"
+    }
+  },
+  "heroForm": {
+    "placeholder": "Paste URL YouTube",
+    "startLearning": "Mulai belajar",
+    "videoUrlRequired": "URL video diperlukan",
+    "invalidYouTubeUrl": "URL YouTube tidak valid. Periksa URL dan coba lagi."
+  },
+  "video": {
+    "title": "Video",
+    "summary": "Ringkasan",
+    "transcript": "Transkrip",
+    "comments": "Komentar",
+    "chat": "Chat dengan Video",
+    "enterYouTubeUrl": "Masukkan URL YouTube",
+    "processing": "Memproses video...",
+    "generateSummary": "Buat Ringkasan",
+    "deleteTitle": "Hapus video?",
+    "deleteDescription": "Aksi ini akan menghapus video ini secara permanen.",
+    "deleteConfirm": "Ya, hapus!",
+    "submitUrl": "Paste URL",
+    "searchVideos": "Cari video",
+    "searchPlaceholder": "Cari video...",
+    "search": "Cari",
+    "videoList": {
+      "title": "Video terbaru kamu",
+      "searchPlaceholder": "Cari...",
+      "allChannels": "Semua Channel",
+      "showLess": "Tampilkan Lebih Sedikit",
+      "more": "Lainnya"
+    }
+  },
+  "auth": {
+    "loginTitle": "Masuk ke akun kamu",
+    "loginSubtitle": "Selamat datang! Masuk untuk melanjutkan",
+    "registerTitle": "Buat Akun Baru",
+    "registerSubtitle": "Selamat datang! Buat akun untuk memulai",
+    "email": "Email",
+    "password": "Kata sandi",
+    "confirmPassword": "Konfirmasi kata sandi",
+    "forgotPassword": "Lupa kata sandi?",
+    "noAccount": "Belum punya akun?",
+    "hasAccount": "Sudah punya akun?",
+    "createAccount": "Buat akun",
+    "signIn": "Masuk",
+    "signInWith": "Google",
+    "failedSignIn": "Gagal masuk dengan Google"
+  },
+  "profile": {
+    "title": "Profil",
+    "preferences": "Preferensi",
+    "selectLanguage": "Pilih Bahasa",
+    "selectTheme": "Pilih Tema",
+    "light": "Terang",
+    "dark": "Gelap",
+    "system": "Sistem",
+    "selectThemePlaceholder": "Pilih tema",
+    "preferencesNote": "Preferensi kamu disimpan secara lokal dan akan tersimpan di seluruh sesi.",
+    "helpUsImprove": "Bantu kami berkembang",
+    "helpUsImproveDesc": "Bagikan pengalaman kamu untuk membantu kami membuat platform yang lebih baik",
+    "giveFeedback": "Berikan masukan",
+    "feedbackSuccess": "Terima kasih atas masukan kamu!",
+    "dangerZone": "Area Berbahaya",
+    "dangerZoneDesc": "Setelah kamu menghapus profil, tidak ada jalan untuk kembali. Pastikan kamu yakin.",
+    "deleteProfile": "Hapus Profil",
+    "deleting": "Menghapus...",
+    "deleteConfirmTitle": "Apakah kamu benar-benar yakin?",
+    "deleteConfirmDesc": "Ini akan menghapus profil kamu secara permanen dan menghapus semua data kamu dari server kami.",
+    "cancel": "Batal",
+    "profileSidebar": {
+      "menu": "Menu",
+      "profile": "Profil",
+      "chats": "Chat",
+      "shared": "Dibagikan",
+      "usage": "Penggunaan"
+    },
+    "sharedChats": {
+      "title": "Chat yang Dibagikan",
+      "empty": "Kamu belum membagikan chat apapun",
+      "shared": "Dibagikan",
+      "ago": "yang lalu",
+      "view": "Lihat",
+      "copyLink": "Salin Link",
+      "linkCopied": "Link disalin ke clipboard"
+    },
+    "userChats": {
+      "empty": "Kamu belum memulai chat apapun",
+      "ago": "yang lalu"
+    }
+  }
+}

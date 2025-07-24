@@ -2,12 +2,15 @@ import { db } from "@/lib/db";
 import { sharedVideos, videos } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { SharedChatsList } from "./shared-chats-list";
+import { getTranslations } from 'next-intl/server';
 
 interface SharedChatsProps {
   userId: string;
 }
 
 export async function SharedChats({ userId }: SharedChatsProps) {
+  const t = await getTranslations('profile');
+  
   const shared = await db
     .select({
       slug: sharedVideos.slug,
@@ -25,7 +28,7 @@ export async function SharedChats({ userId }: SharedChatsProps) {
   if (shared.length === 0) {
     return (
       <div className="text-center py-12 text-gray-500">
-        <p>You haven't shared any chats yet</p>
+        <p>{t('sharedChats.empty')}</p>
       </div>
     );
   }

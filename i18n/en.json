@@ -1,3 +1,181 @@
 {
-	"greeting": "Hello from Lingo.dev"
+  "navigation": {
+    "home": "Home",
+    "profile": "Profile",
+    "admin": "Admin",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "signUp": "Sign Up",
+    "getStarted": "Get started"
+  },
+  "hero": {
+    "title": "Don't Just Watch YouTube — Learn From It",
+    "subtitle": "Get instant \"aha moments\" from any YouTube video. Get key insights, connects the dots, and helps you build real knowledge — not just watch time."
+  },
+  "features": {
+    "title": "Your YouTube learning companion",
+    "subtitle": "Get instant \"aha moments\" from videos you already love watching",
+    "items": {
+      "fast": {
+        "title": "Faaast",
+        "description": "Get key insights instantly. No more rewatching to find that one golden nugget."
+      },
+      "smart": {
+        "title": "Smart",
+        "description": "AI extracts the gold from every video, connecting ideas you might have missed."
+      },
+      "personal": {
+        "title": "Personal",
+        "description": "Your insights, your way. Build a personal knowledge base from videos you love."
+      },
+      "interactive": {
+        "title": "Interactive",
+        "description": "Turn passive viewing into active learning with instant comprehension tools."
+      },
+      "progress": {
+        "title": "Progress",
+        "description": "See your knowledge grow. Track real understanding, not just watch time."
+      },
+      "effortless": {
+        "title": "Effortless",
+        "description": "From YouTube to \"aha moments\" in seconds. Learning made ridiculously simple."
+      }
+    }
+  },
+  "testimonials": {
+    "title": "From watch time to \"aha moments\"",
+    "subtitle": "See how people are extracting real insights and building knowledge from the videos they love.",
+    "avatarFallback": "ST"
+  },
+  "callToAction": {
+    "title": "Start Learning",
+    "subtitle": "Learn Any Topic, One Video at a Time."
+  },
+  "footer": {
+    "brand": "Vidiopintar",
+    "links": {
+      "changelog": "Changelog",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "github": "Github"
+    },
+    "copyright": "© {{year}} Vidiopintar, All rights reserved"
+  },
+  "common": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "home": {
+    "title": "Vidiopintar",
+    "subtitle": "What do you want to learn today?",
+    "chooseTopics": "Choose topics"
+  },
+  "topicMarquee": {
+    "title": "Learn any topic from YouTube",
+    "topics": {
+      "computerScience": "Computer Science",
+      "math": "Math",
+      "business": "Business",
+      "personalDevelopment": "Personal Development",
+      "productivity": "Productivity",
+      "contentCreation": "Content Creation",
+      "publicSpeaking": "Public Speaking",
+      "music": "Music"
+    }
+  },
+  "heroForm": {
+    "placeholder": "Paste YouTube URL",
+    "startLearning": "Start learning",
+    "videoUrlRequired": "Video URL is required",
+    "invalidYouTubeUrl": "Invalid YouTube URL. Please check the URL and try again."
+  },
+  "video": {
+    "title": "Video",
+    "summary": "Summary",
+    "transcript": "Transcript",
+    "comments": "Comments",
+    "chat": "Chat with Video",
+    "enterYouTubeUrl": "Enter YouTube URL",
+    "processing": "Processing video...",
+    "generateSummary": "Generate Summary",
+    "deleteTitle": "Delete video?",
+    "deleteDescription": "This will permanently remove this video.",
+    "deleteConfirm": "Yes, delete!",
+    "submitUrl": "Submit URL",
+    "searchVideos": "Search videos",
+    "searchPlaceholder": "Search for videos...",
+    "search": "Search",
+    "videoList": {
+      "title": "Your recent videos",
+      "searchPlaceholder": "Search...",
+      "allChannels": "All Channels",
+      "showLess": "Show Less",
+      "more": "More"
+    }
+  },
+  "auth": {
+    "loginTitle": "Sign in to your account",
+    "loginSubtitle": "Welcome back! Sign in to continue",
+    "registerTitle": "Create a new Account",
+    "registerSubtitle": "Welcome! Create an account to get started",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Have an account?",
+    "createAccount": "Create account",
+    "signIn": "Sign In",
+    "signInWith": "Google",
+    "failedSignIn": "Failed to sign in with Google"
+  },
+  "profile": {
+    "title": "Profile",
+    "preferences": "Preferences",
+    "selectLanguage": "Select Language",
+    "selectTheme": "Select Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "selectThemePlaceholder": "Select a theme",
+    "preferencesNote": "Your preferences are saved locally and will persist across sessions.",
+    "helpUsImprove": "Help us improve",
+    "helpUsImproveDesc": "Share your experience to help us make the platform better",
+    "giveFeedback": "Give feedback",
+    "feedbackSuccess": "Thank you for your feedback!",
+    "dangerZone": "Danger Zone",
+    "dangerZoneDesc": "Once you delete your profile, there is no going back. Please be certain.",
+    "deleteProfile": "Delete Profile",
+    "deleting": "Deleting...",
+    "deleteConfirmTitle": "Are you absolutely sure?",
+    "deleteConfirmDesc": "This will permanently delete your profile and remove all your data from our servers.",
+    "cancel": "Cancel",
+    "profileSidebar": {
+      "menu": "Menu",
+      "profile": "Profile",
+      "chats": "Chats",
+      "shared": "Shared",
+      "usage": "Usage"
+    },
+    "sharedChats": {
+      "title": "Shared Chats",
+      "empty": "You haven't shared any chats yet",
+      "shared": "Shared",
+      "ago": "ago",
+      "view": "View",
+      "copyLink": "Copy Link",
+      "linkCopied": "Link copied to clipboard"
+    },
+    "userChats": {
+      "empty": "You haven't started any chats yet",
+      "ago": "ago"
+    }
+  }
 }

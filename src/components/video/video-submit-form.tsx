@@ -7,13 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import { PromptInput, PromptInputTextarea, PromptInputActions } from "@/components/ui/prompt-input";
 import { toast } from "sonner";
+import { useTranslations } from 'next-intl';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
+  const tCommon = useTranslations('common');
   
   return (
     <Button type="submit" disabled={pending} className="rounded-xl cursor-pointer">
-      {pending ? <Loader className="size-4 animate-spin" /> : "Submit"}
+      {pending ? <Loader className="size-4 animate-spin" /> : tCommon('submit')}
     </Button>
   );
 }
@@ -21,6 +23,7 @@ function SubmitButton() {
 export function VideoSubmitForm() {
   const [input, setInput] = useState("")
   const [state, formAction] = useActionState(handleVideoSubmit, { success: false, errors: undefined });
+  const t = useTranslations('heroForm');
   
   useEffect(() => {
     if (state.errors && state.errors.length > 0) {
@@ -37,7 +40,7 @@ export function VideoSubmitForm() {
         onValueChange={(value) => setInput(value)}>
         <PromptInputTextarea
           name="videoUrl"
-          placeholder="Paste YouTube link here..."
+          placeholder={t('placeholder')}
           className="bg-transparent!"
           required
         />

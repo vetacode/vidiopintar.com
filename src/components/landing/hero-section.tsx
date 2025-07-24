@@ -1,10 +1,13 @@
 
+'use client';
+
 import React from 'react'
 import { TextEffect } from '@/components/motion-primitives/text-effect'
 import { AnimatedGroup } from '@/components/motion-primitives/animated-group'
 import { HeroHeader } from '@/components/hero-header'
 import { TopicMarquee } from '@/components/landing/topic-marquee'
 import { FormStartLearning } from '@/components/landing/hero-form'
+import { useTranslations } from 'next-intl'
 
 const transitionVariants = {
     item: {
@@ -27,6 +30,7 @@ const transitionVariants = {
 }
 
 export function HeroSection() {
+    const t = useTranslations('hero');
 
     return (
         <>
@@ -48,7 +52,7 @@ export function HeroSection() {
                                 speedSegment={0.3}
                                 as="h1"
                                 className="text-balance text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-                                Don't Just Watch YouTube — Learn From It
+                                {t('title')}
                             </TextEffect>
                             <TextEffect
                                 per="line"
@@ -57,8 +61,7 @@ export function HeroSection() {
                                 delay={0.5}
                                 as="p"
                                 className="mx-auto mt-12 max-w-2xl text-pretty text-lg">
-                                Get instant "aha moments" from any YouTube video. Get key insights, connects the dots, and helps you build
-                                real knowledge — not just watch time.
+                                {t('subtitle')}
                             </TextEffect>
 
                             <AnimatedGroup
