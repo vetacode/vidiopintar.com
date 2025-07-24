@@ -6,7 +6,6 @@ export default getRequestConfig(async () => {
   const cookieStore = await cookies();
   const locale = cookieStore.get('locale')?.value || 'en';
   
-  // Validate locale
   const validLocales = ['en', 'id'];
   const safeLocale = validLocales.includes(locale) ? locale : 'en';
 
