@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter } from 'next/navigation';
-import { useLocale } from 'next-intl';
-import { Languages } from 'lucide-react';
+import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
+import { Languages } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -22,34 +22,39 @@ interface LanguageSelectorProps {
 
 const languageNames = {
   en: "English",
-  id: "Bahasa Indonesia"
+  id: "Bahasa Indonesia",
 };
 
-const locales: Language[] = ['en', 'id'];
+const locales: Language[] = ["en", "id"];
 
-export function LanguageSelector({ className, iconOnly = false }: LanguageSelectorProps) {
+export function LanguageSelector({
+  className,
+  iconOnly = false,
+}: LanguageSelectorProps) {
   const router = useRouter();
   const locale = useLocale();
 
   const handleLanguageChange = async (newLocale: Language) => {
     const languageName = languageNames[newLocale];
-    
+
     // Set cookie for locale
-    document.cookie = `locale=${newLocale};path=/;max-age=${60 * 60 * 24 * 365}`;
-    
+    document.cookie = `locale=${newLocale};path=/;max-age=${
+      60 * 60 * 24 * 365
+    }`;
+
     // Sync to backend
     try {
-      await fetch('/api/user/language', {
-        method: 'POST',
+      await fetch("/api/user/language", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ language: newLocale }),
       });
     } catch (error) {
-      console.log('Failed to sync language preference to backend:', error);
+      console.log("Failed to sync language preference to backend:", error);
     }
-    
+
     // Refresh the page to apply new locale
     router.refresh();
     toast.success(`Language changed to ${languageName}`);
@@ -57,9 +62,12 @@ export function LanguageSelector({ className, iconOnly = false }: LanguageSelect
 
   return (
     <Select value={locale} onValueChange={handleLanguageChange}>
-      <SelectTrigger 
+      <SelectTrigger
         className={cn(
-          iconOnly ? "w-[40px] h-[40px] border-none bg-transparent shadow-none hover:bg-accent p-0 justify-center [&>svg:last-child]:hidden" : "w-[180px]", 
+          "hover:cursor-pointer hover:text-zinc-50",
+          iconOnly
+            ? "w-[40px] h-[40px] border-none bg-transparent shadow-none hover:bg-accent p-0 justify-center [&>svg:last-child]:hidden"
+            : "w-[180px]",
           className
         )}
       >

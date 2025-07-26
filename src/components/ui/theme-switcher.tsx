@@ -22,7 +22,7 @@ function ThemeOption({
   return (
     <button
       className={cn(
-        "relative flex size-8 cursor-default items-center justify-center rounded-full transition-all [&_svg]:size-4",
+        "relative flex size-8 cursor-default items-center justify-center rounded-full transition-all [&_svg]:size-4 hover:cursor-pointer",
         isActive
           ? "text-zinc-950 dark:text-zinc-50"
           : "text-zinc-400 hover:text-zinc-950 dark:text-zinc-500 dark:hover:text-zinc-50"
