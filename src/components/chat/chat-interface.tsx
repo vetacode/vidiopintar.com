@@ -4,7 +4,7 @@ import { useChat } from "@ai-sdk/react";
 import { ArrowUp, Square, MessageCircleMore } from "lucide-react"
 import { flushSync } from "react-dom"
 import { Button } from "@/components/ui/button"
-import { ChatContainerRoot, ChatContainerScrollAnchor } from "@/components/ui/chat-container"
+import { ChatContainerRoot, ChatContainerContent, ChatContainerScrollAnchor } from "@/components/ui/chat-container"
 import {
   PromptInput,
   PromptInputAction,
@@ -59,7 +59,7 @@ export function ChatInterface({
       />
       <ChatContainerRoot className="relative w-full flex-1 scrollbar-hidden">
         {messages.length === 0 && quickStartQuestions.length > 0 ? (
-          <div className="flex flex-col gap-4 p-4 h-full justify-center">
+          <ChatContainerContent className="flex flex-col gap-4 p-4 h-full justify-center">
             <div>
               <p className="text-left py-2 text-foreground/75 font-semibold tracking-tight">
                 Start your video chat with these quick questions!
@@ -89,7 +89,8 @@ export function ChatInterface({
                 )
               ))}
             </div>
-          </div>
+            <ChatContainerScrollAnchor />
+          </ChatContainerContent>
         ) : (
           <MessageItem
             messages={messages}
@@ -97,7 +98,6 @@ export function ChatInterface({
             videoId={videoId}
           />
         )}
-        <ChatContainerScrollAnchor />
       </ChatContainerRoot>
       <div className="p-4">
         {isSharePage ? (
