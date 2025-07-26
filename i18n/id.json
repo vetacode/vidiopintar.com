@@ -48,6 +48,51 @@
     "subtitle": "Bergabunglah dengan ribuan pengguna yang sudah merasakan manfaat mengubah video menjadi sumber pengetahuan.",
     "avatarFallback": "ST"
   },
+  "pricing": {
+    "title": "Harga yang sederhana dan transparan",
+    "subtitle": "Pilih paket yang sesuai dengan perjalanan belajar kamu",
+    "popular": "Paling Populer",
+    "getStarted": "Mulai Sekarang",
+    "getStartedFree": "Mulai Gratis",
+    "guarantee": "Garansi uang kembali 30 hari",
+    "plans": {
+      "free": {
+        "name": "Gratis",
+        "period": "selamanya",
+        "description": "Sempurna untuk mencoba",
+        "features": {
+          "limited": "3 video per bulan",
+          "basic": "Wawasan AI dasar",
+          "summaries": "Ringkasan sederhana",
+          "community": "Dukungan komunitas",
+          "branding": "Branding Vidiopintar"
+        }
+      },
+      "monthly": {
+        "name": "Bulanan",
+        "period": "per bulan",
+        "description": "Sempurna untuk memulai",
+        "features": {
+          "unlimited": "Pemrosesan video tanpa batas",
+          "ai": "Wawasan bertenaga AI",
+          "summaries": "Ringkasan instan",
+          "support": "Dukungan email"
+        }
+      },
+      "yearly": {
+        "name": "Tahunan",
+        "period": "per tahun",
+        "description": "Nilai terbaik untuk pembelajar yang berkomitmen",
+        "features": {
+          "unlimited": "Pemrosesan video tanpa batas",
+          "ai": "Wawasan bertenaga AI",
+          "summaries": "Ringkasan instan",
+          "support": "Dukungan email",
+          "priority": "Dukungan prioritas"
+        }
+      }
+    }
+  },
   "callToAction": {
     "title": "Mulai Belajar",
     "subtitle": "Pelajari Topik Apa Pun, Satu Video dalam Satu Waktu."
@@ -177,5 +222,23 @@
       "empty": "Kamu belum memulai chat apapun",
       "ago": "yang lalu"
     }
+  },
+  "payment": {
+    "title": "Selesaikan Pembayaran",
+    "subtitle": "Ikuti instruksi di bawah untuk menyelesaikan langganan kamu",
+    "orderSummary": "Ringkasan Pesanan",
+    "bankDetails": "Detail Transfer Bank",
+    "bankName": "Nama Bank",
+    "accountNumber": "Nomor Rekening",
+    "accountName": "Nama Pemilik Rekening",
+    "amount": "Jumlah",
+    "copy": "Salin",
+    "copied": "Disalin!",
+    "instructions": "Instruksi Pembayaran",
+    "step1": "Transfer jumlah yang tepat ke rekening bank di atas",
+    "step2": "Simpan bukti transfer untuk verifikasi",
+    "step3": "Klik tombol WhatsApp di bawah untuk konfirmasi pembayaran",
+    "confirmPayment": "Konfirmasi Pembayaran via WhatsApp",
+    "confirmationNote": "Tim kami akan memverifikasi pembayaran dan mengaktifkan langganan dalam 24 jam"
   }
 }

@@ -48,6 +48,51 @@
     "subtitle": "See how people are extracting real insights and building knowledge from the videos they love.",
     "avatarFallback": "ST"
   },
+  "pricing": {
+    "title": "Simple, transparent pricing",
+    "subtitle": "Choose the plan that fits your learning journey",
+    "popular": "Most Popular",
+    "getStarted": "Get Started",
+    "getStartedFree": "Start Free",
+    "guarantee": "30-day money-back guarantee",
+    "plans": {
+      "free": {
+        "name": "Free",
+        "period": "forever",
+        "description": "Perfect for trying out",
+        "features": {
+          "limited": "3 videos per month",
+          "basic": "Basic AI insights",
+          "summaries": "Simple summaries",
+          "community": "Community support",
+          "branding": "Vidiopintar branding"
+        }
+      },
+      "monthly": {
+        "name": "Monthly",
+        "period": "per month",
+        "description": "Perfect for getting started",
+        "features": {
+          "unlimited": "Unlimited video processing",
+          "ai": "AI-powered insights",
+          "summaries": "Instant summaries",
+          "support": "Email support"
+        }
+      },
+      "yearly": {
+        "name": "Yearly",
+        "period": "per year",
+        "description": "Best value for committed learners",
+        "features": {
+          "unlimited": "Unlimited video processing",
+          "ai": "AI-powered insights",
+          "summaries": "Instant summaries",
+          "support": "Email support",
+          "priority": "Priority support"
+        }
+      }
+    }
+  },
   "callToAction": {
     "title": "Start Learning",
     "subtitle": "Learn Any Topic, One Video at a Time."
@@ -177,5 +222,23 @@
       "empty": "You haven't started any chats yet",
       "ago": "ago"
     }
+  },
+  "payment": {
+    "title": "Complete Your Payment",
+    "subtitle": "Follow the instructions below to complete your subscription",
+    "orderSummary": "Order Summary",
+    "bankDetails": "Bank Transfer Details",
+    "bankName": "Bank Name",
+    "accountNumber": "Account Number",
+    "accountName": "Account Name",
+    "amount": "Amount",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "instructions": "Payment Instructions",
+    "step1": "Transfer the exact amount to the bank account above",
+    "step2": "Keep your transfer receipt for verification",
+    "step3": "Click the WhatsApp button below to confirm your payment",
+    "confirmPayment": "Confirm Payment via WhatsApp",
+    "confirmationNote": "Our team will verify your payment and activate your subscription within 24 hours"
   }
 }
