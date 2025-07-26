@@ -97,8 +97,8 @@ export function ChatInterface({
             videoId={videoId}
           />
         )}
+        <ChatContainerScrollAnchor />
       </ChatContainerRoot>
-      <ChatContainerScrollAnchor />
       <div className="p-4">
         {isSharePage ? (
           <div className="text-center text-sm text-muted-foreground">
