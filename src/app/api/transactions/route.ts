@@ -2,71 +2,152 @@ import { NextResponse } from 'next/server';
 import { transactionsRepository } from '@/lib/db/repository/transactions';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
+import { 
+  createTransactionSchema, 
+  validateAmountMatchesPlan,
+  PAYMENT_LIMITS,
+  type PlanType 
+} from '@/lib/validations/payment';
+import { 
+  paymentLogger, 
+  getSanitizedRequestMetadata, 
+  logPaymentSuccess, 
+  logPaymentFailure 
+} from '@/lib/utils/logger';
+import { ZodError } from 'zod';
 
 export async function POST(request: Request) {
+  const requestMetadata = await getSanitizedRequestMetadata(request);
+  
   try {
     const session = await auth.api.getSession({
       headers: await headers()
     });
+    
     if (!session?.user?.id) {
+      paymentLogger.warn('Unauthorized transaction creation attempt', requestMetadata);
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Parse and validate request body
     const body = await request.json();
-    const { planType, amount, currency = 'IDR', paymentSettings } = body;
+    const validatedData = createTransactionSchema.parse(body);
     
-    if (!planType || !amount) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    // Validate amount matches plan pricing
+    const amountValidation = validateAmountMatchesPlan(validatedData.planType as PlanType, validatedData.amount);
+    if (!amountValidation.isValid) {
+      paymentLogger.warn('Invalid amount for plan type', {
+        userId: session.user.id,
+        planType: validatedData.planType,
+        providedAmount: validatedData.amount,
+        expectedAmount: amountValidation.expectedAmount,
+        error: amountValidation.error,
+      });
+      return NextResponse.json({ 
+        error: 'Invalid amount',
+        details: amountValidation.error,
+        expectedAmount: amountValidation.expectedAmount
+      }, { status: 400 });
     }
 
-    if (!['monthly', 'yearly'].includes(planType)) {
-      return NextResponse.json({ error: 'Invalid plan type' }, { status: 400 });
+    // Check for recent transactions (rate limiting)
+    const recentTransactions = await transactionsRepository.getRecentTransactionsByUserId(
+      session.user.id, 
+      24 * 60 * 60 * 1000 // 24 hours in milliseconds
+    );
+    
+    if (recentTransactions.length >= PAYMENT_LIMITS.MAX_TRANSACTIONS_PER_USER_PER_DAY) {
+      paymentLogger.warn('User exceeded daily transaction limit', {
+        userId: session.user.id,
+        recentTransactionCount: recentTransactions.length,
+        limit: PAYMENT_LIMITS.MAX_TRANSACTIONS_PER_USER_PER_DAY,
+      });
+      return NextResponse.json({ 
+        error: 'Transaction limit exceeded',
+        details: `Maximum ${PAYMENT_LIMITS.MAX_TRANSACTIONS_PER_USER_PER_DAY} transactions per day allowed`
+      }, { status: 429 });
     }
 
     // Generate unique transaction reference
     const transactionReference = await transactionsRepository.generateUniqueReference();
 
     // Get user agent and IP from request headers
-    const userAgent = request.headers.get('user-agent') || undefined;
-    const ipAddress = request.headers.get('x-forwarded-for') || 
-                     request.headers.get('x-real-ip') || 
+    const headersList = await headers();
+    const userAgent = headersList.get('user-agent')?.substring(0, 500) || undefined;
+    const ipAddress = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                     headersList.get('x-real-ip') || 
                      undefined;
 
     const transaction = await transactionsRepository.create({
       userId: session.user.id,
-      planType,
-      amount,
-      currency,
+      planType: validatedData.planType,
+      amount: validatedData.amount,
+      currency: validatedData.currency,
       transactionReference,
-      paymentSettings: paymentSettings ? JSON.stringify(paymentSettings) : undefined,
+      paymentSettings: validatedData.paymentSettings,
       userAgent,
       ipAddress,
     });
 
+    logPaymentSuccess('transaction_created', {
+      userId: session.user.id,
+      transactionId: transaction.id,
+      amount: validatedData.amount,
+      planType: validatedData.planType,
+    });
+
     return NextResponse.json(transaction, { status: 201 });
+    
   } catch (error) {
-    console.error('Error creating transaction:', error);
+    if (error instanceof ZodError) {
+      paymentLogger.warn('Transaction validation failed', {
+        validationErrors: error.errors,
+        requestMetadata,
+      });
+      return NextResponse.json({ 
+        error: 'Validation failed',
+        details: error.errors.map(err => ({
+          field: err.path.join('.'),
+          message: err.message
+        }))
+      }, { status: 400 });
+    }
+    
+    logPaymentFailure('transaction_creation', error, {
+      requestMetadata,
+    });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 export async function GET(request: Request) {
+  const requestMetadata = await getSanitizedRequestMetadata(request);
+  
   try {
     const session = await auth.api.getSession({
       headers: await headers()
     });
     if (!session?.user?.id) {
+      paymentLogger.warn('Unauthorized transaction fetch attempt', requestMetadata);
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '10');
+    const limit = Math.min(parseInt(searchParams.get('limit') || '10'), 100); // Cap at 100
 
     const transactions = await transactionsRepository.getByUserId(session.user.id, limit);
     
+    paymentLogger.info('User transactions fetched', {
+      userId: session.user.id,
+      transactionCount: transactions.length,
+      requestedLimit: limit,
+    });
+    
     return NextResponse.json(transactions);
   } catch (error) {
-    console.error('Error fetching transactions:', error);
+    logPaymentFailure('transaction_fetch', error, {
+      requestMetadata,
+    });
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -1,4 +1,4 @@
-import { eq, desc, and } from 'drizzle-orm';
+import { eq, desc, and, sql } from 'drizzle-orm';
 import { db } from '../index';
 import { transactions, type Transaction, type NewTransaction, type TransactionStatus } from '../schema/transactions';
 import { user } from '../schema/auth';
@@ -43,6 +43,38 @@ export class TransactionsRepository {
       .where(eq(transactions.userId, userId))
       .orderBy(desc(transactions.createdAt))
       .limit(limit);
+  }
+
+  async getPendingTransactionByUserAndPlan(userId: string, planType: string): Promise<Transaction | null> {
+    const result = await db
+      .select()
+      .from(transactions)
+      .where(
+        and(
+          eq(transactions.userId, userId),
+          eq(transactions.planType, planType),
+          eq(transactions.status, 'pending')
+        )
+      )
+      .orderBy(desc(transactions.createdAt))
+      .limit(1);
+    
+    return result[0] || null;
+  }
+
+  async getRecentTransactionsByUserId(userId: string, timeWindowMs: number): Promise<Transaction[]> {
+    const cutoffTime = new Date(Date.now() - timeWindowMs);
+    return await db
+      .select()
+      .from(transactions)
+      .where(
+        and(
+          eq(transactions.userId, userId),
+          // Use gte for timestamp comparison
+          sql`${transactions.createdAt} >= ${cutoffTime}`
+        )
+      )
+      .orderBy(desc(transactions.createdAt));
   }
 
   async updateStatus(id: string, status: TransactionStatus, confirmedAt?: Date): Promise<Transaction | null> {
