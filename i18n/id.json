@@ -48,6 +48,51 @@
     "subtitle": "Bergabunglah dengan ribuan pengguna yang sudah merasakan manfaat mengubah video menjadi sumber pengetahuan.",
     "avatarFallback": "ST"
   },
+  "pricing": {
+    "title": "Harga yang sederhana dan transparan",
+    "subtitle": "Pilih paket yang sesuai dengan perjalanan belajar kamu",
+    "popular": "Paling Populer",
+    "getStarted": "Mulai Sekarang",
+    "getStartedFree": "Mulai Gratis",
+    "guarantee": "Garansi uang kembali 30 hari",
+    "plans": {
+      "free": {
+        "name": "Gratis",
+        "period": "selamanya",
+        "description": "Sempurna untuk mencoba",
+        "features": {
+          "limited": "2 video per hari",
+          "basic": "Wawasan AI dasar",
+          "summaries": "Ringkasan sederhana",
+          "community": "Dukungan komunitas",
+          "branding": "Branding Vidiopintar"
+        }
+      },
+      "monthly": {
+        "name": "Bulanan",
+        "period": "per bulan",
+        "description": "Sempurna untuk memulai",
+        "features": {
+          "unlimited": "Pemrosesan video tanpa batas",
+          "ai": "Wawasan bertenaga AI",
+          "summaries": "Ringkasan instan",
+          "support": "Dukungan email"
+        }
+      },
+      "yearly": {
+        "name": "Tahunan",
+        "period": "per tahun",
+        "description": "Nilai terbaik untuk pembelajar yang berkomitmen",
+        "features": {
+          "unlimited": "Pemrosesan video tanpa batas",
+          "ai": "Wawasan bertenaga AI",
+          "summaries": "Ringkasan instan",
+          "support": "Dukungan email",
+          "priority": "Dukungan prioritas"
+        }
+      }
+    }
+  },
   "callToAction": {
     "title": "Mulai Belajar",
     "subtitle": "Pelajari Topik Apa Pun, Satu Video dalam Satu Waktu."
@@ -177,5 +222,77 @@
       "empty": "Kamu belum memulai chat apapun",
       "ago": "yang lalu"
     }
+  },
+  "payment": {
+    "title": "Selesaikan Pembayaran",
+    "subtitle": "Ikuti instruksi di bawah untuk menyelesaikan langganan kamu",
+    "orderSummary": "Ringkasan Pesanan",
+    "bankDetails": "Detail Transfer Bank",
+    "bankName": "Nama Bank",
+    "accountNumber": "Nomor Rekening",
+    "accountName": "Nama Pemilik Rekening",
+    "amount": "Jumlah",
+    "copy": "Salin",
+    "copied": "Disalin!",
+    "instructions": "Instruksi Pembayaran",
+    "step1": "Transfer jumlah yang tepat ke rekening bank di atas",
+    "step2": "Simpan bukti transfer untuk verifikasi",
+    "step3": "Klik tombol WhatsApp di bawah untuk konfirmasi pembayaran",
+    "confirmPayment": "Konfirmasi Pembayaran via WhatsApp",
+    "confirmationNote": "Tim kami akan memverifikasi pembayaran dan mengaktifkan langganan dalam 24 jam"
+  },
+  "billing": {
+    "title": "Billing & Transaksi",
+    "subtitle": "Lihat riwayat pembayaran dan kelola informasi billing.",
+    "currentPlan": {
+      "title": "Paket Saat Ini",
+      "description": "Langganan aktif kamu",
+      "features": "Fitur Paket:",
+      "premiumTitle": "Kamu sudah di Paket Premium!",
+      "premiumDescription": "Kamu saat ini menggunakan paket tertinggi kami dengan semua fitur premium tersedia."
+    },
+    "upgrade": {
+      "button": "Upgrade Paket",
+      "title": "Upgrade Paket",
+      "subtitle": "Dapatkan akses ke lebih banyak fitur dan buka potensi penuh kamu.",
+      "upgradeTo": "Upgrade ke"
+    },
+    "pendingPayment": {
+      "title": "Selesaikan Pembayaran",
+      "pending": "menunggu",
+      "description": "Kamu memiliki {count} pembayaran{plural} yang tertunda. Selesaikan langganan untuk mengakses semua fitur.",
+      "plan": "Paket",
+      "amount": "Jumlah",
+      "expires": "Berakhir",
+      "created": "Dibuat",
+      "completePayment": "Selesaikan Pembayaran",
+      "viewStatus": "Lihat Status",
+      "morePending": "+ {count} transaksi{plural} tertunda lainnya di riwayat bawah"
+    }
+  },
+  "planUsage": {
+    "unlimitedAccess": "Kamu memiliki pemrosesan video tanpa batas dengan paket {plan}!",
+    "dailyLimitReached": "Kamu telah mencapai batas harian {limit} video{plural}. Upgrade untuk akses tanpa batas atau coba lagi besok.",
+    "nearLimit": "Kamu memiliki {remaining} video{plural} tersisa untuk hari ini. Upgrade untuk akses tanpa batas.",
+    "dailyRemaining": "{remaining} dari {limit} video{plural} harian tersisa",
+    "upgradePlan": "Upgrade Paket",
+    "viewPlans": "Lihat Paket",
+    "upgrade": "Upgrade",
+    "resetsDescription": "Reset besok"
+  },
+  "limitDialog": {
+    "title": "Batas Harian Tercapai",
+    "description": "Kamu telah mencapai batas harian 2 video. Upgrade ke paket premium untuk pemrosesan video tanpa batas, atau tunggu sampai besok untuk reset batas harian.",
+    "premiumBenefits": "Manfaat Premium",
+    "benefits": {
+      "unlimited": "Pemrosesan video tanpa batas",
+      "ai": "Ringkasan bertenaga AI",
+      "support": "Dukungan prioritas",
+      "features": "Fitur lanjutan"
+    },
+    "waitTomorrow": "Tunggu Sampai Besok",
+    "upgradeNow": "Upgrade Sekarang",
+    "processing": "Memproses...",
+    "chatWithVideo": "Chat dengan video"
   }
 }

@@ -42,7 +42,7 @@ export default async function Home() {
               <h1 className="text-4xl font-bold tracking-tighter">{t('title')}</h1>
               <p className="tracking-tight">{t('subtitle')}</p>
             </div>
-            <VideoInputSection />
+            <VideoInputSection userId={user.id} />
           </div>
           <VideoSearchDisplay />
           <div className="max-w-5xl px-6 mx-auto w-full mb-8">

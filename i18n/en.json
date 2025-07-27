@@ -48,6 +48,51 @@
     "subtitle": "See how people are extracting real insights and building knowledge from the videos they love.",
     "avatarFallback": "ST"
   },
+  "pricing": {
+    "title": "Simple, transparent pricing",
+    "subtitle": "Choose the plan that fits your learning journey",
+    "popular": "Most Popular",
+    "getStarted": "Get Started",
+    "getStartedFree": "Start Free",
+    "guarantee": "30-day money-back guarantee",
+    "plans": {
+      "free": {
+        "name": "Free",
+        "period": "forever",
+        "description": "Perfect for trying out",
+        "features": {
+          "limited": "2 videos per day",
+          "basic": "Basic AI insights",
+          "summaries": "Simple summaries",
+          "community": "Community support",
+          "branding": "Vidiopintar branding"
+        }
+      },
+      "monthly": {
+        "name": "Monthly",
+        "period": "per month",
+        "description": "Perfect for getting started",
+        "features": {
+          "unlimited": "Unlimited video processing",
+          "ai": "AI-powered insights",
+          "summaries": "Instant summaries",
+          "support": "Email support"
+        }
+      },
+      "yearly": {
+        "name": "Yearly",
+        "period": "per year",
+        "description": "Best value for committed learners",
+        "features": {
+          "unlimited": "Unlimited video processing",
+          "ai": "AI-powered insights",
+          "summaries": "Instant summaries",
+          "support": "Email support",
+          "priority": "Priority support"
+        }
+      }
+    }
+  },
   "callToAction": {
     "title": "Start Learning",
     "subtitle": "Learn Any Topic, One Video at a Time."
@@ -177,5 +222,77 @@
       "empty": "You haven't started any chats yet",
       "ago": "ago"
     }
+  },
+  "payment": {
+    "title": "Complete Your Payment",
+    "subtitle": "Follow the instructions below to complete your subscription",
+    "orderSummary": "Order Summary",
+    "bankDetails": "Bank Transfer Details",
+    "bankName": "Bank Name",
+    "accountNumber": "Account Number",
+    "accountName": "Account Name",
+    "amount": "Amount",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "instructions": "Payment Instructions",
+    "step1": "Transfer the exact amount to the bank account above",
+    "step2": "Keep your transfer receipt for verification",
+    "step3": "Click the WhatsApp button below to confirm your payment",
+    "confirmPayment": "Confirm Payment via WhatsApp",
+    "confirmationNote": "Our team will verify your payment and activate your subscription within 24 hours"
+  },
+  "billing": {
+    "title": "Billing & Transactions",
+    "subtitle": "View your payment history and manage billing information.",
+    "currentPlan": {
+      "title": "Current Plan",
+      "description": "Your active subscription",
+      "features": "Plan Features:",
+      "premiumTitle": "You're on the Premium Plan!",
+      "premiumDescription": "You're currently on our highest tier plan with all premium features unlocked."
+    },
+    "upgrade": {
+      "button": "Upgrade Your Plan",
+      "title": "Upgrade Your Plan",
+      "subtitle": "Get access to more features and unlock your full potential.",
+      "upgradeTo": "Upgrade to"
+    },
+    "pendingPayment": {
+      "title": "Complete Your Payment",
+      "pending": "pending",
+      "description": "You have {count} pending payment{plural}. Complete your subscription to access all features.",
+      "plan": "Plan",
+      "amount": "Amount",
+      "expires": "Expires",
+      "created": "Created",
+      "completePayment": "Complete Payment",
+      "viewStatus": "View Status",
+      "morePending": "+ {count} more pending transaction{plural} in history below"
+    }
+  },
+  "planUsage": {
+    "unlimitedAccess": "You have unlimited video processing with your {plan} plan!",
+    "dailyLimitReached": "You've reached your daily limit of {limit} video{plural}. Upgrade for unlimited access or try again tomorrow.",
+    "nearLimit": "You have {remaining} video{plural} remaining for today. Upgrade for unlimited access.",
+    "dailyRemaining": "{remaining} of {limit} daily video{plural} remaining",
+    "upgradePlan": "Upgrade Plan",
+    "viewPlans": "View Plans",
+    "upgrade": "Upgrade",
+    "resetsDescription": "Resets tomorrow"
+  },
+  "limitDialog": {
+    "title": "Daily Limit Reached",
+    "description": "You've reached your daily limit of 2 videos. Upgrade to a premium plan for unlimited video processing, or wait until tomorrow for your daily limit to reset.",
+    "premiumBenefits": "Premium Benefits",
+    "benefits": {
+      "unlimited": "Unlimited video processing",
+      "ai": "AI-powered summaries",
+      "support": "Priority support",
+      "features": "Advanced features"
+    },
+    "waitTomorrow": "Wait Until Tomorrow",
+    "upgradeNow": "Upgrade Now",
+    "processing": "Processing...",
+    "chatWithVideo": "Chat with video"
   }
 }

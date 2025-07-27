@@ -66,6 +66,21 @@ docker stop vidiopintar-app && docker rm vidiopintar-app
 - Make sure your `.env` file contains all required variables from `.env.example`
 - Access the app at `http://localhost:5000`
 
+### Database Migration in Docker
+
+If you need to run database migrations inside a running Docker container:
+
+```bash
+# Run database migration in the container
+docker exec -it vidiopintar-dev npx drizzle-kit migrate
+
+# Or push schema changes
+docker exec -it vidiopintar-dev npx drizzle-kit push
+
+# Seed payment settings data
+docker exec -it vidiopintar-dev npx tsx scripts/seed-payment-settings.ts
+```
+
 ### Stopping the Container
 
 ```bash
