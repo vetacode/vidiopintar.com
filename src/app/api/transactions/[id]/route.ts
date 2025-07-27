@@ -48,7 +48,7 @@ export async function PATCH(request: Request, { params }: RouteParams) {
     const body = await request.json();
     const { status } = body;
 
-    if (!status || !['confirmed', 'cancelled'].includes(status)) {
+    if (!status || !['confirmed', 'cancelled', 'waiting_confirmation'].includes(status)) {
       return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
     }
 
@@ -63,13 +63,18 @@ export async function PATCH(request: Request, { params }: RouteParams) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
-    if (transaction.status !== 'pending') {
+    if (!['pending', 'waiting_confirmation'].includes(transaction.status)) {
       return NextResponse.json({ error: 'Transaction cannot be modified' }, { status: 400 });
     }
 
-    // Only allow users to cancel their own transactions
+    // Users can cancel or mark as waiting confirmation, but cannot directly confirm
     if (status === 'confirmed') {
       return NextResponse.json({ error: 'Users cannot confirm transactions' }, { status: 403 });
+    }
+
+    // Users can only set waiting_confirmation from pending status
+    if (status === 'waiting_confirmation' && transaction.status !== 'pending') {
+      return NextResponse.json({ error: 'Can only mark pending transactions as waiting confirmation' }, { status: 400 });
     }
 
     const confirmedAt = status === 'confirmed' ? new Date() : undefined;

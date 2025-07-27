@@ -15,7 +15,7 @@ export default async function AdminTransactionsPage() {
   const transactions = await getTransactions();
 
   // Calculate stats
-  const pending = transactions.filter(t => t.status === 'pending').length;
+  const pending = transactions.filter(t => t.status === 'pending' || t.status === 'waiting_confirmation').length;
   const confirmed = transactions.filter(t => t.status === 'confirmed').length;
   const total = transactions.length;
   const totalRevenue = transactions
@@ -41,7 +41,7 @@ export default async function AdminTransactionsPage() {
             <CardContent>
               <div className="text-2xl font-bold">{pending}</div>
               <p className="text-xs text-muted-foreground">
-                Awaiting confirmation
+                Pending confirmation
               </p>
             </CardContent>
           </Card>

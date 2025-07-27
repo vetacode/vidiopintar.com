@@ -19,7 +19,7 @@ interface Transaction {
   planType: string;
   amount: number;
   currency: string;
-  status: 'pending' | 'confirmed' | 'expired' | 'cancelled';
+  status: 'pending' | 'waiting_confirmation' | 'confirmed' | 'expired' | 'cancelled';
   transactionReference: string;
   createdAt: Date;
   confirmedAt?: Date | null;
@@ -35,12 +35,19 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
   const t = useTranslations('profile');
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [localTransactions, setLocalTransactions] = useState<Transaction[]>(transactions);
 
   const handleTransactionClick = (transaction: Transaction) => {
-    if (transaction.status === 'pending') {
+    if (transaction.status === 'pending' || transaction.status === 'waiting_confirmation') {
       setSelectedTransaction(transaction);
       setIsDialogOpen(true);
     }
+  };
+
+  const handleTransactionUpdate = (updatedTransaction: Transaction) => {
+    setLocalTransactions(prev => 
+      prev.map(t => t.id === updatedTransaction.id ? updatedTransaction : t)
+    );
   };
 
   const getStatusColor = (status: string) => {
@@ -49,6 +56,8 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
         return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
       case 'pending':
         return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+      case 'waiting_confirmation':
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
       case 'expired':
         return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
       case 'cancelled':
@@ -72,7 +81,7 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
     });
   };
 
-  if (transactions.length === 0) {
+  if (localTransactions.length === 0) {
     return (
       <Card className="shadow-none">
         <CardHeader>
@@ -104,10 +113,10 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {transactions.map((transaction) => (
+            {localTransactions.map((transaction) => (
               <TableRow 
                 key={transaction.id}
-                className={transaction.status === 'pending' ? 'cursor-pointer' : ''}
+                className={(transaction.status === 'pending' || transaction.status === 'waiting_confirmation') ? 'cursor-pointer' : ''}
                 onClick={() => handleTransactionClick(transaction)}
               >
                 <TableCell className="font-medium capitalize">
@@ -135,9 +144,9 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
           </TableBody>
         </Table>
         
-        {transactions.some(t => t.status === 'pending') && (
+        {localTransactions.some(t => t.status === 'pending' || t.status === 'waiting_confirmation') && (
           <p className="text-xs text-muted-foreground mt-4 text-center">
-            Click on pending transactions to view payment details
+            Click on pending or waiting confirmation transactions to view details
           </p>
         )}
       </CardContent>
@@ -146,6 +155,7 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
         transaction={selectedTransaction}
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
+        onTransactionUpdate={handleTransactionUpdate}
       />
     </Card>
   );

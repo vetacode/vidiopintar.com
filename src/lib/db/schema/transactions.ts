@@ -17,7 +17,7 @@ export const transactions = pgTable('transactions', {
   transactionReference: text('transaction_reference').notNull().unique(),
   
   // Status tracking
-  status: text('status').notNull().default('pending'), // 'pending' | 'confirmed' | 'expired' | 'cancelled'
+  status: text('status').notNull().default('pending'), // 'pending' | 'waiting_confirmation' | 'confirmed' | 'expired' | 'cancelled'
   
   // Additional metadata
   paymentSettings: text('payment_settings'), // JSON string of payment settings used
@@ -36,5 +36,5 @@ export type NewTransaction = typeof transactions.$inferInsert;
 export type TransactionWithUser = Transaction & { user: { name: string; email: string } | null };
 
 // Helper types for transaction status
-export type TransactionStatus = 'pending' | 'confirmed' | 'expired' | 'cancelled';
+export type TransactionStatus = 'pending' | 'waiting_confirmation' | 'confirmed' | 'expired' | 'cancelled';
 export type PlanType = 'monthly' | 'yearly';

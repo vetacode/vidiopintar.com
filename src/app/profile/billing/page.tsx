@@ -19,8 +19,8 @@ export default async function BillingPage() {
     console.log('Could not get user transactions:', error);
   }
 
-  // Find pending transactions
-  const pendingTransactions = transactions.filter(t => t.status === 'pending');
+  // Find pending and waiting confirmation transactions
+  const pendingTransactions = transactions.filter(t => t.status === 'pending' || t.status === 'waiting_confirmation');
 
   return (
     <div className="space-y-6">

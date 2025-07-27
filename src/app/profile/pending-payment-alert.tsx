@@ -12,7 +12,7 @@ interface Transaction {
   planType: string;
   amount: number;
   currency: string;
-  status: 'pending' | 'confirmed' | 'expired' | 'cancelled';
+  status: 'pending' | 'waiting_confirmation' | 'confirmed' | 'expired' | 'cancelled';
   transactionReference: string;
   createdAt: Date;
   confirmedAt?: Date | null;
@@ -27,10 +27,17 @@ interface PendingPaymentAlertProps {
 export function PendingPaymentAlert({ transactions }: PendingPaymentAlertProps) {
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [localTransactions, setLocalTransactions] = useState<Transaction[]>(transactions);
 
   const handleCompletePayment = (transaction: Transaction) => {
     setSelectedTransaction(transaction);
     setIsDialogOpen(true);
+  };
+
+  const handleTransactionUpdate = (updatedTransaction: Transaction) => {
+    setLocalTransactions(prev => 
+      prev.map(t => t.id === updatedTransaction.id ? updatedTransaction : t)
+    );
   };
 
   const formatAmount = (amount: number, currency: string) => {
@@ -60,7 +67,7 @@ export function PendingPaymentAlert({ transactions }: PendingPaymentAlertProps) 
   };
 
   // Show the most recent pending transaction prominently
-  const latestTransaction = transactions[0];
+  const latestTransaction = localTransactions[0];
 
   return (
     <>
@@ -79,12 +86,12 @@ export function PendingPaymentAlert({ transactions }: PendingPaymentAlertProps) 
                   Complete Your Payment
                 </h3>
                 <Badge variant="secondary" className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
-                  {transactions.length} pending
+                  {localTransactions.length} pending
                 </Badge>
               </div>
               
               <p className="text-sm text-orange-800 dark:text-orange-200 mb-4">
-                You have {transactions.length} pending payment{transactions.length > 1 ? 's' : ''}. 
+                You have {localTransactions.length} pending payment{localTransactions.length > 1 ? 's' : ''}. 
                 Complete your subscription to access all features.
               </p>
 
@@ -122,12 +129,12 @@ export function PendingPaymentAlert({ transactions }: PendingPaymentAlertProps) 
                   className="bg-orange-600 hover:bg-orange-700 text-white"
                 >
                   <CreditCard className="h-4 w-4 mr-2" />
-                  Complete Payment
+                  {latestTransaction.status === 'waiting_confirmation' ? 'View Status' : 'Complete Payment'}
                 </Button>
                 
-                {transactions.length > 1 && (
+                {localTransactions.length > 1 && (
                   <p className="text-xs text-orange-700 dark:text-orange-300 flex items-center">
-                    + {transactions.length - 1} more pending transaction{transactions.length - 1 > 1 ? 's' : ''} in history below
+                    + {localTransactions.length - 1} more pending transaction{localTransactions.length - 1 > 1 ? 's' : ''} in history below
                   </p>
                 )}
               </div>
@@ -140,6 +147,7 @@ export function PendingPaymentAlert({ transactions }: PendingPaymentAlertProps) 
         transaction={selectedTransaction}
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
+        onTransactionUpdate={handleTransactionUpdate}
       />
     </>
   );
