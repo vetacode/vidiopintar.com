@@ -27,11 +27,21 @@ interface Transaction {
   paymentSettings?: string | null;
 }
 
-interface TransactionHistoryProps {
-  transactions: Transaction[];
+interface PaymentSettings {
+  id: string;
+  bankName: string;
+  bankAccountNumber: string;
+  bankAccountName: string;
+  whatsappPhoneNumber: string;
+  whatsappMessageTemplate: string;
 }
 
-export function TransactionHistory({ transactions }: TransactionHistoryProps) {
+interface TransactionHistoryProps {
+  transactions: Transaction[];
+  currentPaymentSettings: PaymentSettings | null;
+}
+
+export function TransactionHistory({ transactions, currentPaymentSettings }: TransactionHistoryProps) {
   const t = useTranslations('profile');
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -151,12 +161,15 @@ export function TransactionHistory({ transactions }: TransactionHistoryProps) {
         )}
       </CardContent>
 
-      <TransactionDetailDialog
-        transaction={selectedTransaction}
-        isOpen={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
-        onTransactionUpdate={handleTransactionUpdate}
-      />
+      {currentPaymentSettings && (
+        <TransactionDetailDialog
+          transaction={selectedTransaction}
+          isOpen={isDialogOpen}
+          onClose={() => setIsDialogOpen(false)}
+          onTransactionUpdate={handleTransactionUpdate}
+          currentPaymentSettings={currentPaymentSettings}
+        />
+      )}
     </Card>
   );
 }

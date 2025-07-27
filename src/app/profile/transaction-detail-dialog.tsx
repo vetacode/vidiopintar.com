@@ -24,18 +24,29 @@ interface Transaction {
   paymentSettings?: string | null;
 }
 
+interface PaymentSettings {
+  id: string;
+  bankName: string;
+  bankAccountNumber: string;
+  bankAccountName: string;
+  whatsappPhoneNumber: string;
+  whatsappMessageTemplate: string;
+}
+
 interface TransactionDetailDialogProps {
   transaction: Transaction | null;
   isOpen: boolean;
   onClose: () => void;
   onTransactionUpdate?: (updatedTransaction: Transaction) => void;
+  currentPaymentSettings: PaymentSettings;
 }
 
 export function TransactionDetailDialog({ 
   transaction, 
   isOpen, 
   onClose,
-  onTransactionUpdate
+  onTransactionUpdate,
+  currentPaymentSettings
 }: TransactionDetailDialogProps) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [currentTransaction, setCurrentTransaction] = useState<Transaction | null>(transaction);
@@ -112,27 +123,24 @@ export function TransactionDetailDialog({
     });
   };
 
-  // Parse payment settings if available
-  let paymentSettings: any = null;
+  // Use current payment settings instead of cached ones
+  // For bank details, we can use the stored settings to maintain transaction integrity
+  // But for WhatsApp, always use current settings for up-to-date phone number
+  let storedPaymentSettings: any = null;
   try {
     if (currentTransaction.paymentSettings) {
-      paymentSettings = JSON.parse(currentTransaction.paymentSettings);
+      storedPaymentSettings = JSON.parse(currentTransaction.paymentSettings);
     }
   } catch (error) {
-    console.error('Error parsing payment settings:', error);
+    console.error('Error parsing stored payment settings:', error);
   }
 
-  // Fallback payment settings
-  const bankDetails = paymentSettings ? {
-    bankName: paymentSettings.bankName,
-    accountNumber: paymentSettings.bankAccountNumber,
-    accountName: paymentSettings.bankAccountName,
-    whatsappPhone: paymentSettings.whatsappPhoneNumber
-  } : {
-    bankName: 'Bank Central Asia (BCA)',
-    accountNumber: '1234567890',
-    accountName: 'Vidiopintar Indonesia',
-    whatsappPhone: '6281234567890'
+  // Use stored bank details for transaction integrity, current WhatsApp for updated phone
+  const bankDetails = {
+    bankName: storedPaymentSettings?.bankName || currentPaymentSettings.bankName,
+    accountNumber: storedPaymentSettings?.bankAccountNumber || currentPaymentSettings.bankAccountNumber,
+    accountName: storedPaymentSettings?.bankAccountName || currentPaymentSettings.bankAccountName,
+    whatsappPhone: currentPaymentSettings.whatsappPhoneNumber
   };
 
   const planDetails = {

@@ -256,6 +256,18 @@
       "title": "Upgrade Paket",
       "subtitle": "Dapatkan akses ke lebih banyak fitur dan buka potensi penuh kamu.",
       "upgradeTo": "Upgrade ke"
+    },
+    "pendingPayment": {
+      "title": "Selesaikan Pembayaran",
+      "pending": "menunggu",
+      "description": "Kamu memiliki {count} pembayaran{plural} yang tertunda. Selesaikan langganan untuk mengakses semua fitur.",
+      "plan": "Paket",
+      "amount": "Jumlah",
+      "expires": "Berakhir",
+      "created": "Dibuat",
+      "completePayment": "Selesaikan Pembayaran",
+      "viewStatus": "Lihat Status",
+      "morePending": "+ {count} transaksi{plural} tertunda lainnya di riwayat bawah"
     }
   }
 }

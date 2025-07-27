@@ -256,6 +256,18 @@
       "title": "Upgrade Your Plan",
       "subtitle": "Get access to more features and unlock your full potential.",
       "upgradeTo": "Upgrade to"
+    },
+    "pendingPayment": {
+      "title": "Complete Your Payment",
+      "pending": "pending",
+      "description": "You have {count} pending payment{plural}. Complete your subscription to access all features.",
+      "plan": "Plan",
+      "amount": "Amount",
+      "expires": "Expires",
+      "created": "Created",
+      "completePayment": "Complete Payment",
+      "viewStatus": "View Status",
+      "morePending": "+ {count} more pending transaction{plural} in history below"
     }
   }
 }
