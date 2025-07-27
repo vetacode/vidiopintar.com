@@ -1,0 +1,146 @@
+"use client";
+
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { AlertCircle, CreditCard, Clock } from "lucide-react";
+import { TransactionDetailDialog } from "./transaction-detail-dialog";
+
+interface Transaction {
+  id: string;
+  planType: string;
+  amount: number;
+  currency: string;
+  status: 'pending' | 'confirmed' | 'expired' | 'cancelled';
+  transactionReference: string;
+  createdAt: Date;
+  confirmedAt?: Date | null;
+  expiresAt?: Date | null;
+  paymentSettings?: string | null;
+}
+
+interface PendingPaymentAlertProps {
+  transactions: Transaction[];
+}
+
+export function PendingPaymentAlert({ transactions }: PendingPaymentAlertProps) {
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleCompletePayment = (transaction: Transaction) => {
+    setSelectedTransaction(transaction);
+    setIsDialogOpen(true);
+  };
+
+  const formatAmount = (amount: number, currency: string) => {
+    return `${currency} ${amount.toLocaleString()}`;
+  };
+
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const getTimeRemaining = (expiresAt: Date) => {
+    const now = new Date();
+    const timeLeft = new Date(expiresAt).getTime() - now.getTime();
+    const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
+    
+    if (hoursLeft < 0) return "Expired";
+    if (hoursLeft < 1) return "Less than 1 hour";
+    if (hoursLeft < 24) return `${hoursLeft} hours left`;
+    
+    const daysLeft = Math.floor(hoursLeft / 24);
+    return `${daysLeft} day${daysLeft > 1 ? 's' : ''} left`;
+  };
+
+  // Show the most recent pending transaction prominently
+  const latestTransaction = transactions[0];
+
+  return (
+    <>
+      <Card className="border-orange-200 bg-orange-50 dark:bg-orange-950 dark:border-orange-800">
+        <CardContent className="p-6">
+          <div className="flex items-start gap-4">
+            <div className="flex-shrink-0">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900">
+                <AlertCircle className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+              </div>
+            </div>
+            
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-2">
+                <h3 className="font-semibold text-orange-900 dark:text-orange-100">
+                  Complete Your Payment
+                </h3>
+                <Badge variant="secondary" className="bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                  {transactions.length} pending
+                </Badge>
+              </div>
+              
+              <p className="text-sm text-orange-800 dark:text-orange-200 mb-4">
+                You have {transactions.length} pending payment{transactions.length > 1 ? 's' : ''}. 
+                Complete your subscription to access all features.
+              </p>
+
+              {/* Latest transaction details */}
+              <div className="bg-white dark:bg-gray-900 rounded-lg p-4 mb-4 border border-orange-200 dark:border-orange-800">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+                  <div>
+                    <p className="text-gray-600 dark:text-gray-400">Plan</p>
+                    <p className="font-medium capitalize">{latestTransaction.planType} Plan</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600 dark:text-gray-400">Amount</p>
+                    <p className="font-medium">{formatAmount(latestTransaction.amount, latestTransaction.currency)}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      {latestTransaction.expiresAt ? 'Expires' : 'Created'}
+                    </p>
+                    <div className="flex items-center gap-1">
+                      <Clock className="h-3 w-3 text-gray-500" />
+                      <p className="font-medium">
+                        {latestTransaction.expiresAt 
+                          ? getTimeRemaining(latestTransaction.expiresAt)
+                          : formatDate(latestTransaction.createdAt)
+                        }
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button 
+                  onClick={() => handleCompletePayment(latestTransaction)}
+                  className="bg-orange-600 hover:bg-orange-700 text-white"
+                >
+                  <CreditCard className="h-4 w-4 mr-2" />
+                  Complete Payment
+                </Button>
+                
+                {transactions.length > 1 && (
+                  <p className="text-xs text-orange-700 dark:text-orange-300 flex items-center">
+                    + {transactions.length - 1} more pending transaction{transactions.length - 1 > 1 ? 's' : ''} in history below
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <TransactionDetailDialog
+        transaction={selectedTransaction}
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+      />
+    </>
+  );
+}
