@@ -1,0 +1,83 @@
+import { NextResponse } from 'next/server';
+import { transactionsRepository } from '@/lib/db/repository/transactions';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+
+interface RouteParams {
+  params: Promise<{ id: string }>;
+}
+
+export async function GET(request: Request, { params }: RouteParams) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers()
+    });
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { id } = await params;
+    const transaction = await transactionsRepository.getById(id);
+    
+    if (!transaction) {
+      return NextResponse.json({ error: 'Transaction not found' }, { status: 404 });
+    }
+
+    // Users can only view their own transactions
+    if (transaction.userId !== session.user.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    return NextResponse.json(transaction);
+  } catch (error) {
+    console.error('Error fetching transaction:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: Request, { params }: RouteParams) {
+  try {
+    const session = await auth.api.getSession({
+      headers: await headers()
+    });
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { id } = await params;
+    const body = await request.json();
+    const { status } = body;
+
+    if (!status || !['confirmed', 'cancelled'].includes(status)) {
+      return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
+    }
+
+    const transaction = await transactionsRepository.getById(id);
+    
+    if (!transaction) {
+      return NextResponse.json({ error: 'Transaction not found' }, { status: 404 });
+    }
+
+    // Users can only cancel their own pending transactions
+    if (transaction.userId !== session.user.id) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    if (transaction.status !== 'pending') {
+      return NextResponse.json({ error: 'Transaction cannot be modified' }, { status: 400 });
+    }
+
+    // Only allow users to cancel their own transactions
+    if (status === 'confirmed') {
+      return NextResponse.json({ error: 'Users cannot confirm transactions' }, { status: 403 });
+    }
+
+    const confirmedAt = status === 'confirmed' ? new Date() : undefined;
+    const updatedTransaction = await transactionsRepository.updateStatus(id, status, confirmedAt);
+
+    return NextResponse.json(updatedTransaction);
+  } catch (error) {
+    console.error('Error updating transaction:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}

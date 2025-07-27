@@ -1,6 +1,8 @@
 import { getTranslations } from 'next-intl/server'
 import { CopyButton } from '@/components/payment/copy-button'
 import { paymentSettingsRepository } from '@/lib/db/repository/payment-settings'
+import { transactionsRepository } from '@/lib/db/repository/transactions'
+import { getCurrentUser } from '@/lib/auth'
 
 interface PaymentSettings {
   bankName: string;
@@ -22,16 +24,38 @@ export default async function PaymentPage({ searchParams }: PaymentPageProps) {
         monthly: {
             name: 'Monthly Plan',
             price: 'IDR 50,000',
+            amount: 50000,
             period: 'per month'
         },
         yearly: {
             name: 'Yearly Plan', 
             price: 'IDR 500,000',
+            amount: 500000,
             period: 'per year'
         }
     }
 
     const currentPlan = plan && (plan === 'monthly' || plan === 'yearly') ? planDetails[plan] : planDetails.monthly
+
+    // Get current user and create transaction
+    let user;
+    let transaction;
+    try {
+        user = await getCurrentUser();
+        
+        // Create transaction for this payment request
+        transaction = await transactionsRepository.create({
+            userId: user.id,
+            planType: currentPlan === planDetails.monthly ? 'monthly' : 'yearly',
+            amount: currentPlan.amount,
+            currency: 'IDR',
+            transactionReference: await transactionsRepository.generateUniqueReference(),
+            paymentSettings: JSON.stringify(await paymentSettingsRepository.getActive()),
+        });
+    } catch (error) {
+        console.error('Error creating transaction:', error);
+        // Continue without transaction if user not authenticated
+    }
 
     // Fetch payment settings on the server
     let paymentSettings: PaymentSettings | null = null;
@@ -52,11 +76,16 @@ export default async function PaymentPage({ searchParams }: PaymentPageProps) {
         accountName: 'Vidiopintar Indonesia'
     }
 
-    const whatsappMessage = paymentSettings 
+    let whatsappMessage = paymentSettings 
         ? paymentSettings.whatsappMessageTemplate
             .replace('{planName}', currentPlan.name)
             .replace('{planPrice}', currentPlan.price)
         : `Halo, saya sudah melakukan transfer untuk ${currentPlan.name} sebesar ${currentPlan.price}. Mohon konfirmasi pembayaran saya.`
+
+    // Add transaction reference if available
+    if (transaction?.transactionReference) {
+        whatsappMessage += `\n\nReferensi Transaksi: ${transaction.transactionReference}`
+    }
     
     const whatsappPhone = paymentSettings?.whatsappPhoneNumber || '6281234567890'
     const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`
@@ -102,6 +131,16 @@ export default async function PaymentPage({ searchParams }: PaymentPageProps) {
                                 </div>
                                 <CopyButton text={currentPlan.price.split(' ')[1]} fieldId="amount" />
                             </div>
+
+                            {transaction?.transactionReference && (
+                                <div className="flex items-center justify-between py-2 border-t pt-3">
+                                    <div>
+                                        <p className="text-xs text-muted-foreground mb-1">Transaction Reference</p>
+                                        <p className="text-sm font-mono">{transaction.transactionReference}</p>
+                                    </div>
+                                    <CopyButton text={transaction.transactionReference} fieldId="reference" />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
