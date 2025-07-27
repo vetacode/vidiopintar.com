@@ -240,5 +240,22 @@
     "step3": "Click the WhatsApp button below to confirm your payment",
     "confirmPayment": "Confirm Payment via WhatsApp",
     "confirmationNote": "Our team will verify your payment and activate your subscription within 24 hours"
+  },
+  "billing": {
+    "title": "Billing & Transactions",
+    "subtitle": "View your payment history and manage billing information.",
+    "currentPlan": {
+      "title": "Current Plan",
+      "description": "Your active subscription",
+      "features": "Plan Features:",
+      "premiumTitle": "You're on the Premium Plan!",
+      "premiumDescription": "You're currently on our highest tier plan with all premium features unlocked."
+    },
+    "upgrade": {
+      "button": "Upgrade Your Plan",
+      "title": "Upgrade Your Plan",
+      "subtitle": "Get access to more features and unlock your full potential.",
+      "upgradeTo": "Upgrade to"
+    }
   }
 }

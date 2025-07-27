@@ -240,5 +240,22 @@
     "step3": "Klik tombol WhatsApp di bawah untuk konfirmasi pembayaran",
     "confirmPayment": "Konfirmasi Pembayaran via WhatsApp",
     "confirmationNote": "Tim kami akan memverifikasi pembayaran dan mengaktifkan langganan dalam 24 jam"
+  },
+  "billing": {
+    "title": "Billing & Transaksi",
+    "subtitle": "Lihat riwayat pembayaran dan kelola informasi billing.",
+    "currentPlan": {
+      "title": "Paket Saat Ini",
+      "description": "Langganan aktif kamu",
+      "features": "Fitur Paket:",
+      "premiumTitle": "Kamu sudah di Paket Premium!",
+      "premiumDescription": "Kamu saat ini menggunakan paket tertinggi kami dengan semua fitur premium tersedia."
+    },
+    "upgrade": {
+      "button": "Upgrade Paket",
+      "title": "Upgrade Paket",
+      "subtitle": "Dapatkan akses ke lebih banyak fitur dan buka potensi penuh kamu.",
+      "upgradeTo": "Upgrade ke"
+    }
   }
 }
