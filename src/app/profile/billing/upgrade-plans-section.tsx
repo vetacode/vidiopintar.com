@@ -4,17 +4,60 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Crown, Calendar, ArrowUpRight, Check, Sparkles } from 'lucide-react';
+import { Crown, Calendar, ArrowUpRight, Check, Sparkles, AlertTriangle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface UpgradePlansSectionProps {
   currentPlan: 'free' | 'monthly' | 'yearly';
+  userId?: string;
 }
 
-export function UpgradePlansSection({ currentPlan }: UpgradePlansSectionProps) {
+interface ActiveSubscription {
+  planType: string;
+  expiresAt: string;
+}
+
+export function UpgradePlansSection({ currentPlan, userId }: UpgradePlansSectionProps) {
   const t = useTranslations('pricing');
   const tBilling = useTranslations('billing');
+  const [activeSubscriptions, setActiveSubscriptions] = useState<Record<string, ActiveSubscription>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
+
+    const checkActiveSubscriptions = async () => {
+      try {
+        const subscriptionChecks = await Promise.all([
+          fetch(`/api/user/can-purchase-plan?plan=monthly`).then(res => res.json()),
+          fetch(`/api/user/can-purchase-plan?plan=yearly`).then(res => res.json())
+        ]);
+
+        const subscriptions: Record<string, ActiveSubscription> = {};
+        
+        if (!subscriptionChecks[0]?.canPurchase && subscriptionChecks[0]?.activeSubscription) {
+          subscriptions.monthly = subscriptionChecks[0].activeSubscription;
+        }
+        
+        if (!subscriptionChecks[1]?.canPurchase && subscriptionChecks[1]?.activeSubscription) {
+          subscriptions.yearly = subscriptionChecks[1].activeSubscription;
+        }
+
+        setActiveSubscriptions(subscriptions);
+      } catch (error) {
+        console.error('Failed to check active subscriptions:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkActiveSubscriptions();
+  }, [userId]);
 
   // Define available upgrade options based on current plan
   const getAvailableUpgrades = () => {
@@ -155,12 +198,31 @@ export function UpgradePlansSection({ currentPlan }: UpgradePlansSectionProps) {
                     ))}
                   </div>
 
-                  <Link href={`/payment?plan=${plan.id}`} className="block">
-                    <Button className="w-full" size="lg">
-                      {tBilling('upgrade.upgradeTo')} {plan.name}
-                      <ArrowUpRight className="h-4 w-4 ml-2" />
-                    </Button>
-                  </Link>
+                  {activeSubscriptions[plan.id] ? (
+                    <div className="space-y-3">
+                      <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-md p-3">
+                        <div className="flex items-center gap-2 text-sm text-orange-800 dark:text-orange-200">
+                          <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+                          <div>
+                            <p className="font-medium">Active Subscription</p>
+                            <p className="text-xs mt-1">
+                              Expires: {new Date(activeSubscriptions[plan.id].expiresAt).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <Button className="w-full" size="lg" disabled variant="secondary">
+                        Already Subscribed
+                      </Button>
+                    </div>
+                  ) : (
+                    <Link href={`/payment?plan=${plan.id}`} className="block">
+                      <Button className="w-full" size="lg">
+                        {tBilling('upgrade.upgradeTo')} {plan.name}
+                        <ArrowUpRight className="h-4 w-4 ml-2" />
+                      </Button>
+                    </Link>
+                  )}
                 </CardContent>
               </Card>
             );

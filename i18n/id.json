@@ -269,5 +269,30 @@
       "viewStatus": "Lihat Status",
       "morePending": "+ {count} transaksi{plural} tertunda lainnya di riwayat bawah"
     }
+  },
+  "planUsage": {
+    "unlimitedAccess": "Kamu memiliki pemrosesan video tanpa batas dengan paket {plan}!",
+    "dailyLimitReached": "Kamu telah mencapai batas harian {limit} video{plural}. Upgrade untuk akses tanpa batas atau coba lagi besok.",
+    "nearLimit": "Kamu memiliki {remaining} video{plural} tersisa untuk hari ini. Upgrade untuk akses tanpa batas.",
+    "dailyRemaining": "{remaining} dari {limit} video{plural} harian tersisa",
+    "upgradePlan": "Upgrade Paket",
+    "viewPlans": "Lihat Paket",
+    "upgrade": "Upgrade",
+    "resetsDescription": "Reset besok"
+  },
+  "limitDialog": {
+    "title": "Batas Harian Tercapai",
+    "description": "Kamu telah mencapai batas harian 1 video. Upgrade ke paket premium untuk pemrosesan video tanpa batas, atau tunggu sampai besok untuk reset batas harian.",
+    "premiumBenefits": "Manfaat Premium",
+    "benefits": {
+      "unlimited": "Pemrosesan video tanpa batas",
+      "ai": "Ringkasan bertenaga AI",
+      "support": "Dukungan prioritas",
+      "features": "Fitur lanjutan"
+    },
+    "waitTomorrow": "Tunggu Sampai Besok",
+    "upgradeNow": "Upgrade Sekarang",
+    "processing": "Memproses...",
+    "chatWithVideo": "Chat dengan video"
   }
 }

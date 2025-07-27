@@ -5,7 +5,8 @@ import { paymentSettingsRepository } from '@/lib/db/repository/payment-settings'
 import { transactionsRepository } from '@/lib/db/repository/transactions'
 import { getCurrentUser } from '@/lib/auth'
 import { PLAN_CONFIGS } from '@/lib/validations/payment'
-import { ChevronLeft } from 'lucide-react'
+import { UserPlanService } from '@/lib/user-plan-service'
+import { ChevronLeft, AlertTriangle } from 'lucide-react'
 
 interface PaymentSettings {
   bankName: string;
@@ -47,25 +48,34 @@ export default async function PaymentPage({ searchParams }: PaymentPageProps) {
     let user;
     let transaction;
     let existingTransaction;
+    let canPurchaseCheck;
+    
     try {
         user = await getCurrentUser();
         
-        // Check if user already has a pending transaction for this plan
-        existingTransaction = await transactionsRepository.getPendingTransactionByUserAndPlan(user.id, validPlan);
+        // Check if user can purchase this plan (no active subscription)
+        canPurchaseCheck = await UserPlanService.canPurchasePlan(user.id, validPlan as any);
         
-        if (existingTransaction) {
-            // Use existing transaction instead of creating a new one
-            transaction = existingTransaction;
+        if (!canPurchaseCheck.canPurchase) {
+            // User already has an active subscription, we'll show an error
         } else {
-            // Create new transaction for this payment request
-            transaction = await transactionsRepository.create({
-                userId: user.id,
-                planType: validPlan,
-                amount: currentPlan.amount,
-                currency: 'IDR',
-                transactionReference: await transactionsRepository.generateUniqueReference(),
-                paymentSettings: JSON.stringify(await paymentSettingsRepository.getActive()),
-            });
+            // Check if user already has a pending transaction for this plan
+            existingTransaction = await transactionsRepository.getPendingTransactionByUserAndPlan(user.id, validPlan);
+            
+            if (existingTransaction) {
+                // Use existing transaction instead of creating a new one
+                transaction = existingTransaction;
+            } else {
+                // Create new transaction for this payment request
+                transaction = await transactionsRepository.create({
+                    userId: user.id,
+                    planType: validPlan,
+                    amount: currentPlan.amount,
+                    currency: 'IDR',
+                    transactionReference: await transactionsRepository.generateUniqueReference(),
+                    paymentSettings: JSON.stringify(await paymentSettingsRepository.getActive()),
+                });
+            }
         }
     } catch (error) {
         console.error('Error handling transaction:', error);
@@ -119,6 +129,35 @@ export default async function PaymentPage({ searchParams }: PaymentPageProps) {
                     <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
                 </div>
 
+                {canPurchaseCheck && !canPurchaseCheck.canPurchase && canPurchaseCheck.reason === 'already_have_active_subscription' && (
+                    <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-md p-4 mb-6">
+                        <div className="flex items-start gap-3">
+                            <div className="flex-shrink-0 mt-0.5">
+                                <AlertTriangle className="size-5 text-red-600 dark:text-red-400" />
+                            </div>
+                            <div className="text-sm">
+                                <p className="font-medium text-red-900 dark:text-red-100 mb-1">Active Subscription Found</p>
+                                <p className="text-red-800 dark:text-red-200 mb-3">
+                                    You already have an active {currentPlan.name} subscription. You cannot purchase the same plan while it's still active.
+                                </p>
+                                {canPurchaseCheck.activeSubscription && (
+                                    <p className="text-xs text-red-700 dark:text-red-300">
+                                        Your current subscription expires on: {canPurchaseCheck.activeSubscription.expiresAt.toLocaleDateString()}
+                                    </p>
+                                )}
+                                <div className="mt-4">
+                                    <a 
+                                        href="/profile/billing" 
+                                        className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-700 bg-red-100 border border-red-300 rounded-md hover:bg-red-200 dark:text-red-200 dark:bg-red-800 dark:border-red-600 dark:hover:bg-red-700 transition-colors"
+                                    >
+                                        View My Subscription
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {existingTransaction && (
                     <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-md p-4 mb-6">
                         <div className="flex items-start gap-3">
@@ -140,77 +179,81 @@ export default async function PaymentPage({ searchParams }: PaymentPageProps) {
                     </div>
                 )}
 
-                <div className="bg-card border rounded-md p-5 mb-5">
-                    <div className="flex items-center justify-between mb-5">
-                        <h2 className="text-sm font-medium text-muted-foreground">{currentPlan.name}</h2>
-                        <div className="text-base font-medium">{currentPlan.price}</div>
-                    </div>
-                    
-                    <div className="border-t pt-5">
-                        <div className="space-y-3">
-                            <div className="py-2">
-                                <p className="text-xs text-muted-foreground mb-1">{t('bankName')}</p>
-                                <p className="text-sm">{bankDetails.bankName}</p>
-                            </div>
-
-                            <div className="py-2">
-                                <p className="text-xs text-muted-foreground mb-1">{t('accountName')}</p>
-                                <p className="text-sm">{bankDetails.accountName}</p>
-                            </div>
-
-                            <div className="flex items-center justify-between py-2">
-                                <div>
-                                    <p className="text-xs text-muted-foreground mb-1">{t('accountNumber')}</p>
-                                    <p className="font-mono text-sm">{bankDetails.accountNumber}</p>
+                {(!canPurchaseCheck || canPurchaseCheck.canPurchase) && (
+                <>
+                    <div className="bg-card border rounded-md p-5 mb-5">
+                        <div className="flex items-center justify-between mb-5">
+                            <h2 className="text-sm font-medium text-muted-foreground">{currentPlan.name}</h2>
+                            <div className="text-base font-medium">{currentPlan.price}</div>
+                        </div>
+                        
+                        <div className="border-t pt-5">
+                            <div className="space-y-3">
+                                <div className="py-2">
+                                    <p className="text-xs text-muted-foreground mb-1">{t('bankName')}</p>
+                                    <p className="text-sm">{bankDetails.bankName}</p>
                                 </div>
-                                <CopyButton text={bankDetails.accountNumber} fieldId="account" />
-                            </div>
 
-                            <div className="flex items-center justify-between py-2 border-t pt-3">
-                                <div>
-                                    <p className="text-xs text-muted-foreground mb-1">{t('amount')}</p>
-                                    <p className="text-sm font-medium">{currentPlan.price}</p>
+                                <div className="py-2">
+                                    <p className="text-xs text-muted-foreground mb-1">{t('accountName')}</p>
+                                    <p className="text-sm">{bankDetails.accountName}</p>
                                 </div>
-                                <CopyButton text={currentPlan.price.split(' ')[1]} fieldId="amount" />
-                            </div>
 
-                            {transaction?.transactionReference && (
+                                <div className="flex items-center justify-between py-2">
+                                    <div>
+                                        <p className="text-xs text-muted-foreground mb-1">{t('accountNumber')}</p>
+                                        <p className="font-mono text-sm">{bankDetails.accountNumber}</p>
+                                    </div>
+                                    <CopyButton text={bankDetails.accountNumber} fieldId="account" />
+                                </div>
+
                                 <div className="flex items-center justify-between py-2 border-t pt-3">
                                     <div>
-                                        <p className="text-xs text-muted-foreground mb-1">Transaction Reference</p>
-                                        <p className="text-sm font-mono">{transaction.transactionReference}</p>
+                                        <p className="text-xs text-muted-foreground mb-1">{t('amount')}</p>
+                                        <p className="text-sm font-medium">{currentPlan.price}</p>
                                     </div>
-                                    <CopyButton text={transaction.transactionReference} fieldId="reference" />
+                                    <CopyButton text={currentPlan.price.split(' ')[1]} fieldId="amount" />
                                 </div>
-                            )}
+
+                                {transaction?.transactionReference && (
+                                    <div className="flex items-center justify-between py-2 border-t pt-3">
+                                        <div>
+                                            <p className="text-xs text-muted-foreground mb-1">Transaction Reference</p>
+                                            <p className="text-sm font-mono">{transaction.transactionReference}</p>
+                                        </div>
+                                        <CopyButton text={transaction.transactionReference} fieldId="reference" />
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="bg-card border rounded-md p-5 mb-6">
-                    <div className="space-y-2 text-sm">
-                        <div className="flex gap-2">
-                            <span className="text-muted-foreground">1.</span>
-                            <span className="text-muted-foreground">{t('step1')}</span>
-                        </div>
-                        <div className="flex gap-2">
-                            <span className="text-muted-foreground">2.</span>
-                            <span className="text-muted-foreground">{t('step2')}</span>
-                        </div>
-                        <div className="flex gap-2">
-                            <span className="text-muted-foreground">3.</span>
-                            <span className="text-muted-foreground">{t('step3')}</span>
+                    <div className="bg-card border rounded-md p-5 mb-6">
+                        <div className="space-y-2 text-sm">
+                            <div className="flex gap-2">
+                                <span className="text-muted-foreground">1.</span>
+                                <span className="text-muted-foreground">{t('step1')}</span>
+                            </div>
+                            <div className="flex gap-2">
+                                <span className="text-muted-foreground">2.</span>
+                                <span className="text-muted-foreground">{t('step2')}</span>
+                            </div>
+                            <div className="flex gap-2">
+                                <span className="text-muted-foreground">3.</span>
+                                <span className="text-muted-foreground">{t('step3')}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="text-center">
-                    <WhatsAppConfirmButton 
-                        whatsappUrl={whatsappUrl}
-                        transactionId={transaction?.id}
-                    />
-                    <p className="text-xs text-muted-foreground mt-3">{t('confirmationNote')}</p>
-                </div>
+                    <div className="text-center">
+                        <WhatsAppConfirmButton 
+                            whatsappUrl={whatsappUrl}
+                            transactionId={transaction?.id}
+                        />
+                        <p className="text-xs text-muted-foreground mt-3">{t('confirmationNote')}</p>
+                    </div>
+                </>
+                )}
             </div>
         </div>
     )

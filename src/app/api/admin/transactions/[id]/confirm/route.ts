@@ -40,15 +40,15 @@ export async function POST(request: Request, { params }: RouteParams) {
       return NextResponse.json({ error: 'Transaction not found' }, { status: 404 });
     }
 
-    if (transaction.status !== 'pending') {
+    if (transaction.status !== 'pending' && transaction.status !== 'waiting_confirmation') {
       paymentLogger.warn('Transaction confirmation failed - invalid status', {
         adminId: admin.id,
         transactionId: id,
         currentStatus: transaction.status,
-        expectedStatus: 'pending',
+        expectedStatuses: ['pending', 'waiting_confirmation'],
       });
       return NextResponse.json({ 
-        error: 'Transaction is not pending',
+        error: 'Transaction is not pending or waiting confirmation',
         currentStatus: transaction.status 
       }, { status: 400 });
     }

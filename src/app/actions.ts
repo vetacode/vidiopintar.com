@@ -6,6 +6,7 @@ import { z } from "zod";
 import { UserVideoRepository } from "@/lib/db/repository";
 import { getCurrentUser } from "@/lib/auth";
 import { extractVideoId } from "@/lib/utils";
+import { UserPlanService } from "@/lib/user-plan-service";
 
 function normalizeYouTubeUrl(url: string): string {
   const liveMatch = url.match(/\/live\/([a-zA-Z0-9_-]+)/);
@@ -21,6 +22,24 @@ export async function handleVideoSubmit(prevState: any, formData: FormData): Pro
     return { success: false, errors: ["Video URL is required"] };
   }
 
+  // Get current user
+  const user = await getCurrentUser();
+  if (!user) {
+    return { success: false, errors: ["You must be logged in to add videos"] };
+  }
+
+  // Check user plan limits
+  const planCheck = await UserPlanService.canAddVideo(user.id);
+  if (!planCheck.canAdd) {
+    if (planCheck.reason === 'daily_limit_reached') {
+      const upgradeMessage = planCheck.currentPlan === 'free' 
+        ? "You've reached your daily limit of 1 video. Upgrade to unlimited plan or try again tomorrow."
+        : "You've reached your daily video limit. Please try again tomorrow.";
+      return { success: false, errors: [upgradeMessage] };
+    }
+    return { success: false, errors: ["Unable to add video due to plan restrictions"] };
+  }
+
   const normalizedUrl = normalizeYouTubeUrl(videoUrl);
   const youtubeVideoId = extractVideoId(normalizedUrl);
   if (!youtubeVideoId) {
@@ -34,7 +53,7 @@ const deleteSchema = z.object({
   id: z.string().min(1, { message: 'Video ID is required.' }),
 });
 
-export async function handleDeleteVideo(prevState: any, formData: FormData): Promise<{ success: boolean, errors: string[] | undefined }> {
+export async function handleDeleteVideo(_prevState: any, formData: FormData): Promise<{ success: boolean, errors: string[] | undefined }> {
   const validatedFields = deleteSchema.safeParse({
     id: formData.get("id"),
   });

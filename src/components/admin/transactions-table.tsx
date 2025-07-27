@@ -252,8 +252,8 @@ export function TransactionsTable({ transactions, onUpdate }: TransactionsTableP
                 <SelectValue placeholder="All statuses" />
               </SelectTrigger>
               <SelectContent>
-                {uniqueStatuses.map((status) => (
-                  <SelectItem key={status} value={status}>
+                {uniqueStatuses.map((status, index) => (
+                  <SelectItem key={`status-${index}`} value={status}>
                     {status === 'all' ? 'All statuses' : status}
                   </SelectItem>
                 ))}
@@ -268,8 +268,8 @@ export function TransactionsTable({ transactions, onUpdate }: TransactionsTableP
                 <SelectValue placeholder="All plans" />
               </SelectTrigger>
               <SelectContent>
-                {uniquePlanTypes.map((planType) => (
-                  <SelectItem key={planType} value={planType}>
+                {uniquePlanTypes.map((planType, index) => (
+                  <SelectItem key={`planType-${index}`} value={planType}>
                     {planType === 'all' ? 'All plans' : planType}
                   </SelectItem>
                 ))}
@@ -473,20 +473,7 @@ export function TransactionsTable({ transactions, onUpdate }: TransactionsTableP
                         </AlertDialogContent>
                       </AlertDialog>
                     </div>
-                  ) : (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem disabled>
-                          View details
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  )}
+                  ) : null}
                 </TableCell>
               </TableRow>
               ))

@@ -269,5 +269,30 @@
       "viewStatus": "View Status",
       "morePending": "+ {count} more pending transaction{plural} in history below"
     }
+  },
+  "planUsage": {
+    "unlimitedAccess": "You have unlimited video processing with your {plan} plan!",
+    "dailyLimitReached": "You've reached your daily limit of {limit} video{plural}. Upgrade for unlimited access or try again tomorrow.",
+    "nearLimit": "You have {remaining} video{plural} remaining for today. Upgrade for unlimited access.",
+    "dailyRemaining": "{remaining} of {limit} daily video{plural} remaining",
+    "upgradePlan": "Upgrade Plan",
+    "viewPlans": "View Plans",
+    "upgrade": "Upgrade",
+    "resetsDescription": "Resets tomorrow"
+  },
+  "limitDialog": {
+    "title": "Daily Limit Reached",
+    "description": "You've reached your daily limit of 1 video. Upgrade to a premium plan for unlimited video processing, or wait until tomorrow for your daily limit to reset.",
+    "premiumBenefits": "Premium Benefits",
+    "benefits": {
+      "unlimited": "Unlimited video processing",
+      "ai": "AI-powered summaries",
+      "support": "Priority support",
+      "features": "Advanced features"
+    },
+    "waitTomorrow": "Wait Until Tomorrow",
+    "upgradeNow": "Upgrade Now",
+    "processing": "Processing...",
+    "chatWithVideo": "Chat with video"
   }
 }

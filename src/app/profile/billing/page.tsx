@@ -58,7 +58,7 @@ export default async function BillingPage() {
       <CurrentPlanCard currentPlan={currentPlan} />
 
       {/* Upgrade Plans Section */}
-      <UpgradePlansSection currentPlan={currentPlan} />
+      <UpgradePlansSection currentPlan={currentPlan} userId={user.id} />
       
       <TransactionHistory 
         transactions={transactions} 
