@@ -61,7 +61,7 @@
         "period": "forever",
         "description": "Perfect for trying out",
         "features": {
-          "limited": "3 videos per month",
+          "limited": "2 videos per day",
           "basic": "Basic AI insights",
           "summaries": "Simple summaries",
           "community": "Community support",
@@ -282,7 +282,7 @@
   },
   "limitDialog": {
     "title": "Daily Limit Reached",
-    "description": "You've reached your daily limit of 1 video. Upgrade to a premium plan for unlimited video processing, or wait until tomorrow for your daily limit to reset.",
+    "description": "You've reached your daily limit of 2 videos. Upgrade to a premium plan for unlimited video processing, or wait until tomorrow for your daily limit to reset.",
     "premiumBenefits": "Premium Benefits",
     "benefits": {
       "unlimited": "Unlimited video processing",

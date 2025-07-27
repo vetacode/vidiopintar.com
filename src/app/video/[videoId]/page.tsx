@@ -11,6 +11,7 @@ import { getCurrentUser } from "@/lib/auth"
 import { TipsAlert } from "@/components/chat/tips-alert"
 import { LanguageSelector } from "@/components/language-selector"
 import { UserRepository } from "@/lib/db/repository"
+import { PlanUsageNotification } from "@/components/video/plan-usage-notification"
 
 export default async function VideoPage(props: { params: Promise<{ videoId: string }> }) {
   const params = await props.params;
@@ -137,6 +138,9 @@ export default async function VideoPage(props: { params: Promise<{ videoId: stri
             </div>
           </div>
           <div className="lg:col-span-3 flex flex-col h-full md:h-auto relative">
+            <div className="p-3 border-b">
+              <PlanUsageNotification userId={user.id} />
+            </div>
             {videoDetails.userVideo ? (
               <ChatInterface
                 videoId={videoId}

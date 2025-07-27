@@ -61,7 +61,7 @@
         "period": "selamanya",
         "description": "Sempurna untuk mencoba",
         "features": {
-          "limited": "3 video per bulan",
+          "limited": "2 video per hari",
           "basic": "Wawasan AI dasar",
           "summaries": "Ringkasan sederhana",
           "community": "Dukungan komunitas",
@@ -282,7 +282,7 @@
   },
   "limitDialog": {
     "title": "Batas Harian Tercapai",
-    "description": "Kamu telah mencapai batas harian 1 video. Upgrade ke paket premium untuk pemrosesan video tanpa batas, atau tunggu sampai besok untuk reset batas harian.",
+    "description": "Kamu telah mencapai batas harian 2 video. Upgrade ke paket premium untuk pemrosesan video tanpa batas, atau tunggu sampai besok untuk reset batas harian.",
     "premiumBenefits": "Manfaat Premium",
     "benefits": {
       "unlimited": "Pemrosesan video tanpa batas",
