@@ -58,7 +58,7 @@ export function LanguageSelector({ className, iconOnly = false }: LanguageSelect
   return (
     <Select value={locale} onValueChange={handleLanguageChange}>
       <SelectTrigger 
-        className={cn(
+        className={cn("hover:cursor-pointer hover:text-zinc-50",
           iconOnly ? "w-[40px] h-[40px] border-none bg-transparent shadow-none hover:bg-accent p-0 justify-center [&>svg:last-child]:hidden" : "w-[180px]", 
           className
         )}
