@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/prompt-input"
 import { ChatHeader } from "@/components/chat/chat-header";
 import { MessageItem } from "@/components/chat/message-item";
-import { useLocalStorage } from "usehooks-ts";
+import { useLocale } from "next-intl";
 
 interface ChatInterfaceProps {
   videoId: string;
@@ -33,7 +33,7 @@ export function ChatInterface({
   shareChatUrl,
   isSharePage = false,
   isLoggedIn = false }: ChatInterfaceProps) {
-  const [language] = useLocalStorage("user-language", "en");
+  const language = useLocale();
   
   const {
     messages,
