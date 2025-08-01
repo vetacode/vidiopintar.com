@@ -1,7 +1,7 @@
 import { AdminNavigation } from '@/components/admin/admin-navigation';
 import { TransactionsClientWrapper } from '@/components/admin/transactions-client-wrapper';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CreditCard, CheckCircle, Clock, DollarSign } from 'lucide-react';
+import { CreditCard, CheckCircle, Clock, DollarSign, TrendingUp } from 'lucide-react';
 import { transactionsRepository } from '@/lib/db/repository/transactions';
 import { requireAdmin } from '@/lib/auth-admin';
 import type { TransactionWithUser } from '@/lib/db/schema/transactions';
@@ -21,6 +21,7 @@ export default async function AdminTransactionsPage() {
   const totalRevenue = transactions
     .filter(t => t.status === 'confirmed')
     .reduce((sum, t) => sum + t.amount, 0);
+  const conversionRate = total > 0 ? (confirmed / total) * 100 : 0;
 
   return (
     <main className="bg-accent dark:bg-background">
@@ -32,7 +33,7 @@ export default async function AdminTransactionsPage() {
         />
         
         {/* Transaction Metrics Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <Card className="shadow-none">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Pending</CardTitle>
@@ -87,6 +88,19 @@ export default async function AdminTransactionsPage() {
               </div>
               <p className="text-xs text-muted-foreground">
                 Confirmed payments only
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-none">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Conversion Rate</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{conversionRate.toFixed(1)}%</div>
+              <p className="text-xs text-muted-foreground">
+                Confirmed to total ratio
               </p>
             </CardContent>
           </Card>
