@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Achievement, UserAchievement, AchievementLevel } from "@/lib/achievements";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Trophy, Star, Zap, MessageCircle, Calendar, Target, Crown, Flame } from "lucide-react";
 
 interface AchievementBadgeProps {
   achievement: Achievement;
@@ -12,6 +13,17 @@ interface AchievementBadgeProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
+const iconMap = {
+  Zap,
+  MessageCircle,
+  Calendar,
+  Flame,
+  Star,
+  Crown,
+  Trophy,
+  Target
+};
+
 export function AchievementBadge({ 
   achievement, 
   userAchievement, 
@@ -19,7 +31,7 @@ export function AchievementBadge({
   size = 'md' 
 }: AchievementBadgeProps) {
   const { level, progress, maxProgress, nextThreshold } = userAchievement;
-  const Icon = achievement.icon;
+  const Icon = iconMap[achievement.icon as keyof typeof iconMap] || Trophy;
   
   const getLevelStyle = (level: AchievementLevel) => {
     switch (level) {

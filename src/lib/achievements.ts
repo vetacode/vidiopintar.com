@@ -1,10 +1,8 @@
-import { Trophy, Star, Zap, MessageCircle, Calendar, Target, Crown, Flame } from "lucide-react";
-
 export interface Achievement {
   id: string;
   title: string;
   description: string;
-  icon: any;
+  icon: string;
   category: 'engagement' | 'consistency' | 'milestone' | 'special';
   thresholds: {
     bronze: number;
@@ -24,7 +22,7 @@ export const achievements: Achievement[] = [
     id: 'video_engager',
     title: 'Video Engager',
     description: 'Videos you\'ve engaged with',
-    icon: Zap,
+    icon: 'Zap',
     category: 'engagement',
     thresholds: { bronze: 5, silver: 25, gold: 100 },
     unit: 'videos',
@@ -38,7 +36,7 @@ export const achievements: Achievement[] = [
     id: 'chat_master',
     title: 'Chat Master',
     description: 'Conversations you\'ve had',
-    icon: MessageCircle,
+    icon: 'MessageCircle',
     category: 'engagement',
     thresholds: { bronze: 10, silver: 50, gold: 200 },
     unit: 'messages',
@@ -52,7 +50,7 @@ export const achievements: Achievement[] = [
     id: 'consistent_user',
     title: 'Consistent User',
     description: 'Days you\'ve been active',
-    icon: Calendar,
+    icon: 'Calendar',
     category: 'consistency',
     thresholds: { bronze: 7, silver: 30, gold: 100 },
     unit: 'days',
@@ -66,7 +64,7 @@ export const achievements: Achievement[] = [
     id: 'streak_keeper',
     title: 'Streak Keeper',
     description: 'Active days this week',
-    icon: Flame,
+    icon: 'Flame',
     category: 'consistency',
     thresholds: { bronze: 3, silver: 5, gold: 7 },
     unit: 'days',
@@ -80,7 +78,7 @@ export const achievements: Achievement[] = [
     id: 'early_adopter',
     title: 'Early Adopter',
     description: 'Days since joining',
-    icon: Star,
+    icon: 'Star',
     category: 'milestone',
     thresholds: { bronze: 7, silver: 30, gold: 90 },
     unit: 'days',
@@ -94,7 +92,7 @@ export const achievements: Achievement[] = [
     id: 'monthly_champion',
     title: 'Monthly Champion',
     description: 'Videos engaged this month',
-    icon: Crown,
+    icon: 'Crown',
     category: 'special',
     thresholds: { bronze: 5, silver: 15, gold: 30 },
     unit: 'videos',
