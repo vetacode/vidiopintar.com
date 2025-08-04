@@ -2,6 +2,9 @@ import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { user, userVideos, messages, session } from "@/lib/db/schema";
 import { eq, desc, and, gte, sql } from "drizzle-orm";
+import { calculateUserAchievements, achievements, getAchievementById } from "@/lib/achievements";
+import { AchievementBadge } from "@/components/profile/achievement-badge";
+import { AchievementOverview } from "@/components/profile/achievement-overview";
 
 async function getUsageStats(userId: string) {
   const now = new Date();
@@ -103,6 +106,7 @@ async function getUsageStats(userId: string) {
 export default async function UsagePage() {
   const user = await getCurrentUser();
   const usageStats = await getUsageStats(user.id);
+  const userAchievements = calculateUserAchievements(usageStats);
 
   return (
     <div>
@@ -127,6 +131,29 @@ export default async function UsagePage() {
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border">
               <div className="text-sm text-gray-600 dark:text-gray-400">Member for</div>
               <div className="text-2xl font-bold text-orange-600">{usageStats.accountAge}</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Achievements */}
+        <div>
+          <h2 className="text-lg font-medium mb-4">Achievements</h2>
+          <div className="space-y-6">
+            <AchievementOverview userAchievements={userAchievements} />
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {userAchievements.map((userAchievement) => {
+                const achievement = getAchievementById(userAchievement.id);
+                if (!achievement) return null;
+                
+                return (
+                  <AchievementBadge
+                    key={achievement.id}
+                    achievement={achievement}
+                    userAchievement={userAchievement}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>
