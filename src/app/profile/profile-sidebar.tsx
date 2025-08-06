@@ -8,7 +8,6 @@ import {
   Share2, 
   Palette, 
   Bell,
-  BarChart3,
   CreditCard
 } from "lucide-react";
 import Link from "next/link";
@@ -30,11 +29,6 @@ const getSidebarItems = (t: any) => [
     href: "/profile/shared",
     label: t('profileSidebar.shared'),
     icon: Share2,
-  },
-  {
-    href: "/profile/usage",
-    label: t('profileSidebar.usage'),
-    icon: BarChart3,
   },
   {
     href: "/profile/billing",
