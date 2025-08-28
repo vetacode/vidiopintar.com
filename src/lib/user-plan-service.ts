@@ -31,7 +31,7 @@ export class UserPlanService {
     // Check for active subscription transactions
     const confirmedTransaction = await transactionsRepository.getRecentTransactionsByUserId(
       userId, 
-      30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
+      365 * 24 * 60 * 60 * 1000 // 365 days in milliseconds to cover yearly plans
     );
 
     // Find the most recent confirmed transaction within subscription period
