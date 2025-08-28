@@ -61,9 +61,16 @@ export function UpgradePlansSection({ currentPlan, userId }: UpgradePlansSection
 
   // Define available upgrade options based on current plan
   const getAvailableUpgrades = () => {
-    if (currentPlan === 'yearly') return []; // Already on highest plan
-    if (currentPlan === 'monthly') return ['yearly'];
-    return ['monthly', 'yearly']; // free plan can upgrade to both
+    // If user has an active yearly subscription, no upgrades available
+    if (currentPlan === 'yearly' && activeSubscriptions.yearly) {
+      return []; 
+    }
+    // If user has an active monthly subscription, can only upgrade to yearly
+    if (currentPlan === 'monthly' && activeSubscriptions.monthly) {
+      return ['yearly'];
+    }
+    // For free plan or expired subscriptions, show all available plans
+    return ['monthly', 'yearly'];
   };
 
   const availableUpgrades = getAvailableUpgrades();
