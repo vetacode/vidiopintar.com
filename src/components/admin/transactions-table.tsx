@@ -142,6 +142,106 @@ export function TransactionsTable({ transactions, onUpdate }: TransactionsTableP
     }).format(new Date(date));
   };
 
+  const formatSubscriptionExpiry = (transaction: TransactionWithUser) => {
+    const { status, confirmedAt, planType, expiresAt } = transaction;
+    
+    // For pending transactions, show when payment window expires
+    if (status === 'pending' || status === 'waiting_confirmation') {
+      if (!expiresAt) return { text: '-', color: 'text-gray-400', fullDate: null };
+      
+      const expireDate = new Date(expiresAt);
+      const now = new Date();
+      const diffMs = expireDate.getTime() - now.getTime();
+      const diffHours = diffMs / (1000 * 60 * 60);
+      const diffMinutes = diffMs / (1000 * 60);
+      
+      if (diffMs <= 0) {
+        return { 
+          text: 'Payment Expired', 
+          color: 'text-red-600 font-medium',
+          fullDate: formatDate(expireDate)
+        };
+      }
+      
+      let text: string;
+      let color = 'text-gray-600';
+      
+      if (diffHours < 2) {
+        color = 'text-red-600 font-medium';
+        if (diffMinutes < 60) {
+          text = `Payment expires in ${Math.max(1, Math.round(diffMinutes))}m`;
+        } else {
+          text = `Payment expires in ${Math.round(diffHours * 10) / 10}h`;
+        }
+      } else if (diffHours < 6) {
+        color = 'text-orange-600 font-medium';
+        text = `Payment expires in ${Math.round(diffHours)}h`;
+      } else if (diffHours < 24) {
+        text = `Payment expires in ${Math.round(diffHours)}h`;
+      } else {
+        const days = Math.round(diffHours / 24);
+        text = `Payment expires in ${days}d`;
+      }
+      
+      return { text, color, fullDate: formatDate(expireDate) };
+    }
+    
+    // For confirmed transactions, calculate subscription expiry
+    if (status === 'confirmed' && confirmedAt) {
+      const confirmedDate = new Date(confirmedAt);
+      const now = new Date();
+      
+      // Calculate subscription expiry based on plan type
+      let subscriptionExpiry: Date;
+      if (planType === 'monthly') {
+        subscriptionExpiry = new Date(confirmedDate.getTime() + 30 * 24 * 60 * 60 * 1000); // 30 days
+      } else if (planType === 'yearly') {
+        subscriptionExpiry = new Date(confirmedDate.getTime() + 365 * 24 * 60 * 60 * 1000); // 365 days
+      } else {
+        return { text: '-', color: 'text-gray-400', fullDate: null };
+      }
+      
+      const diffMs = subscriptionExpiry.getTime() - now.getTime();
+      const diffDays = diffMs / (1000 * 60 * 60 * 24);
+      
+      if (diffMs <= 0) {
+        return {
+          text: 'Subscription Expired',
+          color: 'text-red-600 font-medium',
+          fullDate: formatDate(subscriptionExpiry)
+        };
+      }
+      
+      let text: string;
+      let color = 'text-green-600';
+      
+      if (diffDays < 7) {
+        color = 'text-orange-600 font-medium';
+        text = `${Math.ceil(diffDays)} days left`;
+      } else if (diffDays < 30) {
+        text = `${Math.ceil(diffDays)} days left`;
+      } else if (planType === 'monthly') {
+        text = `${Math.ceil(diffDays)} days left`;
+      } else {
+        const months = Math.floor(diffDays / 30);
+        const remainingDays = Math.ceil(diffDays % 30);
+        if (months > 0) {
+          text = months === 1 ? '1 month left' : `${months} months left`;
+          if (remainingDays > 0) {
+            text += ` ${remainingDays}d`;
+          }
+        } else {
+          text = `${Math.ceil(diffDays)} days left`;
+        }
+      }
+      
+      return { text, color, fullDate: formatDate(subscriptionExpiry) };
+    }
+    
+    // For cancelled/expired transactions
+    return { text: '-', color: 'text-gray-400', fullDate: null };
+  };
+
   const filteredTransactions = useMemo(() => {
     return transactions.filter((transaction) => {
       const statusMatch = filters.status === 'all' || transaction.status === filters.status;
@@ -287,6 +387,7 @@ export function TransactionsTable({ transactions, onUpdate }: TransactionsTableP
               <TableHead className="font-medium min-w-[80px]">Plan</TableHead>
               <TableHead className="font-medium min-w-[100px]">Amount</TableHead>
               <TableHead className="font-medium min-w-[80px]">Status</TableHead>
+              <TableHead className="font-medium min-w-[140px]">Subscription Expires</TableHead>
               <TableHead className="font-medium min-w-[120px]">Created</TableHead>
               <TableHead className="w-[100px]"></TableHead>
             </TableRow>
@@ -294,7 +395,7 @@ export function TransactionsTable({ transactions, onUpdate }: TransactionsTableP
           <TableBody>
             {filteredTransactions.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                   No transactions match the current filters.
                 </TableCell>
               </TableRow>
@@ -337,6 +438,24 @@ export function TransactionsTable({ transactions, onUpdate }: TransactionsTableP
                 
                 <TableCell>
                   {getStatusBadge(transaction.status)}
+                </TableCell>
+                
+                <TableCell className="text-sm">
+                  {(() => {
+                    const expiry = formatSubscriptionExpiry(transaction);
+                    return (
+                      <div className="min-w-[140px]" title={expiry.fullDate || undefined}>
+                        <div className={expiry.color}>
+                          {expiry.text}
+                        </div>
+                        {expiry.fullDate && (
+                          <div className="text-xs text-gray-400">
+                            {expiry.fullDate}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </TableCell>
                 
                 <TableCell className="text-sm text-muted-foreground">
