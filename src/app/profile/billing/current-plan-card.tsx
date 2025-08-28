@@ -2,16 +2,38 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Crown, Gift, Calendar, CheckCircle } from 'lucide-react';
+import { Crown, Gift, Calendar, CheckCircle, Clock } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+
+interface SubscriptionDetails {
+  expiresAt: Date;
+  transaction: any;
+}
 
 interface CurrentPlanCardProps {
   currentPlan: 'free' | 'monthly' | 'yearly';
+  subscriptionDetails?: SubscriptionDetails | null;
 }
 
-export function CurrentPlanCard({ currentPlan }: CurrentPlanCardProps) {
+export function CurrentPlanCard({ currentPlan, subscriptionDetails }: CurrentPlanCardProps) {
   const t = useTranslations('pricing');
   const tBilling = useTranslations('billing');
+
+  const formatExpirationDate = (date: Date) => {
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const getDaysUntilExpiry = (date: Date) => {
+    const now = new Date();
+    const expiry = new Date(date);
+    const timeDiff = expiry.getTime() - now.getTime();
+    const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    return daysDiff;
+  };
 
   const planDetails = {
     free: {
@@ -87,6 +109,28 @@ export function CurrentPlanCard({ currentPlan }: CurrentPlanCardProps) {
             {plan.period && <span className="text-sm text-muted-foreground">/ {plan.period}</span>}
           </div>
           
+          {subscriptionDetails && (
+            <div className="mb-4 p-3 bg-white dark:bg-gray-900 rounded-lg border">
+              <div className="flex items-center gap-2 mb-2">
+                <Clock className="h-4 w-4 text-gray-500" />
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Subscription Status
+                </span>
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                <p>
+                  Expires on {formatExpirationDate(subscriptionDetails.expiresAt)}
+                </p>
+                <p className="text-xs mt-1">
+                  {getDaysUntilExpiry(subscriptionDetails.expiresAt) > 0 
+                    ? `${getDaysUntilExpiry(subscriptionDetails.expiresAt)} days remaining`
+                    : 'Expired'
+                  }
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="space-y-2">
             <h4 className="font-medium text-sm">{tBilling('currentPlan.features')}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">

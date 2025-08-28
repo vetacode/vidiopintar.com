@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { transactionsRepository } from "@/lib/db/repository/transactions";
 import { paymentSettingsRepository } from "@/lib/db/repository/payment-settings";
+import { UserPlanService } from "@/lib/user-plan-service";
 import { TransactionHistory } from "../transaction-history";
 import { PendingPaymentAlert } from "../pending-payment-alert";
 import { CurrentPlanCard } from "./current-plan-card";
@@ -26,13 +27,20 @@ export default async function BillingPage() {
   // Find pending and waiting confirmation transactions
   const pendingTransactions = transactions.filter(t => t.status === 'pending' || t.status === 'waiting_confirmation');
 
-  // Determine current plan from latest confirmed transaction
-  const confirmedTransactions = transactions.filter(t => t.status === 'confirmed');
-  const latestConfirmedTransaction = confirmedTransactions.sort((a, b) => 
-    new Date(b.confirmedAt || b.createdAt).getTime() - new Date(a.confirmedAt || a.createdAt).getTime()
-  )[0];
-
-  const currentPlan = latestConfirmedTransaction?.planType || 'free';
+  // Determine current plan using UserPlanService (checks for expiration)
+  const currentPlan = await UserPlanService.getCurrentPlan(user.id);
+  
+  // Get subscription details for the current plan
+  let subscriptionDetails = null;
+  if (currentPlan !== 'free') {
+    const activeSubscription = await UserPlanService.hasActiveSubscription(user.id, currentPlan);
+    if (activeSubscription.hasActive && activeSubscription.expiresAt) {
+      subscriptionDetails = {
+        expiresAt: activeSubscription.expiresAt,
+        transaction: activeSubscription.transaction
+      };
+    }
+  }
 
   // Get current payment settings for WhatsApp functionality
   let currentPaymentSettings = null;
@@ -55,7 +63,10 @@ export default async function BillingPage() {
       )}
 
       {/* Current Plan Display */}
-      <CurrentPlanCard currentPlan={currentPlan} />
+      <CurrentPlanCard 
+        currentPlan={currentPlan} 
+        subscriptionDetails={subscriptionDetails}
+      />
 
       {/* Upgrade Plans Section */}
       <UpgradePlansSection currentPlan={currentPlan} userId={user.id} />
