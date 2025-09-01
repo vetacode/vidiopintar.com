@@ -381,15 +381,15 @@ export function TransactionsTable({ transactions, onUpdate }: TransactionsTableP
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow className="border-b">
-              <TableHead className="font-medium min-w-[120px]">Reference</TableHead>
-              <TableHead className="font-medium min-w-[150px]">User</TableHead>
-              <TableHead className="font-medium min-w-[80px]">Plan</TableHead>
-              <TableHead className="font-medium min-w-[100px]">Amount</TableHead>
-              <TableHead className="font-medium min-w-[80px]">Status</TableHead>
-              <TableHead className="font-medium min-w-[140px]">Subscription Expires</TableHead>
-              <TableHead className="font-medium min-w-[120px]">Created</TableHead>
-              <TableHead className="w-[100px]"></TableHead>
+            <TableRow className="border-b dark:bg-gray-800 dark:border-gray-700">
+              <TableHead className="font-medium min-w-[120px] dark:text-white">Reference</TableHead>
+              <TableHead className="font-medium min-w-[150px] dark:text-white">User</TableHead>
+              <TableHead className="font-medium min-w-[80px] dark:text-white">Plan</TableHead>
+              <TableHead className="font-medium min-w-[100px] dark:text-white">Amount</TableHead>
+              <TableHead className="font-medium min-w-[80px] dark:text-white">Status</TableHead>
+              <TableHead className="font-medium min-w-[140px] dark:text-white">Subscription Expires</TableHead>
+              <TableHead className="font-medium min-w-[120px] dark:text-white">Created</TableHead>
+              <TableHead className="w-[100px] dark:text-white"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
