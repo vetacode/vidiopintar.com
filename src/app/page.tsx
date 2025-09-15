@@ -6,8 +6,15 @@ import { Topics } from "@/components/landing/Topic";
 import { Testimonials2 } from "@/components/landing/Testimonial2";
 import NewPricing from "@/components/landing/NewPricing";
 import { Footer } from "@/components/landing/Footer";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
-export default function Page() {
+export default async function Page() {
+  // Check if user is logged in
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+
   return (
     <div className="flex justify-center">
       <div className="w-full flex flex-col justify-center align-middle max-w-[1328px] py-4 px-8">
@@ -17,14 +24,25 @@ export default function Page() {
             <span className="select-none">vidiopintar</span>
           </div>
           <div className="flex gap-2">
-            <a href="/login">
-              <Button
-                variant="ghost"
-                className="cursor-pointer active:scale-[0.975]"
-              >
-                Login
-              </Button>
-            </a>
+            {session ? (
+              <a href="/home">
+                <Button
+                  variant="ghost"
+                  className="cursor-pointer active:scale-[0.975]"
+                >
+                  Home
+                </Button>
+              </a>
+            ) : (
+              <a href="/login">
+                <Button
+                  variant="ghost"
+                  className="cursor-pointer active:scale-[0.975]"
+                >
+                  Login
+                </Button>
+              </a>
+            )}
             <a href="https://vidiopintar.com/register">
               <Button
                 variant="outline"
