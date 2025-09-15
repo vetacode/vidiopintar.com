@@ -7,18 +7,34 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { toast } from "sonner";
 import { useTranslations } from 'next-intl';
 
-export function AuthForm() {
+interface AuthFormProps {
+    returnTo?: string;
+}
+
+export function AuthForm({ returnTo }: AuthFormProps) {
     const [loading, setLoading] = useState(false);
     const [callbackUrl, setCallbackUrl] = useState("/home");
     const t = useTranslations('auth');
 
     useEffect(() => {
+        // Check for returnTo parameter first
+        if (returnTo) {
+            setCallbackUrl(returnTo);
+            return;
+        }
+
         // Check if there's a pending video ID in sessionStorage
         const pendingVideoId = sessionStorage.getItem("pendingVideoId");
         if (pendingVideoId) {
             setCallbackUrl(`/video/${pendingVideoId}`);
         }
-    }, []);
+
+        // Check if there's a selected plan in sessionStorage
+        const selectedPlan = sessionStorage.getItem("selectedPlan");
+        if (selectedPlan) {
+            setCallbackUrl(`/payment?plan=${selectedPlan}`);
+        }
+    }, [returnTo]);
 
     const signInWithGoogle = async () => {
         try {
@@ -29,8 +45,9 @@ export function AuthForm() {
                 provider: "google",
                 callbackURL: callbackUrl,
             });
-            // Clear the pending video ID after successful login
+            // Clear any pending data after successful login
             sessionStorage.removeItem("pendingVideoId");
+            sessionStorage.removeItem("selectedPlan");
         } catch (error) {
             localStorage.setItem('isAuthenticated', JSON.stringify({ authenticated: false }));
             console.log(error);

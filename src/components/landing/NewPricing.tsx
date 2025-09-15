@@ -5,9 +5,13 @@ import { CircleCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
+import { useSession } from "@/lib/auth-client";
+import { useRouter } from 'next/navigation';
 
 export default function NewPricing() {
   const t = useTranslations('pricing');
+  const { data: session } = useSession();
+  const router = useRouter();
 
   const pricingData = [
     {
@@ -124,17 +128,36 @@ export default function NewPricing() {
                 ))}
               </div>
             </div>
-            <Link
-              href={data.free ? '/register' : `/payment?plan=${data.id}`}
-              className="mt-auto w-fit"
-            >
+            {data.free ? (
+              <Link
+                href="/register"
+                className="mt-auto w-fit"
+              >
+                <Button
+                  variant="default"
+                  className="rounded-xs min-w-[100px] font-semibold border-b-2 border-x-1 border-[#00AAB6] text-[0.9375rem] hover:cursor-pointer shadow-[inset_0px_0.5px_1px_0px_#88F8FF,0px_6px_20px_2px_#000000] active:shadow-none active:scale-[0.975] transition-shadow duration-200 ease-in-out"
+                >
+                  {data.cta}
+                </Button>
+              </Link>
+            ) : (
               <Button
                 variant="default"
-                className="rounded-xs min-w-[100px] font-semibold border-b-2 border-x-1 border-[#00AAB6] text-[0.9375rem] hover:cursor-pointer shadow-[inset_0px_0.5px_1px_0px_#88F8FF,0px_6px_20px_2px_#000000] active:shadow-none active:scale-[0.975] transition-shadow duration-200 ease-in-out"
+                className="mt-auto rounded-xs min-w-[100px] font-semibold border-b-2 border-x-1 border-[#00AAB6] text-[0.9375rem] hover:cursor-pointer shadow-[inset_0px_0.5px_1px_0px_#88F8FF,0px_6px_20px_2px_#000000] active:shadow-none active:scale-[0.975] transition-shadow duration-200 ease-in-out"
+                onClick={() => {
+                  if (session) {
+                    // User is logged in, go directly to payment
+                    router.push(`/payment?plan=${data.id}`);
+                  } else {
+                    // User is not logged in, store plan and redirect to login
+                    sessionStorage.setItem('selectedPlan', data.id);
+                    router.push(`/login?returnTo=${encodeURIComponent(`/payment?plan=${data.id}`)}`);
+                  }
+                }}
               >
                 {data.cta}
               </Button>
-            </Link>
+            )}
           </div>
         ))}
       </div>
