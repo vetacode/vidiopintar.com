@@ -42,9 +42,9 @@ export default async function RootLayout({
         data-domain="vidiopintar.com"
         strategy="afterInteractive"
       />
-      <body className={`${inter.className} ${jetbrainsMono.variable}`}>
+      <body className={`${inter.className} ${jetbrainsMono.variable} dark`}>
         <NextIntlClientProvider messages={messages}>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem storageKey="vidiopintar-theme">
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem storageKey="vidiopintar-theme">
             {children}
             <Toaster />
           </ThemeProvider>
