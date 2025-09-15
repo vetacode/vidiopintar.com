@@ -5,7 +5,7 @@ const testimonialsData = [
     id: 1,
     name: "Ari Kurniawan - idearik",
     title: "Content Creator",
-    avatar: "https://vidiopintar.com/testimonials/idearik.jpeg",
+    avatar: "/testimonials/idearik.jpeg",
     content:
       "Saya salah satu penggunanya. Oke banget buat dapetin summary dari konten panjang kayak podcast.",
   },
@@ -13,7 +13,7 @@ const testimonialsData = [
     id: 2,
     name: "Musli",
     title: "Content Creator",
-    avatar: "https://vidiopintar.com/testimonials/musli.jpg",
+    avatar: "/testimonials/musli.jpg",
     content:
       "Dengan bantuan vidiopintar, aku gak perlu menghabiskan waktu berjam-jam nonton youtube...",
   },
@@ -21,7 +21,7 @@ const testimonialsData = [
     id: 3,
     name: "Paulus Aditya Hernawan",
     title: "L&D Practitioner",
-    avatar: "https://vidiopintar.com/testimonials/koeladit.jpg",
+    avatar: "/testimonials/koeladit.jpg",
     content:
       "Keren bingo ini Mas, alternative lain buat ngulik dan riset video YouTube selain pakai NotebookLM 🔥",
   },
@@ -29,7 +29,7 @@ const testimonialsData = [
     id: 4,
     name: "Hilmi Aunillah Kamil",
     title: "Human Resources Enthusiast",
-    avatar: "https://vidiopintar.com/testimonials/hilmi.jpeg",
+    avatar: "/testimonials/hilmi.jpeg",
     content:
       "makasih mas, aku udah nyoba dan beneran ngebantu banget buat proses belajar dari youtube sangat menghemat waktu",
   },
@@ -37,7 +37,7 @@ const testimonialsData = [
     id: 5,
     name: "Muhammad Fatih Darmawan",
     title: "Driving Brand & Business Growth with SEO",
-    avatar: "https://vidiopintar.com/testimonials/fatih-darmawan.jpeg",
+    avatar: "/testimonials/fatih-darmawan.jpeg",
     content:
       "Thanks bro, sebelumnya saya manual, dari transcipt webpage trus lempar ke chatgpt. Udah nyobain, bermanfaat banget.",
   },
@@ -45,7 +45,7 @@ const testimonialsData = [
     id: 6,
     name: "Lucky Wiratanandi",
     title: "Cluster HR Executive",
-    avatar: "https://vidiopintar.com/testimonials/lucky.jpeg",
+    avatar: "/testimonials/lucky.jpeg",
     content:
       "Sebuah gebrakan yang keren bro, in needsnya jadi lebih mencakup kebutuhan pasar ✨",
   },

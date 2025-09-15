@@ -5,7 +5,7 @@ const socialPostsData = [
     id: 1,
     name: "Razii Abraham",
     title: "Heatseeker - Product Manager",
-    avatar: "https://vidiopintar.com/testimonials/razii.jpeg",
+    avatar: "/testimonials/razii.jpeg",
     content:
       'Keren banget, udah nyobain! "Nonton" podcast, cukup liat table of content di description, terus langsung tanya-tanya aja based on section? Video nya di chatbox nya. Reply nya lupa bagus tone of voice LLM nya. Bonus: interface sleek and modern banget, well done!',
   },
@@ -13,7 +13,7 @@ const socialPostsData = [
     id: 2,
     name: "Amik Dwiokta",
     title: "Content Creator",
-    avatar: "https://vidiopintar.com/testimonials/ibunyaboemi.jpeg",
+    avatar: "/testimonials/ibunyaboemi.jpeg",
     content:
       "Ini keren banget sih. Bisa chit chat bahas isi videonya rupanya 😁 Pernah coba site serupa untuk ngerangkum video ytube juga. Tapi nggak ada chitchat session gini 😊 kadang yang di rangkum ada beberapa poin gatau dia dapatnya dari mana 🤔😁",
   },
@@ -21,7 +21,7 @@ const socialPostsData = [
     id: 3,
     name: "Fizu - sadarutuh.id",
     title: "Content Creator | Personal Growth",
-    avatar: "https://vidiopintar.com/testimonials/sadarutuh.jpeg",
+    avatar: "/testimonials/sadarutuh.jpeg",
     content:
       "vidiopintar.com keren sih ini. 🔥 Terobosan yang baru buat summary video yang durasinya panjang, tapi cuman mau ambil point-pointnya. Kalo kesulitan tinggal tanyakan dengan berikan penjelasan yang lebih mudah.",
   },
