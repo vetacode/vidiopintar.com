@@ -44,7 +44,7 @@ export function AdminChartFilters({ userGrowthData, videoAdditionsData }: AdminC
             </CardDescription>
           </div>
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-2 px-2 py-1.5 cursor-pointer rounded-md hover:bg-accent text-sm border border-border">
+            <DropdownMenuTrigger className="flex items-center gap-2 px-2 py-1.5 cursor-pointer rounded-md hover:bg-accent text-sm border border-border bg-background text-foreground">
               <Filter className="h-4 w-4" />
               {getPeriodLabel(userGrowthPeriod)}
             </DropdownMenuTrigger>
@@ -76,7 +76,7 @@ export function AdminChartFilters({ userGrowthData, videoAdditionsData }: AdminC
             </CardDescription>
           </div>
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-2 px-2 py-1.5 cursor-pointer rounded-md hover:bg-accent text-sm border border-border">
+            <DropdownMenuTrigger className="flex items-center gap-2 px-2 py-1.5 cursor-pointer rounded-md hover:bg-accent text-sm border border-border bg-background text-foreground">
               <Filter className="h-4 w-4" />
               {getPeriodLabel(videoAdditionsPeriod)}
             </DropdownMenuTrigger>

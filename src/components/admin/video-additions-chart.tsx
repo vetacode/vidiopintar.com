@@ -24,25 +24,43 @@ function ChartContent({ data }: VideoAdditionsChartProps) {
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-            <XAxis 
-              dataKey="date" 
-              className="text-xs fill-muted-foreground"
-              tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="var(--border)"
+              opacity={0.5}
             />
-            <YAxis className="text-xs fill-muted-foreground" />
-            <Tooltip 
+            <XAxis
+              dataKey="date"
+              stroke="var(--border)"
+              tick={{ fill: "var(--foreground)", fontSize: 12, opacity: 0.7 }}
+              tickFormatter={(value) => new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              axisLine={{ stroke: "var(--border)" }}
+            />
+            <YAxis
+              stroke="var(--border)"
+              tick={{ fill: "var(--foreground)", fontSize: 12, opacity: 0.7 }}
+              axisLine={{ stroke: "var(--border)" }}
+            />
+            <Tooltip
               labelFormatter={(value) => new Date(value).toLocaleDateString()}
               formatter={(value: number) => [value, "Videos Added"]}
               contentStyle={{
-                backgroundColor: "hsl(var(--background))",
-                border: "1px solid hsl(var(--border))",
+                backgroundColor: "var(--card)",
+                border: "1px solid var(--border)",
                 borderRadius: "6px",
+                color: "var(--foreground)",
+              }}
+              labelStyle={{
+                color: "var(--foreground)",
+                fontWeight: 600,
+              }}
+              itemStyle={{
+                color: "var(--foreground)",
               }}
             />
-            <Bar 
-              dataKey="videos" 
-              fill="hsl(var(--primary))" 
+            <Bar
+              dataKey="videos"
+              fill="var(--accent)"
               radius={[4, 4, 0, 0]}
             />
           </BarChart>
